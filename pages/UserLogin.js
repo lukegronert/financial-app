@@ -118,8 +118,11 @@ const UserLogin = () => {
                         {loginStatus === 'SignUp' ? 'Sign In' : 'Sign Up'}
                     </a>
                 </div>
-                <div className="flex justify-center self-center items-center bg-login-red rounded-3xl text-white p-3 w-3/4">
-                    <button type="button" onClick={OTPSent ? verifyOTP : requestOTP}>{loginStatus === 'SignUp' ? 'Submit' : 'Register'}</button>
+                <div className="flex justify-center">
+                    <button
+                        onClick={OTPSent ? verifyOTP : requestOTP}
+                        className="self-center items-center bg-login-red rounded-3xl text-white p-3 w-3/4"
+                    >{loginStatus === 'SignUp' ? 'Submit' : 'Register'}</button>
                 </div>
             </div>
             {/* <form>

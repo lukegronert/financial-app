@@ -4,8 +4,9 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 const Auth = () => {
     const [phoneNumber, setPhoneNumber] = useState('+886');
-    const [OTP, setOTP] = useState('');
 
+    // Generates invisible recaptcha to verify user is
+    // sending a request from a verified domain
     const generateRecaptcha = () => {
         window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
             size: 'invisible',
@@ -15,6 +16,8 @@ const Auth = () => {
         }, auth);
     }
 
+    // Generates recaptcha, signs in with phone number
+    // which then sends a OTP to user's phone number
     const requestOTP = (e) => {
         e.preventDefault();
         generateRecaptcha();
@@ -28,9 +31,11 @@ const Auth = () => {
             })
     }
 
+    // When user enters 6 digits, they are compared to the
+    // correct OTP which then sends a confirmation result
+    // containing the user's information
     const verifyOTP = (e) => {
         let otp = e.target.value
-        setOTP(otp)
         if(otp.length === 6) {
             let confirmationResult = window.confirmationResult;
             confirmationResult.confirm(otp)
@@ -56,7 +61,7 @@ const Auth = () => {
             <form>
                 <div>
                     <label>OTP</label>
-                    <input type="number" value={OTP} onChange={verifyOTP} />
+                    <input type="number" onChange={verifyOTP} />
                 </div>
             </form>
             <div id="recaptcha-container" ></div>

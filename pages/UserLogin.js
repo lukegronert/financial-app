@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import auth from '../firebase/clientApp';
+import db from '../firebase/ClientDb';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { addDoc, collection, getDocs } from "firebase/firestore"; 
 
 const UserLogin = () => {
     const [phoneNumber, setPhoneNumber] = useState('+886');
@@ -35,13 +37,34 @@ const UserLogin = () => {
     // correct OTP which then sends a confirmation result
     // containing the user's information
     const verifyOTP = (e) => {
+        // update otp
         let otp = e.target.value
+        // when otp is 6 digits long
         if(otp.length === 6) {
             let confirmationResult = window.confirmationResult;
+            // check if it is correct
             confirmationResult.confirm(otp)
-                .then((result) => {
+                .then(async (result) => {
                     const user = result.user;
-                    console.log(user)
+                    // get user collection data
+                    const querySnapshot = await getDocs(collection(db, "users"));
+                    // check user collection for document with the same phoneNumber
+                    const foundUser = querySnapshot.docs.find(doc => doc.data().id === phoneNumber)
+                    // if found, console.log that user is already signed up
+                    if(foundUser) {
+                        return console.log('Already signed up')
+                    } else {
+                        // try to add a document with the users phoneNumber and empty watchList
+                        try {
+                            const docRef = await addDoc(collection(db, "users"), {
+                                phoneNumber,
+                                watchList: []
+                            });
+                            console.log("Document written with ID: ", docRef.id);
+                            } catch (e) {
+                                console.error("Error adding document: ", e);
+                            }
+                    }
                 })
                 .catch((error) => {
                     console.log(error)

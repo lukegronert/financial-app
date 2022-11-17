@@ -2,7 +2,7 @@ import { useState } from 'react';
 import auth from '../firebase/clientApp';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-const Auth = () => {
+const UserLogin = () => {
     const [phoneNumber, setPhoneNumber] = useState('+886');
 
     // Generates invisible recaptcha to verify user is
@@ -69,4 +69,4 @@ const Auth = () => {
     )
 }
 
-export default Auth;
+export default UserLogin;

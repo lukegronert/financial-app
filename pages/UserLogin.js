@@ -132,7 +132,7 @@ const UserLogin = () => {
             </div>
             ) : (
                 <div className="flex flex-col justify-center items-center bg-white p-5 border border-stone-300 border-b-4 h-1/4 w-5/6 rounded-md absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/4">
-                    <label className="pb-3 text-sm font-bold text-stone-400">Enter Mobile Number</label>
+                    <label className="pb-3 text-sm font-bold text-gray-400">Enter Mobile Number</label>
                     <input
                         type="tel"
                         value={phoneNumber}
@@ -143,7 +143,7 @@ const UserLogin = () => {
             )}
             <div className="w-screen h-3/5 flex flex-col pt-40">
                 <div className="flex flex-col justify-between items-center pb-10 text-sm my-auto">
-                    <p className="text-stone-400 font-bold pb-5 text-xs">Already have an account ?</p>
+                    <p className="text-gray-300 font-bold pb-5 text-xs">Already have an account ?</p>
                     {OTPSent ? (
                         <a className="underline font-semibold text-stone-500" onClick={resendOTP}>Resend OTP</a>
                     ) : (

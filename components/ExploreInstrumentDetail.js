@@ -10,7 +10,7 @@ const ExploreInstrumentDetail = ({ name, logo }) => {
             </div>
         </div>
         <p className="font-extrabold text-xl text-explore-blue self-center">{name}</p>
-        <button className="bg-explore-blue text-white font-bold self-center w-10/12 p-2 rounded-lg mt-3">Follow</button>
+        <button className="bg-explore-blue text-white font-bold self-center w-10/12 p-2 rounded-lg mt-3 mb-1">Follow</button>
     </div>
   )
 }

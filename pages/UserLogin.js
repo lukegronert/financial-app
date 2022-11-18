@@ -72,7 +72,7 @@ const UserLogin = () => {
                     // if found, console.log that user is already signed up
                     if(foundUser) {
                         console.log('Already signed up')
-                        router.push("/Dashboard")
+                        router.push("/Explore")
                     } else {
                         // try to add a document with the users phoneNumber and empty watchList
                         try {
@@ -142,7 +142,7 @@ const UserLogin = () => {
                 </div>
             )}
             <div className="w-screen h-3/5 flex flex-col pt-40">
-                <div className="flex flex-col justify-between items-center pb-10 text-sm">
+                <div className="flex flex-col justify-between items-center pb-10 text-sm my-auto">
                     <p className="text-stone-400 font-bold pb-5 text-xs">Already have an account ?</p>
                     {OTPSent ? (
                         <a className="underline font-semibold text-stone-500" onClick={resendOTP}>Resend OTP</a>
@@ -152,10 +152,10 @@ const UserLogin = () => {
                     </a>
                     )}
                 </div>
-                <div className="flex justify-center">
+                <div className="flex justify-center my-auto pb-20">
                     <button
                         onClick={OTPSent ? verifyOTP : requestOTP}
-                        className="self-center items-center bg-login-red rounded-3xl text-white p-3 w-3/4"
+                        className="self-center items-center bg-login-red rounded-3xl text-white text-lg p-3 w-3/4"
                     >{loginStatus === 'SignUp' ? 'Submit' : 'Register'}</button>
                 </div>
             </div>

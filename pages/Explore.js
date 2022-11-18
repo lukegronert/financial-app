@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ExploreInstrumentDetail from '../components/ExploreInstrumentDetail';
 
-import { appleLogo } from '../assets/logos/apple.svg';
-import { gamestopLogo } from '../assets/logos/gamestop.svg';
-import { disneyLogo } from '../assets/logos/disney.svg';
-import { teslaLogo } from '../assets/logos/tesla.svg';
-import { nikeLogo } from '../assets/logos/nike.svg';
-import { amazonLogo } from '../assets/logos/amazon.svg';
+import appleLogo from '../assets/logos/apple.svg';
+import gamestopLogo from '../assets/logos/gamestop.svg';
+import disneyLogo from '../assets/logos/disney.svg';
+import teslaLogo from '../assets/logos/tesla.svg';
+import nikeLogo from '../assets/logos/nike.svg';
+import amazonLogo from '../assets/logos/amazon.svg';
 
 const dummyData = [
     {
@@ -14,7 +14,7 @@ const dummyData = [
         logo: appleLogo
     },
     {
-        name: 'Gamestop',
+        name: 'GameStop',
         logo: gamestopLogo
     },
     {
@@ -36,14 +36,18 @@ const dummyData = [
 ];
 
 const Explore = () => {
-  useEffect(() => {
-    console.log(appleLogo)
-  }, [])
+
   return (
     <div>
-      {dummyData.map((brand) => (
-        <ExploreInstrumentDetail name={brand.name} logo={brand.logo} key={brand.name}/>
-      ))}
+      <div className="h-screen">
+        <div className="grid grid-cols-2 gap-4 justify-center items-center flex-wrap h-4/5 p-3 bg-explore-gray">
+          {dummyData.map((brand) => (
+            <div className="basis-1/2 flex justify-center items-center text-center h-full rounded-lg bg-white">
+              <ExploreInstrumentDetail name={brand.name} logo={brand.logo} key={brand.name} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

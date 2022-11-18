@@ -3,6 +3,7 @@ import auth from '../firebase/clientApp';
 import db from '../firebase/ClientDb';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { addDoc, collection, getDocs } from "firebase/firestore";
+import { useRouter } from 'next/navigation';
 
 import { IconContext } from "react-icons";
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
@@ -14,10 +15,21 @@ const UserLogin = () => {
     const [loginStatus, setLoginStatus] = useState('SignUp');
     const [OTPSent, setOTPSent] = useState(false);
 
+    const router = useRouter();
+
     // Generates invisible recaptcha to verify user is
     // sending a request from a verified domain
     const generateRecaptcha = () => {
         window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+            size: 'invisible',
+            callback: (response) => {
+
+            },
+        }, auth);
+    }
+
+    const generateResendRecaptcha = () => {
+        window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-resend-container', {
             size: 'invisible',
             callback: (response) => {
 
@@ -59,7 +71,8 @@ const UserLogin = () => {
                     const foundUser = querySnapshot.docs.find(doc => doc.data().phoneNumber === phoneNumber)
                     // if found, console.log that user is already signed up
                     if(foundUser) {
-                        return console.log('Already signed up')
+                        console.log('Already signed up')
+                        router.push("/Dashboard")
                     } else {
                         // try to add a document with the users phoneNumber and empty watchList
                         try {
@@ -68,6 +81,7 @@ const UserLogin = () => {
                                 watchList: []
                             });
                             console.log("Document written with ID: ", docRef.id);
+                            router.push("/Dashboard")
                             } catch (error) {
                                 console.error("Error adding document: ", error);
                             }
@@ -77,6 +91,22 @@ const UserLogin = () => {
                     console.log(error)
                 }) 
         }
+    }
+
+    const resendOTP = (e) => {
+            console.log(phoneNumber)
+            e.preventDefault();
+            generateResendRecaptcha();
+            let appVerifier = window.recaptchaVerifier;
+            signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+                .then((confirmationResult) => {
+                    console.log('confirm')
+                    window.confirmationResult = confirmationResult
+                    setOTPSent(true)
+                })
+                .catch((error) => {
+                    alert('OTP already resent. If you do not receive it, please refresh the application and try again later.')
+                })
     }
 
     return (
@@ -114,9 +144,13 @@ const UserLogin = () => {
             <div className="w-screen h-3/5 flex flex-col pt-40">
                 <div className="flex flex-col justify-between items-center pb-10 text-sm">
                     <p className="text-stone-400 font-bold pb-5 text-xs">Already have an account ?</p>
-                    <a className="underline font-semibold text-stone-500" onClick={() => loginStatus === 'SignUp' ? setLoginStatus('SignIn') : setLoginStatus('SignUp')}>
+                    {OTPSent ? (
+                        <a className="underline font-semibold text-stone-500" onClick={resendOTP}>Resend OTP</a>
+                    ) : (
+                        <a className="underline font-semibold text-stone-500" onClick={() => loginStatus === 'SignUp' ? setLoginStatus('SignIn') : setLoginStatus('SignUp')}>
                         {loginStatus === 'SignUp' ? 'Sign In' : 'Sign Up'}
                     </a>
+                    )}
                 </div>
                 <div className="flex justify-center">
                     <button
@@ -125,13 +159,8 @@ const UserLogin = () => {
                     >{loginStatus === 'SignUp' ? 'Submit' : 'Register'}</button>
                 </div>
             </div>
-            {/* <form>
-                <div className="flex flex-col justify-between bg-white p-5">
-                    <label>EnterOTP</label>
-                    <input type="number" onChange={verifyOTP} />
-                </div>
-            </form> */}
             <div id="recaptcha-container"></div>
+            <div id="recaptcha-resend-container"></div>
         </div>
     )
 }

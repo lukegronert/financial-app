@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import auth from '../firebase/clientApp';
-import db from '../firebase/ClientDb';
+import db from '../firebase/clientDb';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useRouter } from 'next/navigation';

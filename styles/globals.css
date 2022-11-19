@@ -2,10 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    width: 100vw;
+}
+
+.ais-Hits {
+    content: contain;
+}
+
 .ais-Hits .ais-Hits-list {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 45vw 45vw;
+    grid-template-rows: 1fr;
     grid-gap: 0.75rem;
     width: 100%;
+    contain: content;
+}
+
+.ais-Hits-item {
+    /* Used !important to override algolia styling */
+    border-radius: 15px !important;
+    padding: 20px !important;
+    min-height: 25vh;
 }

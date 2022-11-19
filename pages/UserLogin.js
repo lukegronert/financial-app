@@ -81,7 +81,7 @@ const UserLogin = () => {
                                 watchList: []
                             });
                             console.log("Document written with ID: ", docRef.id);
-                            router.push("/Dashboard")
+                            router.push("/Explore")
                             } catch (error) {
                                 console.error("Error adding document: ", error);
                             }

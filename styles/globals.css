@@ -20,8 +20,8 @@ html {
 }
 
 .ais-Hits-item {
-    /* Used !important to override algolia styling */
+    /* Used !important to override algolia styling  */
     border-radius: 15px !important;
-    padding: 20px !important;
+    padding: 20px 20px 10px !important;
     min-height: 25vh;
 }

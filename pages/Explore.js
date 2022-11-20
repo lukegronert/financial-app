@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Search from '../components/Search';
+import React, { useState } from "react";
+import Search from "../components/Search";
 
-import { FiSearch } from 'react-icons/fi'
+import { FiSearch } from "react-icons/fi";
 
 const Explore = () => {
   const [openSearch, setOpenSearch] = useState(true);
@@ -10,22 +10,24 @@ const Explore = () => {
   return (
     <div className="h-screen flex flex-col bg-explore-gray">
       {openSearch ? (
-        <Search setOpenSearch={setOpenSearch} title={initialScreen ? 'Welcome!' : 'Dashboard'} />
+        <Search
+          setOpenSearch={setOpenSearch}
+          title={initialScreen ? "Welcome!" : "Dashboard"}
+        />
       ) : (
         <div className="bg-white">
           <div className="flex flex-row justify-between items-center py-3 px-3 pb-20">
-              <h1 className="text-explore-blue font-extrabold text-3xl">
-                Dashboard
-              </h1>
-              <FiSearch
-                size='1.5em'
-                onClick={() => {
-                  setOpenSearch(true)
-                  setInitialScreen(false)
-                  }
-                }
-               />
-            </div>
+            <h1 className="text-explore-blue font-extrabold text-3xl">
+              Dashboard
+            </h1>
+            <FiSearch
+              size="1.5em"
+              onClick={() => {
+                setOpenSearch(true);
+                setInitialScreen(false);
+              }}
+            />
+          </div>
         </div>
       )}
       {/* <div className="h-screen">
@@ -38,7 +40,7 @@ const Explore = () => {
         </div>
       </div> */}
     </div>
-  )
-}
+  );
+};
 
-export default Explore
+export default Explore;

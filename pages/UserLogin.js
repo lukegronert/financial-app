@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import auth from '../firebase/clientApp';
-import db from '../firebase/clientDb';
+import { auth, db } from '../firebase/clientApp';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useRouter } from 'next/navigation';
@@ -65,6 +64,7 @@ const UserLogin = () => {
             confirmationResult.confirm(OTP)
                 .then(async (result) => {
                     const user = result.user;
+                    console.log(user)
                     // get user collection data
                     const querySnapshot = await getDocs(collection(db, "users"));
                     // check user collection for document with the same phoneNumber

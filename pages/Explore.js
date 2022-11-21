@@ -12,7 +12,7 @@ const Explore = () => {
       <div className="bg-white rounded-t-lg">
         <div className="flex flex-row justify-between items-center py-3 px-3">
           <h1 className="text-explore-blue font-extrabold text-3xl">Welcome!</h1>
-          <RiCloseLine size="1.5em" onClick={() => router.push('/Dashboard')} />
+          <RiCloseLine size="1.5em" onClick={() => router.push('/dashboard')} />
         </div>
         <p className="font-bold text-gray-400 px-3 mb-3">
           Choose your interests to follow and trade on your terms.

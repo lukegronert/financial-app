@@ -12,7 +12,7 @@ const ExploreInstrumentDetail = ({ hit }) => {
   return (
     <div
       className="flex flex-col w-full h-full justify-between gap-1 cursor-pointer"
-      onClick={() => router.push(`${hit.symbol}`)}
+      onClick={() => router.push(`/instruments/${hit.name}/${hit.symbol}`)}
     >
       {/* Adds logo centered in circle border as shown in challenge pictures */}
       {/* <div className="flex justify-center items-center self-center rounded-full border h-16 w-16 p-3 mb-2">

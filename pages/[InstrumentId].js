@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import InstrumentDetail from '../components/InstrumentDetail';
 
-const InstrumentDetail = () => {
+const InstrumentId = () => {
   return (
-    <div>InstrumentDetail</div>
+    <div>
+      <InstrumentDetail />
+    </div>
   )
 }
 
-export default InstrumentDetail
+export default InstrumentId;

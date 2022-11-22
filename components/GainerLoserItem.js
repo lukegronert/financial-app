@@ -8,12 +8,15 @@ const gainerLoserItem = ({ data, status }) => {
 
     useEffect(() => {
         let changePercentageWithMinus = Number(data.changesPercentage).toFixed(2);
-        setChangePercentage(changePercentageWithMinus.toString().replace('-',''))
+        let changePercentageWithoutMinus = changePercentageWithMinus.toString().replace('-','')
+        setChangePercentage(changePercentageWithoutMinus)
       if(data.change) {;
-        setChange(Number(data.change).toFixed(2));
+        let changeToTwoDecimals = Number(data.change).toFixed(2)
+        setChange(changeToTwoDecimals);
       } else {
         let changeWithMinus = data.changes.toFixed(2);
-        setChange(changeWithMinus.toString().replace('-',''))
+        let changeWithoutMinus = changeWithMinus.toString().replace('-','')
+        setChange(changeWithoutMinus)
       }
       console.log('change', change)
     }, [])

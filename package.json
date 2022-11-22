@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.16.1",
     "algoliasearch": "^4.14.2",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",

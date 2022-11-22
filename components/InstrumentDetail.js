@@ -122,11 +122,11 @@ const InstrumentDetail = () => {
           {timeButtonList.map((button) => {
             if(button.text === '1d') {
                 return (
-                    <button className="w-3/4 p-2 active bg-explore-blue text-white" onClick={onTimeButtonClick}>{button.text}</button>
+                    <button className="w-3/4 p-2 active bg-explore-blue text-white" onClick={onTimeButtonClick} key={button.text}>{button.text}</button>
                 )
             } else {
                 return (
-                    <button className="w-3/4 p-2" onClick={onTimeButtonClick}>{button.text}</button>
+                    <button className="w-3/4 p-2" onClick={onTimeButtonClick} key={button.text}>{button.text}</button>
                 )
             }
           })}

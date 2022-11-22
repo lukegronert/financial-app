@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Search from "../components/Search";
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 import { RiCloseLine } from "react-icons/ri";
 

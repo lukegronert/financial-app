@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import Search from "../components/Search";
+import GainersAndLosers from '../components/GainersAndLosers';
+
 import { FiSearch } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
 
+import gainersData from '../mockData/gainers';
+import losersData from '../mockData/losers';
+
 const Dashboard = () => {
   const [openSearch, setOpenSearch] = useState(false);
+
   return (
     <div className="bg-explore-gray h-screen">
       <div className="bg-white">
@@ -31,6 +37,12 @@ const Dashboard = () => {
             <Search />
           </div>
         ) : null}
+        {!openSearch && (
+          <>
+            <GainersAndLosers gainersData={gainersData} losersData={losersData} colLimit={1} seeAll={true} backButton={false} />
+            
+          </>
+        )}
       </div>
     </div>
   );

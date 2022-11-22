@@ -1,10 +1,9 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/router";
 import Chart from "./Chart";
-import NewsTab from './NewsTab';
+import News from './News';
+import BackButton from './BackButton';
 
-import { IoIosArrowRoundBack } from "react-icons/io";
-import { IoIosArrowRoundForward } from "react-icons/io";
 import { AiFillStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 
@@ -95,9 +94,7 @@ const InstrumentDetail = () => {
     <div className="bg-gradient-to-t from-explore-gray w-max h-screen">
       <div className="w-full px-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
-          <div>
-            <IoIosArrowRoundBack size="2rem" className="text-gray-800 cursor-pointer" onClick={() => router.back()} />
-          </div>
+          <BackButton />
           <div className="flex flex-row gap-2">
             <AiFillStar size="1.25rem" className="text-orange-500" />
             <FiShare size="1.25rem" className="text-gray-800" />
@@ -136,25 +133,7 @@ const InstrumentDetail = () => {
             <button className="p-3 text-lg font-bold text-white bg-blue-600 w-full rounded-lg">Follow</button>
         </div>
       </div>
-      <div className="mt-10 bg-white p-3 w-full flex flex-col">
-        <p className="w-1/6 border-b border-4 self-center rounded-xl"></p>
-        <div className="flex flex-row justify-between items-center">
-          <p className="text-xl font-extrabold text-explore-blue">News</p>
-            <div className="flex flex-row items-center text-blue-600 font-bold text-sm">
-                <span>See all</span>
-                <IoIosArrowRoundForward size="1.25em" />
-            </div>
-        </div>
-        <div className="flex flex-col p-3 w-full">
-            {newsData.map((data, i) => {
-                while(i < 5) {
-                    return (
-                        <NewsTab data={data} key={data.title} />
-                    )
-                }
-            })}
-        </div>
-      </div>
+      <News newsData={newsData} limit={5} seeAll={true} />
     </div>
   );
 };

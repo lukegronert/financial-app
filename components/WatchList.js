@@ -24,6 +24,7 @@ const WatchList = ({ limit, seeAll, backButton }) => {
                   symbol={item.symbol}
                   changePercentage={item.changePercentage}
                   value={item.value}
+                  key={item.symbol}
                 />
               );
             }

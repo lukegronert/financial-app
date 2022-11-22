@@ -17,14 +17,14 @@ const GainersAndLosers = ({ gainersData, losersData, colLimit, seeAll, backButto
         <div className="gap-2 grid auto-rows-fr">
           {gainersData.map((gainer, i) => {
             if (i < colLimit) {
-              return <GainerLoserItem status="gainer" data={gainer} />;
+              return <GainerLoserItem status="gainer" data={gainer} key={gainer.name} />;
             }
           })}
         </div>
         <div className="gap-2 grid auto-rows-fr">
           {losersData.map((loser, i) => {
             if (i < colLimit) {
-              return <GainerLoserItem status="loser" data={loser} />;
+              return <GainerLoserItem status="loser" data={loser} key={loser.name} />;
             }
           })}
         </div>

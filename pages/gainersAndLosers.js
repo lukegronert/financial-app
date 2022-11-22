@@ -9,4 +9,4 @@ const gainersAndLosers = () => {
   )
 }
 
-export default gainersAndLosers
+export default gainersAndLosers;

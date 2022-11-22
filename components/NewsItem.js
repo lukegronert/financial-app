@@ -9,7 +9,7 @@ const NewsTab = ({ data }) => {
     console.log(timePublished)
     console.log(timeSinceHours);
   return (
-    <div className="w-screen flex flex-row items-center h-1/5">
+    <div className="w-screen flex flex-row items-center h-1/5 border mx-3 rounded-lg">
         <div className="w-2/12 rounded-full border">
             <img src={data.banner_image} height={50} className="rounded-full p-1 object-cover w-auto" />
         </div>

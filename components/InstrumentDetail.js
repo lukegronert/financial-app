@@ -47,7 +47,7 @@ const InstrumentDetail = () => {
 
   const chartData = dayData.map((arr) => arr[1]).reverse();
 
-  const newsData = appleNews['feed'];
+  const newsData = appleNews;
   
   const timeButtonList = [
     {
@@ -115,22 +115,22 @@ const InstrumentDetail = () => {
           )}
           <span className="text-xs text-gray-400 font-bold">{`${plusMinus}$${changeValue}`}</span>
         </div>
-        <div className="flex flex-row justify-evenly items-center">
+        <div className="flex flex-row justify-evenly items-center py-3">
           {timeButtonList.map((button) => {
             if(button.text === '1d') {
                 return (
-                    <button className="w-3/4 p-2 active bg-explore-blue text-white" onClick={onTimeButtonClick} key={button.text}>{button.text}</button>
+                    <button className="w-3/4 p-1 active bg-explore-blue text-white rounded-xl" onClick={onTimeButtonClick} key={button.text}>{button.text}</button>
                 )
             } else {
                 return (
-                    <button className="w-3/4 p-2" onClick={onTimeButtonClick} key={button.text}>{button.text}</button>
+                    <button className="w-3/4 p-1 rounded-xl" onClick={onTimeButtonClick} key={button.text}>{button.text}</button>
                 )
             }
           })}
         </div>
         <Chart chartData={chartData} />
         <div className="flex justify-center mt-3">
-            <button className="p-3 text-lg font-bold text-white bg-blue-600 w-full rounded-lg">Follow</button>
+            <button className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg">Follow</button>
         </div>
       </div>
       <News newsData={newsData} limit={5} seeAll={true} />

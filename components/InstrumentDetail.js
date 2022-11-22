@@ -73,21 +73,11 @@ const InstrumentDetail = () => {
     },
   ]
 
-    let changePercentageStyling;
-    const getChangePercentageStyling = () => {
-        if(plusMinus === '+') {
-            changePercentageStyling = 'text-xs font-bolder text-green-100 bg-green-400'
-        } else {
-            changePercentageStyling = 'text-xs font-bolder text-red-100 bg-red-400'
-        }
-    }
-
   useEffect(() => {
     if (changeValue > 0) {
       setPlusMinus("-");
     }
     getChangePercentage();
-    getChangePercentageStyling();
   }, []);
 
   return (

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Search from "../components/Search";
 import GainersAndLosers from '../components/GainersAndLosers';
+import BottomNav from '../components/BottomNav';
 
 import { FiSearch } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
 
 import gainersData from '../mockData/gainers';
 import losersData from '../mockData/losers';
+import WatchList from "../components/WatchList";
 
 const Dashboard = () => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -40,7 +42,8 @@ const Dashboard = () => {
         {!openSearch && (
           <>
             <GainersAndLosers gainersData={gainersData} losersData={losersData} colLimit={1} seeAll={true} backButton={false} />
-            
+            <WatchList limit={3} seeAll={true} />
+            <BottomNav activePage='dashboard' />
           </>
         )}
       </div>

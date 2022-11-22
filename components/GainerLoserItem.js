@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const gainerLoserItem = ({ data, status }) => {
+const GainerLoserItem = ({ data, status }) => {
     const [change, setChange] = useState(null);
     const [changePercentage, setChangePercentage] = useState(null);
     console.log(data)
@@ -47,4 +47,4 @@ const gainerLoserItem = ({ data, status }) => {
   );
 };
 
-export default gainerLoserItem;
+export default GainerLoserItem;

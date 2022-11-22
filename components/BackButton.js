@@ -2,7 +2,7 @@ import React from "react";
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useRouter } from 'next/router';
 
-const backButton = () => {
+const BackButton = () => {
     const router = useRouter();
   return (
     <div>

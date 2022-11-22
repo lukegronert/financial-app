@@ -21,13 +21,14 @@ const Dashboard = () => {
             Dashboard
           </h1>
           {openSearch ? (
-            <RiCloseLine size="1.5em" onClick={() => setOpenSearch(false)} />
+            <RiCloseLine size="1.5em" onClick={() => setOpenSearch(false)} className="cursor-pointer" />
           ) : (
             <FiSearch
               size="1.5em"
               onClick={() => {
                 setOpenSearch(true);
               }}
+              className="cursor-pointer"
             />
           )}
         </div>

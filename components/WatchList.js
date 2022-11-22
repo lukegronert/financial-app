@@ -16,7 +16,7 @@ const WatchList = ({ limit, seeAll, backButton }) => {
           </h2>
           {seeAll && <SeeAll path="/watchList/userId" />}
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 mb-32">
           {watchListData.map((item, i) => {
             if (i < limit) {
               return (

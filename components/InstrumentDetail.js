@@ -96,7 +96,7 @@ const InstrumentDetail = () => {
       <div className="w-full px-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
           <div>
-            <IoIosArrowRoundBack size="2rem" className="text-gray-800" />
+            <IoIosArrowRoundBack size="2rem" className="text-gray-800 cursor-pointer" onClick={() => router.back()} />
           </div>
           <div className="flex flex-row gap-2">
             <AiFillStar size="1.25rem" className="text-orange-500" />

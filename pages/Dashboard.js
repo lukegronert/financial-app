@@ -4,7 +4,7 @@ import { FiSearch } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
 
 const Dashboard = () => {
-  const [openSearch, setOpenSearch] = useState(true);
+  const [openSearch, setOpenSearch] = useState(false);
   return (
     <div className="bg-explore-gray h-screen">
       <div className="bg-white">

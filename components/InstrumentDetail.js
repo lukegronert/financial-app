@@ -6,7 +6,8 @@ import NewsList from "./NewsList";
 import BackButton from "./BackButton";
 import { TailSpin } from "react-loader-spinner";
 
-import { getTimeData } from "../utils/apiFunctions";
+import { getTimeData } from "../utils/apiQueries";
+import { formatLocalPercentage, formatLocalUSD } from "../utils/formatDataFunctions";
 
 import { AiFillStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
@@ -20,7 +21,6 @@ const InstrumentDetail = () => {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [`${instrumentSymbol}${selectedTimeButton}`],
     queryFn: () => getTimeData(instrumentSymbol, selectedTimeButton),
-    enabled: !!selectedTimeButton,
   });
 
   const timeButtonList = ["1d", "5d", "30d", "90d", "6m", "1y", "All"];
@@ -46,6 +46,12 @@ const InstrumentDetail = () => {
     return <span>Error: {error.message}</span>;
   }
 
+  if(data.Note) {
+    return (
+      <div>No more API calls.</div>
+    )
+  }
+
 
   const dataKeys = Object.keys(data);
 
@@ -68,6 +74,7 @@ const InstrumentDetail = () => {
       ? Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
       : Object.entries(data[dataKeys[1]]);
 
+    console.log(chartData)
   const currentValue = Number(
     chartData[0][1]["4. close"]
   );
@@ -80,24 +87,6 @@ const InstrumentDetail = () => {
   );
 
   const changePercentage = changeValue / currentValue;
-
-  const formatLocalUSD = (value) => {
-    // using undefined formats the number using the browser's locale settings
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
-    // a user in Germany will see 25,95 $
-    // while a user in the US will see $25.95
-    return value.toLocaleString(undefined, {
-      style: "currency",
-      currency: "USD",
-    });
-  };
-
-  const formatLocalPercentage = (value) => {
-    return value.toLocaleString(undefined, {
-      style: "percent",
-      minimumFractionDigits: 2,
-    });
-  };
 
   return (
     <div className="bg-gradient-to-t from-explore-gray w-max h-screen">
@@ -155,7 +144,7 @@ const InstrumentDetail = () => {
             );
           })}
         </div>
-        <Chart chartData={chartData} changePercentage={changePercentage} />
+        <Chart chartData={chartData} changePercentage={changePercentage} height={(screen.height/3)} width={screen.width} />
         <div className="flex justify-center mt-3">
           <button className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg">
             Follow

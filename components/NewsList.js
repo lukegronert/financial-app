@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from '@tanstack/react-query';
-import { getNewsData } from "../utils/apiFunctions";
+import { getNewsData } from "../utils/apiQueries";
 import { TailSpin } from "react-loader-spinner";
 import NewsItem from "./NewsItem";
 import SeeAll from "./SeeAll";

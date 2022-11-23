@@ -3,7 +3,7 @@ import BackButton from "./BackButton";
 import SeeAll from "./SeeAll";
 import WatchListItem from "./WatchListItem";
 import BottomNav from "./BottomNav";
-import watchListData from "../mockData/watchList";
+import watchListData from "../mockData/watchListData";
 
 const WatchList = ({ limit, seeAll, backButton }) => {
   return (
@@ -20,12 +20,7 @@ const WatchList = ({ limit, seeAll, backButton }) => {
           {watchListData.map((item, i) => {
             if (i < limit) {
               return (
-                <WatchListItem
-                  symbol={item.symbol}
-                  changePercentage={item.changePercentage}
-                  value={item.value}
-                  key={item.symbol}
-                />
+                <WatchListItem instrumentSymbol={item.symbol} key={i}/>
               );
             }
           })}

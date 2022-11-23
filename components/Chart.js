@@ -1,44 +1,61 @@
+import { useEffect, useState } from "react";
 import { AreaChart, Area, CartesianGrid, YAxis } from "recharts";
 
-function Chart({ chartData }) {
-  // Grab the lowest number and highest number from chartData
-  const chartLow = Math.min(
-    ...chartData.map((data) => Number(data["4. close"]))
-  );
-  const chartHigh = Math.max(
-    ...chartData.map((data) => Number(data["4. close"]))
-  );
+function Chart({ chartData, plusMinus }) {
+  const [chartDisplayData, setChartDisplayData] = useState({
+    chartDataValueArray: null,
+    yAxisHigh: null,
+    yAxisLow: null
+  })
+  const [color, setColor] = useState(null);
 
-  // Subtract 5% from chartLow and round up to the nearest 10
-  const yAxisLow = Math.ceil((chartLow - chartLow / 20) / 10) * 10;
-  // Add 5% to chartigh and round down to the nearest 10
-  const yAxisHigh = Math.floor((chartHigh + chartLow / 20) / 10) * 10;
+  console.log('chartData', chartData);
+
+  useEffect(() => {
+    const reverseChartData = chartData.reverse();
+    const chartDataValArray = reverseChartData.map((data) => data[1]);
+    const chartValues = chartDataValArray.map((item) => Number(item['4. close']));
+
+    const chartLow = Math.min(...chartValues);
+    const chartHigh = Math.max(...chartValues);
+
+    const yAxisLow = Math.floor(chartLow);
+    const yAxisHigh = Math.ceil(chartHigh);
+
+    setChartDisplayData({
+      chartDataValueArray: chartDataValArray,
+      yAxisHigh,
+      yAxisLow,
+    })
+    if(plusMinus === '+') {
+      setColor("#4ade80")
+    } else {
+      setColor("#ccc")
+    }
+  }, [chartData])
 
   return (
     <AreaChart
       width={screen.width}
       height={(screen.height/3)}
-      data={chartData}
+      data={chartDisplayData.chartDataValueArray}
       margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
     >
       <defs>
         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+          <stop offset="5%" stopColor={color} stopOpacity={0.8} />
+          <stop offset="95%" stopColor={color} stopOpacity={0} />
         </linearGradient>
       </defs>
       <YAxis
         dataKey="4. close"
-        domain={[yAxisLow, yAxisHigh]}
-        style={{
-          color: 'blue'
-        }}
+        domain={[chartDisplayData.yAxisLow, chartDisplayData.yAxisHigh]}
       />
       <CartesianGrid strokeDasharray="3 3" />
       <Area
         type="linear"
         dataKey="4. close"
-        stroke="#8884d8"
+        stroke={color}
         fillOpacity={1}
         fill="url(#colorUv)"
       />

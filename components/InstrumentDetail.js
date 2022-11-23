@@ -5,27 +5,24 @@ import Chart from "./Chart";
 import News from "./News";
 import BackButton from "./BackButton";
 
+import { LineWave } from "react-loader-spinner";
+
 import { getData } from '../utils/apiFunctions';
 
 import { AiFillStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 
 import appleNews from "../mockData/AppleNews";
-import { RiDatabaseLine } from "react-icons/ri";
 
 const InstrumentDetail = () => {
-  const [plusMinus, setPlusMinus] = useState("+");
-  const [chartData, setChartData] = useState(null);
-  const [dataArray, setDataArray] = useState([]);
-  const dataArrayRef = useRef([])
-  const [currentValue, setCurrentValue] = useState(0);
-  const currentValueRef = useRef(0);
-  const [changeValue, setChangeValue] = useState(0);
-  const changeValueRef = useRef(0);
-  const [changePercentage, setChangePercentage] = useState(0);
-  const changePercentageRef = useRef(0);
-  const [mostRecentDayArray, setMostRecentDayArray] = useState([]);
-  const mostRecentDayArrayRef = useRef([]);
+  const [displayData, setDisplayData] = useState({
+    currentValue: 0,
+    changeValue: 0,
+    changePercentage: 0,
+    chartData: null,
+    plusMinus: '',
+  });
+  const [timeButtonSelected, setTimeButtonSelected] = useState('1d');
 
   const router = useRouter();
   const { instrumentName, instrumentSymbol } = router.query;
@@ -33,49 +30,41 @@ const InstrumentDetail = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, data, error, isSuccess } = useQuery({
     queryKey: [`${instrumentSymbol}`],
-    queryFn: () => getData(instrumentSymbol, '30min'),
-  }, {
-    cacheTime: 1800
+    queryFn: () => getData(instrumentSymbol, timeButtonSelected === '1d' || timeButtonSelected === '5d' ? 'TIME_SERIES_INTRADAY' : 'TIME_SERIES_WEEKLY'),
   });
   
   useEffect(() => {
     if(!isLoading) {
-      getCurrentValue()
-      getChangeValue()
-      getChangePercentageValue()
+      getDisplayData();
     }
-  }, [isSuccess])
+  }, [data])
 
-    // const timeObjArrayVal = Object.entries(data['Time Series (30min)']);
-    const getCurrentValue = () => {
-      dataArrayRef.current = Object.entries(data['Time Series (30min)']);
-      console.log(dataArrayRef.current)
-      setDataArray(dataArrayRef.current);
-      const currentVal = dataArrayRef.current[0][1]['4. close'];
-      const currentValToTwoDecimals = Number(currentVal).toFixed(2)
-      currentValueRef.current = currentValToTwoDecimals;
-      setCurrentValue(currentValueRef.current)
+  const getDisplayData = () => {
+    const dataArray = Object.entries(data[(`Time Series (${timeButtonSelected === '1d' || timeButtonSelected === '5d' ? '30min' : ''})`)]);
+    console.log(dataArray)
+    const currentValue = Number(dataArray[0][1]['4. close']).toFixed(2);
+    console.log(currentValue);
+    if(timeButtonSelected === '1d') {
+      const mostRecentDayArray = dataArray.filter((item) => item[0].slice(0,10) === dataArray[0][0].slice(0,10))
+      console.log('day array',mostRecentDayArray)
+      let changeValue = (((currentValue - mostRecentDayArray[mostRecentDayArray.length - 1][1]["4. close"]) *
+        100) / 100).toFixed(2);
+      changeValue = changeValue.toString().replace('-','');
+      console.log('changeval', changeValue)
+      let changePercentage = ((Number(changeValue) / Number(currentValue)) * 100).toFixed(2);
+      changePercentage = changePercentage.toString().replace('-','');
+      console.log('change%', changePercentage);
+      let plusMinus;
+      changeValue > 0 ? plusMinus = '+' : plusMinus = '-';
+      setDisplayData({
+        currentValue,
+        changeValue,
+        changePercentage,
+        chartData: mostRecentDayArray,
+        plusMinus
+      })
     }
-  
-    const getChangeValue = () => {
-      mostRecentDayArrayRef.current = dataArrayRef.current.filter((item) => item[0].slice(0,10) === dataArrayRef.current[0][0].slice(0,10))
-      console.log(mostRecentDayArrayRef)
-      setMostRecentDayArray(mostRecentDayArrayRef.current)
-      const changeVal = (
-        ((currentValue - mostRecentDayArrayRef.current[mostRecentDayArrayRef.current.length - 1][1]["4. close"]) *
-          100) /
-        100
-      ).toFixed(2);
-      changeValueRef.current = changeVal;
-      setChangeValue(changeValueRef.current)
-    };
-  
-    const getChangePercentageValue = () => {
-      let changePercentVal = ((Number(changeValue) / Number(currentValue)) * 100).toFixed(2);
-      let changePercentValString = changePercentVal.toString().replace("-", "");
-      changePercentageRef.current = changePercentValString;
-      setChangePercentage(changePercentageRef.current);
-    };
+  }
 
   const newsData = appleNews;
   
@@ -109,18 +98,15 @@ const InstrumentDetail = () => {
       let activeButton = document.querySelector(".active");
       activeButton.classList.remove(...activeStyles);
       e.currentTarget.classList.add(...activeStyles);
+      setTimeButtonSelected(e.target.textContent)
     }
   };
 
-  useEffect(() => {
-      if (changePercentage.current > 0) {
-        setPlusMinus("-");
-    }
-  }, []);
-  {
-    isLoading && <div>Loading...</div>;
+  if(isError) {
+    return <div>No API calls</div>
   }
-  return (
+
+  return !isLoading ? (
     <div className="bg-gradient-to-t from-explore-gray w-max h-screen">
       <div className="w-full px-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
@@ -136,18 +122,18 @@ const InstrumentDetail = () => {
           </p>
         </div>
         <div>
-          <h1 className="text-2xl font-extrabold text-explore-blue py-1">
+          <h1 className="text-2xl font-extrabold text-explore-blue py-1 w-screen">
             {instrumentName}
           </h1>
         </div>
         <div className="flex flex-row items-center pb-2 gap-2">
-        <span className="text-gray-700 text-lg font-semibold">{`$${currentValue}`}</span>
-         {plusMinus === "+" ? (
-              <span className="text-xs font-bold text-green-400 bg-green-100 p-1 rounded-md">{`${plusMinus}${changePercentage}%`}</span>
+        <span className="text-gray-700 text-lg font-semibold">{`$${displayData.currentValue}`}</span>
+         {displayData.plusMinus === "+" ? (
+              <span className="text-xs font-bold text-green-400 bg-green-100 p-1 rounded-md">{`${displayData.plusMinus}${displayData.changePercentage}%`}</span>
             ) : (
-              <span className="text-xs font-bold text-red-400 bg-red-100 p-1 rounded-md">{`${plusMinus}${changePercentage}%`}</span>
+              <span className="text-xs font-bold text-red-400 bg-red-100 p-1 rounded-md">{`${displayData.plusMinus}${displayData.changePercentage}%`}</span>
             )}
-            <span className="text-xs text-gray-400 font-bold">{`${plusMinus}$${changeValue}`}</span>
+            <span className="text-xs text-gray-400 font-bold">{`${displayData.plusMinus}$${displayData.changeValue}`}</span>
           </div>
           <div className="flex flex-row justify-evenly items-center py-3">
             {timeButtonList.map((button) => {
@@ -174,7 +160,11 @@ const InstrumentDetail = () => {
               }
             })}
           </div>
-          {/* {!isLoading && <Chart chartData={chartData} />} */}
+          {displayData.chartData !== null ? (
+            <Chart chartData={displayData.chartData} plusMinus={displayData.plusMinus} className="mx-auto" />
+          ) : (
+            <div>Loading...</div>
+          )}
         <div className="flex justify-center mt-3">
           <button className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg">
             Follow
@@ -183,7 +173,17 @@ const InstrumentDetail = () => {
       </div>
       <News newsData={newsData} limit={5} seeAll={true} />
     </div>
-  );
+  ) : (
+    <div className="flex w-screen h-screen justify-center items-center">
+      <LineWave
+        height="100"
+        width="100"
+        color="#4fa94d"
+        ariaLabel="line-wave"
+        visible={true}
+      />
+    </div>
+  )
 };
 
 export default InstrumentDetail;

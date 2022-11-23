@@ -18,7 +18,7 @@ const InstrumentDetail = () => {
   console.log('INSTRUMENT', instrumentSymbol)
 
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: [`${instrumentSymbol}`],
+    queryKey: [`${instrumentSymbol}${selectedTimeButton}`],
     queryFn: () => getTimeData(instrumentSymbol, selectedTimeButton),
     enabled: !!selectedTimeButton,
   });

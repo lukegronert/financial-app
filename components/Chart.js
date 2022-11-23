@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { AreaChart, Area, CartesianGrid, YAxis } from "recharts";
 
-function Chart({ chartData, plusMinus }) {
+function Chart({ chartData, changePercentage }) {
   const [chartDisplayData, setChartDisplayData] = useState({
     chartDataValueArray: null,
     yAxisHigh: null,
     yAxisLow: null
   })
   const [color, setColor] = useState(null);
-
-  console.log('chartData', chartData);
 
   useEffect(() => {
     const reverseChartData = chartData.reverse();
@@ -27,10 +25,11 @@ function Chart({ chartData, plusMinus }) {
       yAxisHigh,
       yAxisLow,
     })
-    if(plusMinus === '+') {
+
+    if(changePercentage > 0) {
       setColor("#4ade80")
     } else {
-      setColor("#ccc")
+      setColor("#ef4444")
     }
   }, [chartData])
 

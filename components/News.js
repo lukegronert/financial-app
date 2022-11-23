@@ -1,9 +1,41 @@
 import React from "react";
+import { useQuery } from '@tanstack/react-query';
+import { getNewsData } from "../utils/apiFunctions";
+import { TailSpin } from "react-loader-spinner";
 import NewsItem from "./NewsItem";
 import SeeAll from "./SeeAll";
 import BackButton from "./BackButton";
 
-const News = ({ newsData, limit, seeAll, backButton }) => {
+const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: [`${instrumentSymbol}news`],
+    queryFn: () => getNewsData(instrumentSymbol)
+  })
+
+  if (isLoading) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <TailSpin
+          height="80"
+          width="80"
+          color="#09183d"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
+  console.log(data)
+  const newsData = data['feed']
+
   return (
     <div className="p-3 w-full bg-white">
       {backButton && (
@@ -15,14 +47,20 @@ const News = ({ newsData, limit, seeAll, backButton }) => {
         )}
         <div className="flex flex-row justify-between items-center py-2 px-2">
           <p className="text-xl font-extrabold text-explore-blue">News</p>
-          {seeAll && <SeeAll path='/news/apple' />}
+          {seeAll && <SeeAll path={`news/${instrumentSymbol}`} />}
         </div>
         <div className="flex flex-col gap-3 items-center mx-auto">
-          {newsData.map((data, i) => {
-            while (i < limit) {
-              return <NewsItem data={data} key={data.title} />;
-            }
-          })}
+          {newsData ? (
+            newsData.map((data, i) => {
+              while (i < limit) {
+                return <NewsItem data={data} key={data.title} />;
+              }
+            })
+          ) : (
+            <div className="h-80">
+              <p>No news to display.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

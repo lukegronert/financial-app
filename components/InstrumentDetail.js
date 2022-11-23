@@ -1,112 +1,105 @@
-import React, { useState, useEffect, Suspense, useRef } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Chart from "./Chart";
 import News from "./News";
 import BackButton from "./BackButton";
+import { TailSpin } from "react-loader-spinner";
 
-import { LineWave } from "react-loader-spinner";
-
-import { getData } from '../utils/apiFunctions';
+import { getTimeData } from "../utils/apiFunctions";
 
 import { AiFillStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 
-import appleNews from "../mockData/AppleNews";
-
 const InstrumentDetail = () => {
-  const [displayData, setDisplayData] = useState({
-    currentValue: 0,
-    changeValue: 0,
-    changePercentage: 0,
-    chartData: null,
-    plusMinus: '',
-  });
-  const [timeButtonSelected, setTimeButtonSelected] = useState('1d');
-
+  const [selectedTimeButton, setSelectedTimeButton] = useState("1d");
   const router = useRouter();
   const { instrumentName, instrumentSymbol } = router.query;
+  console.log('INSTRUMENT', instrumentSymbol)
 
-  const queryClient = useQueryClient();
-  const { isLoading, isError, data, error, isSuccess } = useQuery({
+  const { isLoading, isError, data, error } = useQuery({
     queryKey: [`${instrumentSymbol}`],
-    queryFn: () => getData(instrumentSymbol, timeButtonSelected === '1d' || timeButtonSelected === '5d' ? 'TIME_SERIES_INTRADAY' : 'TIME_SERIES_WEEKLY'),
+    queryFn: () => getTimeData(instrumentSymbol, selectedTimeButton),
+    enabled: !!selectedTimeButton,
   });
-  
-  useEffect(() => {
-    if(!isLoading) {
-      getDisplayData();
-    }
-  }, [data])
 
-  const getDisplayData = () => {
-    const dataArray = Object.entries(data[(`Time Series (${timeButtonSelected === '1d' || timeButtonSelected === '5d' ? '30min' : ''})`)]);
-    console.log(dataArray)
-    const currentValue = Number(dataArray[0][1]['4. close']).toFixed(2);
-    console.log(currentValue);
-    if(timeButtonSelected === '1d') {
-      const mostRecentDayArray = dataArray.filter((item) => item[0].slice(0,10) === dataArray[0][0].slice(0,10))
-      console.log('day array',mostRecentDayArray)
-      let changeValue = (((currentValue - mostRecentDayArray[mostRecentDayArray.length - 1][1]["4. close"]) *
-        100) / 100).toFixed(2);
-      changeValue = changeValue.toString().replace('-','');
-      console.log('changeval', changeValue)
-      let changePercentage = ((Number(changeValue) / Number(currentValue)) * 100).toFixed(2);
-      changePercentage = changePercentage.toString().replace('-','');
-      console.log('change%', changePercentage);
-      let plusMinus;
-      changeValue > 0 ? plusMinus = '+' : plusMinus = '-';
-      setDisplayData({
-        currentValue,
-        changeValue,
-        changePercentage,
-        chartData: mostRecentDayArray,
-        plusMinus
-      })
-    }
+  const timeButtonList = ["1d", "5d", "30d", "90d", "6m", "1y", "All"];
+
+  if (isLoading) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <TailSpin
+          height="80"
+          width="80"
+          color="#09183d"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
 
-  const newsData = appleNews;
-  
-  const timeButtonList = [
-    {
-      text: "1d",
-    },
-    {
-      text: "5d",
-    },
-    {
-      text: "30d",
-    },
-    {
-      text: "90d",
-    },
-    {
-      text: "6m",
-    },
-    {
-      text: "1y",
-    },
-    {
-      text: "All",
-    },
-  ];
-  
-  const onTimeButtonClick = (e) => {
-    const activeStyles = ["active", "bg-explore-blue", "text-white"];
-    if (!e.target.classList.contains("active")) {
-      let activeButton = document.querySelector(".active");
-      activeButton.classList.remove(...activeStyles);
-      e.currentTarget.classList.add(...activeStyles);
-      setTimeButtonSelected(e.target.textContent)
-    }
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
+
+  const dataKeys = Object.keys(data);
+
+  const chartData =
+    selectedTimeButton === "1d"
+      ? Object.entries(data[dataKeys[1]]).filter(
+          (item) =>
+            item[0].slice(0, 10) ===
+            Object.entries(data[dataKeys[1]])[0][0].slice(0, 10)
+        )
+      : selectedTimeButton === "5d"
+      ? Object.entries(data[dataKeys[1]])
+      : selectedTimeButton === "30d"
+      ? Object.entries(data[dataKeys[1]]).filter(
+          (item, i) => i < 28 && i % 7 === 0
+        )
+      : selectedTimeButton === "90d"
+      ? Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
+      : selectedTimeButton === "1y"
+      ? Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
+      : Object.entries(data[dataKeys[1]]);
+
+  const currentValue = Number(
+    chartData[0][1]["4. close"]
+  );
+
+  const changeValue = Number(
+    ((currentValue -
+      chartData[chartData.length -1][1]["4. close"]) *
+      100) /
+      100
+  );
+
+  const changePercentage = changeValue / currentValue;
+
+  const formatLocalUSD = (value) => {
+    // using undefined formats the number using the browser's locale settings
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
+    // a user in Germany will see 25,95 $
+    // while a user in the US will see $25.95
+    return value.toLocaleString(undefined, {
+      style: "currency",
+      currency: "USD",
+    });
   };
 
-  if(isError) {
-    return <div>No API calls</div>
-  }
+  const formatLocalPercentage = (value) => {
+    return value.toLocaleString(undefined, {
+      style: "percent",
+      minimumFractionDigits: 2,
+    });
+  };
 
-  return !isLoading ? (
+  return (
     <div className="bg-gradient-to-t from-explore-gray w-max h-screen">
       <div className="w-full px-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
@@ -122,68 +115,56 @@ const InstrumentDetail = () => {
           </p>
         </div>
         <div>
-          <h1 className="text-2xl font-extrabold text-explore-blue py-1 w-screen">
+          <h1 className="text-2xl font-extrabold text-explore-blue py-1">
             {instrumentName}
           </h1>
         </div>
         <div className="flex flex-row items-center pb-2 gap-2">
-        <span className="text-gray-700 text-lg font-semibold">{`$${displayData.currentValue}`}</span>
-         {displayData.plusMinus === "+" ? (
-              <span className="text-xs font-bold text-green-400 bg-green-100 p-1 rounded-md">{`${displayData.plusMinus}${displayData.changePercentage}%`}</span>
-            ) : (
-              <span className="text-xs font-bold text-red-400 bg-red-100 p-1 rounded-md">{`${displayData.plusMinus}${displayData.changePercentage}%`}</span>
-            )}
-            <span className="text-xs text-gray-400 font-bold">{`${displayData.plusMinus}$${displayData.changeValue}`}</span>
-          </div>
-          <div className="flex flex-row justify-evenly items-center py-3">
-            {timeButtonList.map((button) => {
-              if (button.text === "1d") {
-                return (
-                  <button
-                    className="w-3/4 p-1 active bg-explore-blue text-white rounded-xl"
-                    onClick={onTimeButtonClick}
-                    key={button.text}
-                  >
-                    {button.text}
-                  </button>
-                );
-              } else {
-                return (
-                  <button
-                    className="w-3/4 p-1 rounded-xl"
-                    onClick={onTimeButtonClick}
-                    key={button.text}
-                  >
-                    {button.text}
-                  </button>
-                );
-              }
-            })}
-          </div>
-          {displayData.chartData !== null ? (
-            <Chart chartData={displayData.chartData} plusMinus={displayData.plusMinus} className="mx-auto" />
+          <span className="text-gray-700 text-lg font-semibold">
+            {formatLocalUSD(currentValue)}
+          </span>
+
+          {changePercentage > 0 ? (
+            <span className="text-xs font-bold text-green-400 bg-green-100 p-1 rounded-md">
+              {formatLocalPercentage(changePercentage)}
+            </span>
           ) : (
-            <div>Loading...</div>
+            <span className="text-xs font-bold text-red-400 bg-red-100 p-1 rounded-md">
+              {formatLocalPercentage(changePercentage)}
+            </span>
           )}
+
+          <span className="text-xs text-gray-400 font-bold">
+            {formatLocalUSD(changeValue)}
+          </span>
+        </div>
+        <div className="flex flex-row justify-evenly items-center py-3">
+          {timeButtonList.map((buttonText) => {
+            return (
+              <button
+                className={
+                  selectedTimeButton === buttonText
+                    ? "w-3/4 p-1 bg-explore-blue text-white rounded-xl"
+                    : "w-3/4 p-1 rounded-xl"
+                }
+                onClick={() => setSelectedTimeButton(buttonText)}
+                key={buttonText}
+              >
+                {buttonText}
+              </button>
+            );
+          })}
+        </div>
+        <Chart chartData={chartData} changePercentage={changePercentage} />
         <div className="flex justify-center mt-3">
           <button className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg">
             Follow
           </button>
         </div>
       </div>
-      <News newsData={newsData} limit={5} seeAll={true} />
+      <News limit={5} seeAll={true} instrumentSymbol={instrumentSymbol} />
     </div>
-  ) : (
-    <div className="flex w-screen h-screen justify-center items-center">
-      <LineWave
-        height="100"
-        width="100"
-        color="#4fa94d"
-        ariaLabel="line-wave"
-        visible={true}
-      />
-    </div>
-  )
+  );
 };
 
 export default InstrumentDetail;

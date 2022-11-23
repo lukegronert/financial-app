@@ -6,7 +6,7 @@ const News = () => {
   const router = useRouter();
   const { instrumentSymbol } = router.query;
   return (
-    <News limit={50} seeAll={false} backButton={true} instrumentSymbol={instrumentSymbol} />
+    <NewsList limit={50} seeAll={false} backButton={true} instrumentSymbol={instrumentSymbol} />
   )
 }
 

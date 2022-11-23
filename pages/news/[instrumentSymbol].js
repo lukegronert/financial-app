@@ -1,8 +1,8 @@
 import React from 'react';
-import News from '../../components/News';
+import NewsList from '../../components/NewsList';
 import { useRouter } from 'next/router';
 
-const news = () => {
+const News = () => {
   const router = useRouter();
   const { instrumentSymbol } = router.query;
   return (
@@ -10,4 +10,4 @@ const news = () => {
   )
 }
 
-export default news;
+export default News;

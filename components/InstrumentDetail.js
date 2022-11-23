@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import Chart from "./Chart";
-import News from "./News";
+import NewsList from "./NewsList";
 import BackButton from "./BackButton";
 import { TailSpin } from "react-loader-spinner";
 
@@ -162,7 +162,7 @@ const InstrumentDetail = () => {
           </button>
         </div>
       </div>
-      <News limit={5} seeAll={true} instrumentSymbol={instrumentSymbol} />
+      <NewsList limit={5} seeAll={true} instrumentSymbol={instrumentSymbol} />
     </div>
   );
 };

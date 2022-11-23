@@ -6,8 +6,8 @@ const NewsTab = ({ data }) => {
     const timeNow = new Date().toJSON().slice(11, 19).replace(':','').replace(':','')
     const timeSinceHours = `${timeNow.slice(0,2) - timePublished.slice(0,2)}`;
 
-    console.log(timePublished)
-    console.log(timeSinceHours);
+    // console.log(timePublished)
+    // console.log(timeSinceHours);
   return (
     <div className="w-screen flex flex-row items-center h-1/5 border mx-3 rounded-lg">
         <div className="w-2/12 rounded-full border">

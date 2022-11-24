@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Search from "../components/Search";
 import GainersAndLosers from '../components/GainersAndLosers';
 import BottomNav from '../components/BottomNav';
@@ -35,7 +35,6 @@ const Dashboard = () => {
     getData()
   }, [])
 
-  console.log('CURRENT USER',auth.currentUser)
 
   return (
     <div className="bg-explore-gray h-screen">

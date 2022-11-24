@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth, db } from "../../../firebase/clientApp";
+import { auth, db } from "../../firebase/clientApp";
 import { getDocs, collection } from "firebase/firestore";
 import WatchList from '../../components/WatchList';
 

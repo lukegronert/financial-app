@@ -136,7 +136,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
   return (
     <div className="bg-gradient-to-t from-explore-gray w-max h-screen relative">
       {showShareButtons ? (
-        <div className="relative h-0 w-full">
+        <div className="relative h-0 w-screen">
           <ShareButtons instrumentSymbol={instrumentSymbol} />
         </div>
       ) : (
@@ -159,7 +159,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
           <></>
         ) : (
           <div>
-            <h1 className="text-2xl font-extrabold text-explore-blue py-1">
+            <h1 className="text-2xl font-extrabold text-explore-blue py-1 break-words">
               {instrumentName}
             </h1>
           </div>
@@ -200,12 +200,14 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
             );
           })}
         </div>
-        <Chart
-          chartData={chartData}
-          changePercentage={changePercentage}
-          height={screen.height / 3}
-          width={screen.width}
-        />
+        <div className="w-full flex flex-col items-align text-center justify-center">
+          <Chart
+            chartData={chartData}
+            changePercentage={changePercentage}
+            height={screen.height / 3}
+            width={screen.width}
+          />
+        </div>
         <div className="flex justify-center mt-3">
           {userWatchList.includes(instrumentSymbol) ? (
             <button

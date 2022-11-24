@@ -39,7 +39,7 @@ function Chart({ chartData, changePercentage, height, width, size }) {
       width={width}
       height={height}
       data={chartDisplayData.chartDataValueArray}
-      margin={{ top: 0, right: 0, left: -15, bottom: 0 }}
+      margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
     >
       <defs>
         {size === 'small' ? (

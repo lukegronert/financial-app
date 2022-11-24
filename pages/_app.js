@@ -1,5 +1,6 @@
-import '../styles/globals.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import "../styles/globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,11 +12,13 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }) {
-  return  (
+  return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <ErrorBoundary>
+        <Component {...pageProps} />
+      </ErrorBoundary>
     </QueryClientProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

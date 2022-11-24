@@ -3,6 +3,7 @@ import Search from "../components/Search";
 import { useRouter } from 'next/router';
 import { auth, db } from "../firebase/clientApp";
 import { getDocs, collection } from "firebase/firestore";
+import Link from "next/link";
 
 import { RiCloseLine } from "react-icons/ri";
 
@@ -17,7 +18,7 @@ const Explore = () => {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">
         <p>Please sign in and try again.</p>
-        <a href="/" className="underline">Go to sign in page</a>
+        <Link href="/" className="underline">Go to sign in page</Link>
       </div>
     )
   }

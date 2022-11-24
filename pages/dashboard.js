@@ -7,6 +7,7 @@ import { getDocs, collection } from "firebase/firestore";
 
 import { FiSearch } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
+import Link from 'next/link';
 
 import WatchList from "../components/WatchList";
 
@@ -18,7 +19,7 @@ const Dashboard = () => {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">
         <p>Please sign in and try again.</p>
-        <a href="/" className="underline">Go to sign in page</a>
+        <Link href="/" className="underline">Go to sign in page</Link>
       </div>
     )
   }

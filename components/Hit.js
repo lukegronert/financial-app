@@ -9,6 +9,7 @@ import {
   updateDoc,
   deleteField,
 } from "firebase/firestore";
+import Link from "next/link";
 
 const Hit = ({ hit, userWatchList, setUserWatchList }) => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const Hit = ({ hit, userWatchList, setUserWatchList }) => {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">
         <p>Please sign in and try again.</p>
-        <a href="/" className="underline">Go to sign in page</a>
+        <Link href="/" className="underline">Go to sign in page</Link>
       </div>
     )
   }

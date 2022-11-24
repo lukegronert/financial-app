@@ -57,7 +57,7 @@ const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
               }
             })
           ) : (
-            <div className="h-80">
+            <div className="h-80 flex flex-col items-center">
               <p>No news to display.</p>
             </div>
           )}

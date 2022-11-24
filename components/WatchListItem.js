@@ -84,7 +84,7 @@ const WatchListItem = ({ instrumentSymbol }) => {
         </div>
         <div className="place-self-end flex flex-row self-center items-center gap-3">
           <p className="font-bold text-explore-blue">
-            {formatLocalUSD(changeValue)}
+            {formatLocalUSD(currentValue)}
           </p>
           <SlOptionsVertical className="text-gray-400" />
         </div>

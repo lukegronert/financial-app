@@ -66,7 +66,6 @@ const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
               return <GainerLoserItem status="loser" data={loser} key={loser.name} />;
             }
           })}
-          <div>WatchListItem</div>
         </div>
       </div>
     </div>

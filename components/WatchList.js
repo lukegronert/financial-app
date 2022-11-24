@@ -9,7 +9,7 @@ const WatchList = ({ limit, seeAll, backButton, userWatchList }) => {
 
   return (
     <>
-      <div className="flex flex-col px-3 bg-explore-gray">
+      <div className="flex flex-col px-3 bg-explore-gray h-screen">
         {backButton && <BackButton />}
         <div className="flex flex-row justify-between items-center py-2">
           <h2 className="text-xl font-extrabold text-explore-blue">
@@ -18,7 +18,7 @@ const WatchList = ({ limit, seeAll, backButton, userWatchList }) => {
           {seeAll && <SeeAll path="watchList/userId" />}
         </div>
         <div className="flex flex-col gap-3 mb-32">
-          {userWatchList?.map((item, i) => {
+          {userWatchList.map((item, i) => {
             if (i < limit) {
               return (
                 <WatchListItem instrumentSymbol={item} key={i}/>

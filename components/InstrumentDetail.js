@@ -146,7 +146,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
         <div className="flex flex-row w-full justify-between items-center py-3">
           <BackButton />
           <div className="flex flex-row gap-2">
-            <AiFillStar size="1.25rem" className="text-orange-500" onClick={addDataToUserWatchList} />
+            <AiFillStar size="1.25rem" className="text-orange-500" onClick={userWatchList.includes(instrumentSymbol) ? removeDataFromUserWatchList :  addDataToUserWatchList} />
             <FiShare size="1.25rem" className="text-gray-800" onClick={() => setShowShareButtons(!showShareButtons)} />
           </div>
         </div>

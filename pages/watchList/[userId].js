@@ -4,7 +4,7 @@ import { getDocs, collection } from "firebase/firestore";
 import WatchList from '../../components/WatchList';
 
 
-const userId = () => {
+const UserId = () => {
   const [userWatchList, setUserWatchList] = useState([]);
   const user = auth.currentUser;
 
@@ -23,4 +23,4 @@ const userId = () => {
   )
 }
 
-export default userId;
+export default UserId;

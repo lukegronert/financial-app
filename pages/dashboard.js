@@ -15,15 +15,6 @@ const Dashboard = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const [userWatchList, setUserWatchList] = useState([])
 
-  if(!auth.currentUser) {
-    return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <p>Please sign in and try again.</p>
-        <Link href="/" className="underline">Go to sign in page</Link>
-      </div>
-    )
-  }
-
   const getData = async () => {
     const querySnapshot = await getDocs(collection(db, "users"))
     const userDoc = querySnapshot.docs.find((doc) => doc.data().phoneNumber === user.phoneNumber)
@@ -35,6 +26,14 @@ const Dashboard = () => {
     getData()
   }, [])
 
+  if(!auth.currentUser) {
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <p>Please sign in and try again.</p>
+        <Link href="/" className="underline">Go to sign in page</Link>
+      </div>
+    )
+  }
 
   return (
     <div className="bg-explore-gray h-screen">

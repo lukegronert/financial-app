@@ -14,15 +14,6 @@ const Explore = () => {
 
   const user = auth.currentUser;
 
-  if(!auth.currentUser) {
-    return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <p>Please sign in and try again.</p>
-        <Link href="/" className="underline">Go to sign in page</Link>
-      </div>
-    )
-  }
-
   const getData = async () => {
     const querySnapshot = await getDocs(collection(db, "users"))
     const userDoc = querySnapshot.docs.find((doc) => doc.data().phoneNumber === user.phoneNumber)
@@ -33,6 +24,15 @@ const Explore = () => {
   useEffect(() => {
     getData()
   }, [])
+
+  if(!auth.currentUser) {
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <p>Please sign in and try again.</p>
+        <Link href="/" className="underline">Go to sign in page</Link>
+      </div>
+    )
+  }
 
   return (
     <div className="h-screen flex flex-col bg-explore-gray">

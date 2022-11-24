@@ -37,7 +37,7 @@ const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
   const newsData = data['feed']
 
   return (
-    <div className="p-3 w-full bg-white">
+    <div>
       {backButton && (
         <BackButton />
       )}
@@ -46,10 +46,10 @@ const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
           <p className="w-1/6 border-b border-4 self-center rounded-xl"></p>
         )}
         <div className="flex flex-row justify-between items-center py-2 px-2">
-          <p className="text-xl font-extrabold text-explore-blue">News</p>
+          <p className="text-xl font-extrabold text-explore-blue p-3">News</p>
           {seeAll && <SeeAll path={`news/${instrumentSymbol}`} />}
         </div>
-        <div className="flex flex-col gap-3 items-center mx-auto">
+        <div className="grid grid-cols-1 gap-3 items-center w-screen mx-auto">
           {newsData ? (
             newsData.map((data, i) => {
               while (i < limit) {

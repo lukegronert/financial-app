@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import { getDocs, collection, setDoc, doc, updateDoc, deleteField } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  setDoc,
+  doc,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 import { auth, db } from "../firebase/clientApp";
 import Chart from "./Chart";
 import NewsList from "./NewsList";
@@ -21,7 +28,6 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
   const [selectedTimeButton, setSelectedTimeButton] = useState("1d");
   const router = useRouter();
   const { instrumentName, instrumentSymbol } = router.query;
-  console.log("INSTRUMENT", instrumentSymbol);
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [`${instrumentSymbol}${selectedTimeButton}`],
@@ -68,7 +74,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
       phoneNumber: userDoc.data().phoneNumber,
       watchList: [...userDoc.data().watchList, instrumentSymbol],
     });
-    setUserWatchList([...userDoc.data().watchList, instrumentSymbol])
+    setUserWatchList([...userDoc.data().watchList, instrumentSymbol]);
   };
 
   const removeDataFromUserWatchList = async () => {
@@ -77,17 +83,20 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
       (doc) => doc.data().phoneNumber === user.phoneNumber
     );
     console.log(userDoc);
-    const currentWatchList = userDoc.data().watchList
-    currentWatchList.splice(userDoc.data().watchList.indexOf(instrumentSymbol), 1);
+    const currentWatchList = userDoc.data().watchList;
+    currentWatchList.splice(
+      userDoc.data().watchList.indexOf(instrumentSymbol),
+      1
+    );
     // doc(database, collection, id of user document)
     await updateDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
-      watchList: deleteField()
+      watchList: deleteField(),
     });
     await setDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
       phoneNumber: userDoc.data().phoneNumber,
       watchList: [...currentWatchList],
     });
-    setUserWatchList(...currentWatchList)
+    setUserWatchList(...currentWatchList);
   };
 
   const dataKeys = Object.keys(data);
@@ -137,11 +146,15 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
             {instrumentSymbol}
           </p>
         </div>
-        <div>
-          <h1 className="text-2xl font-extrabold text-explore-blue py-1">
-            {instrumentName}
-          </h1>
-        </div>
+        {instrumentName === "noName" ? (
+          <></>
+        ) : (
+          <div>
+            <h1 className="text-2xl font-extrabold text-explore-blue py-1">
+              {instrumentName}
+            </h1>
+          </div>
+        )}
         <div className="flex flex-row items-center pb-2 gap-2">
           <span className="text-gray-700 text-lg font-semibold">
             {formatLocalUSD(currentValue)}

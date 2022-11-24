@@ -7,20 +7,6 @@ import WatchListItem from "./WatchListItem";
 import BottomNav from "./BottomNav";
 
 const WatchList = ({ limit, seeAll, backButton, userWatchList }) => {
-  // const [watchList, setWatchList] = useState([]);
-  const user = auth.currentUser;
-
-  // const getData = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "users"))
-  //   const userDoc = querySnapshot.docs.find((doc) => doc.data().phoneNumber === user.phoneNumber)
-  //   const userWatchList = (userDoc.data().watchList)
-  //   setWatchList(userWatchList)
-  // }
-
-  // useEffect(() => {
-  //   getData()
-  // }, [])
-
 
   return (
     <>

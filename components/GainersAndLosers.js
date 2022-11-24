@@ -10,38 +10,38 @@ import { TailSpin } from "react-loader-spinner";
 
 const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
 
-  // const { isLoading: gainersIsLoading, isError: gainersIsError, data: gainersData, error: gainersError } = useQuery({
-  //   queryKey: [`gainers`],
-  //   queryFn: () => getGainersData(),
-  // });
+  const { isLoading: gainersIsLoading, isError: gainersIsError, data: gainersData, error: gainersError } = useQuery({
+    queryKey: [`gainers`],
+    queryFn: () => getGainersData(),
+  });
 
-  // const { isLoading: losersIsLoading, isError: losersIsError, data: losersData, error: losersError } = useQuery({
-  //   queryKey: [`losers`],
-  //   queryFn: () => getLosersData(),
-  // });
+  const { isLoading: losersIsLoading, isError: losersIsError, data: losersData, error: losersError } = useQuery({
+    queryKey: [`losers`],
+    queryFn: () => getLosersData(),
+  });
 
-  // if (gainersIsLoading || losersIsLoading) {
-  //   return (
-  //     <div className="w-screen h-screen flex justify-center items-center">
-  //       <TailSpin
-  //         height="80"
-  //         width="80"
-  //         color="#09183d"
-  //         ariaLabel="tail-spin-loading"
-  //         radius="1"
-  //         wrapperStyle={{}}
-  //         wrapperClass=""
-  //         visible={true}
-  //       />
-  //     </div>
-  //   );
-  // }
+  if (gainersIsLoading || losersIsLoading) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <TailSpin
+          height="80"
+          width="80"
+          color="#09183d"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
+  }
 
-  // if (gainersIsError) {
-  //   return <span>Error: {gainersError.message}</span>;
-  // } else if (losersIsError) {
-  //   return <span>Error: {losersError.message}</span>;
-  // }
+  if (gainersIsError) {
+    return <span>Error: {gainersError.message}</span>;
+  } else if (losersIsError) {
+    return <span>Error: {losersError.message}</span>;
+  }
 
   return (
     <div className="px-3 w-full flex flex-col bg-explore-gray">
@@ -54,7 +54,7 @@ const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
       </div>
       <div className="grid grid-cols-2 gap-2 bg-explore-gray justify-evenly">
         <div className="gap-2 grid auto-rows-fr">
-          {/* {gainersData.map((gainer, i) => {
+          {gainersData.map((gainer, i) => {
             if (i < colLimit) {
               return <GainerLoserItem status="gainer" data={gainer} key={gainer.name} />;
             }
@@ -65,7 +65,7 @@ const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
             if (i < colLimit) {
               return <GainerLoserItem status="loser" data={loser} key={loser.name} />;
             }
-          })} */}
+          })}
           <div>WatchListItem</div>
         </div>
       </div>

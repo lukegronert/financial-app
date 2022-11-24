@@ -14,6 +14,7 @@ import WatchList from "../components/WatchList";
 const Dashboard = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const [userWatchList, setUserWatchList] = useState([])
+  const user = auth.currentUser;
 
   const getData = async () => {
     const querySnapshot = await getDocs(collection(db, "users"))

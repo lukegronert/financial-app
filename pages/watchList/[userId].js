@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { auth, db } from "../../../firebase/clientApp";
+import { getDocs, collection } from "firebase/firestore";
 import WatchList from '../../components/WatchList';
 
+
 const userId = () => {
+  const [userWatchList, setUserWatchList] = useState([]);
+  const user = auth.currentUser;
+
+  const getData = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"))
+    const userDoc = querySnapshot.docs.find((doc) => doc.data().phoneNumber === user.phoneNumber)
+    const userWatchListArray = (userDoc.data().watchList)
+    setUserWatchList(userWatchListArray)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
   return (
-    <WatchList limit={10} seeAll={false} backButton={true}  />
+    <WatchList limit={10} seeAll={false} backButton={true} userWatchList={userWatchList}  />
   )
 }
 

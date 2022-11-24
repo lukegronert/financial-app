@@ -137,7 +137,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
     <div className="bg-gradient-to-t from-explore-gray w-max h-screen relative">
       {showShareButtons ? (
         <div className="relative h-0 w-full">
-          <ShareButtons />
+          <ShareButtons instrumentSymbol={instrumentSymbol} />
         </div>
       ) : (
         <></>

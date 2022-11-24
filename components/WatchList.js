@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { auth } from "../firebase/clientApp";
-// import { getDocs, collection } from "firebase/firestore";
 import BackButton from "./BackButton";
 import SeeAll from "./SeeAll";
 import WatchListItem from "./WatchListItem";

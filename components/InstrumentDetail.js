@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
+import { getDocs, collection, setDoc, doc, updateDoc, deleteField } from "firebase/firestore";
+import { auth, db } from "../firebase/clientApp";
 import Chart from "./Chart";
 import NewsList from "./NewsList";
 import BackButton from "./BackButton";
 import { TailSpin } from "react-loader-spinner";
 
 import { getTimeData } from "../utils/apiQueries";
-import { formatLocalPercentage, formatLocalUSD } from "../utils/formatDataFunctions";
+import {
+  formatLocalPercentage,
+  formatLocalUSD,
+} from "../utils/formatDataFunctions";
 
 import { AiFillStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 
-const InstrumentDetail = () => {
+const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
   const [selectedTimeButton, setSelectedTimeButton] = useState("1d");
   const router = useRouter();
   const { instrumentName, instrumentSymbol } = router.query;
-  console.log('INSTRUMENT', instrumentSymbol)
+  console.log("INSTRUMENT", instrumentSymbol);
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [`${instrumentSymbol}${selectedTimeButton}`],
@@ -46,12 +51,44 @@ const InstrumentDetail = () => {
     return <span>Error: {error.message}</span>;
   }
 
-  if(data.Note) {
-    return (
-      <div>No more API calls.</div>
-    )
+  if (data.Note) {
+    return <div>No more API calls.</div>;
   }
 
+  const user = auth.currentUser;
+
+  const addDataToUserWatchList = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    const userDoc = querySnapshot.docs.find(
+      (doc) => doc.data().phoneNumber === user.phoneNumber
+    );
+    console.log(userDoc);
+    // doc(database, collection, id of user document)
+    await setDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
+      phoneNumber: userDoc.data().phoneNumber,
+      watchList: [...userDoc.data().watchList, instrumentSymbol],
+    });
+    setUserWatchList([...userDoc.data().watchList, instrumentSymbol])
+  };
+
+  const removeDataFromUserWatchList = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    const userDoc = querySnapshot.docs.find(
+      (doc) => doc.data().phoneNumber === user.phoneNumber
+    );
+    console.log(userDoc);
+    const currentWatchList = userDoc.data().watchList
+    currentWatchList.splice(userDoc.data().watchList.indexOf(instrumentSymbol), 1);
+    // doc(database, collection, id of user document)
+    await updateDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
+      watchList: deleteField()
+    });
+    await setDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
+      phoneNumber: userDoc.data().phoneNumber,
+      watchList: [...currentWatchList],
+    });
+    setUserWatchList(...currentWatchList)
+  };
 
   const dataKeys = Object.keys(data);
 
@@ -74,19 +111,16 @@ const InstrumentDetail = () => {
       ? Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
       : Object.entries(data[dataKeys[1]]);
 
-    console.log(chartData)
-  const currentValue = Number(
-    chartData[0][1]["4. close"]
-  );
+  console.log(chartData);
+  const currentValue = Number(chartData[0][1]["4. close"]);
 
   const changeValue = Number(
-    ((currentValue -
-      chartData[chartData.length -1][1]["4. close"]) *
-      100) /
+    ((currentValue - chartData[chartData.length - 1][1]["4. close"]) * 100) /
       100
   );
 
-  const changePercentage = changeValue / currentValue;
+  const changePercentage =
+    changeValue / chartData[chartData.length - 1][1]["4. close"];
 
   return (
     <div className="bg-gradient-to-t from-explore-gray w-max h-screen">
@@ -144,11 +178,28 @@ const InstrumentDetail = () => {
             );
           })}
         </div>
-        <Chart chartData={chartData} changePercentage={changePercentage} height={(screen.height/3)} width={screen.width} />
+        <Chart
+          chartData={chartData}
+          changePercentage={changePercentage}
+          height={screen.height / 3}
+          width={screen.width}
+        />
         <div className="flex justify-center mt-3">
-          <button className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg">
-            Follow
-          </button>
+          {userWatchList.includes(instrumentSymbol) ? (
+            <button
+              className="p-3 mb-5 text-lg font-bold bg-white border border-blue-600 text-blue-600 w-full rounded-lg"
+              onClick={removeDataFromUserWatchList}
+            >
+              Followed
+            </button>
+          ) : (
+            <button
+              className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg"
+              onClick={addDataToUserWatchList}
+            >
+              Follow
+            </button>
+          )}
         </div>
       </div>
       <NewsList limit={5} seeAll={true} instrumentSymbol={instrumentSymbol} />

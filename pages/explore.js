@@ -1,11 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Search from "../components/Search";
 import { useRouter } from 'next/router';
+import { auth, db } from "../firebase/clientApp";
+import { getDocs, collection } from "firebase/firestore";
 
 import { RiCloseLine } from "react-icons/ri";
 
 const Explore = () => {
+  const [userWatchList, setUserWatchList] = useState([]);
+
   const router = useRouter();
+
+  const user = auth.currentUser;
+
+  if(!auth.currentUser) {
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <p>Please sign in and try again.</p>
+        <a href="/" className="underline">Go to sign in page</a>
+      </div>
+    )
+  }
+
+  const getData = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"))
+    const userDoc = querySnapshot.docs.find((doc) => doc.data().phoneNumber === user.phoneNumber)
+    const userWatchListArray = (userDoc.data().watchList)
+    setUserWatchList(userWatchListArray)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <div className="h-screen flex flex-col bg-explore-gray">
@@ -17,17 +43,8 @@ const Explore = () => {
         <p className="font-bold text-gray-400 px-3 mb-3">
           Choose your interests to follow and trade on your terms.
         </p>
-        <Search />
+        <Search userWatchList={userWatchList} setUserWatchList={setUserWatchList} />
       </div>
-      {/* <div className="h-screen">
-        <div className="grid grid-cols-2 gap-4 justify-center items-center flex-wrap h-full p-3">
-          {dummyData.map((brand) => (
-            <div className="basis-1/2 flex justify-center items-center text-center h-full rounded-lg bg-white" key={brand.name}>
-              <ExploreInstrumentDetail name={brand.name} logo={brand.logo} />
-            </div>
-          ))}
-        </div>
-      </div> */}
     </div>
   );
 };

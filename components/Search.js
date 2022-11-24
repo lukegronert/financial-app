@@ -1,4 +1,5 @@
 import React from "react";
+import CustomHits from './CustomHits';
 import Hit from "./Hit";
 
 import algoliasearch from "algoliasearch/lite";
@@ -11,7 +12,7 @@ const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_API_KEY
 );
 
-const Search = () => {
+const Search = ({ userWatchList, setUserWatchList }) => {
   return (
     <div className="bg-white rounded-t-xl">
       <InstantSearch
@@ -21,7 +22,7 @@ const Search = () => {
         <SearchBox className="mb-3 px-3" />
         <div className="bg-explore-gray grow w-screen">
           <div className="h-full text-center p-3">
-            <Hits hitComponent={Hit} />
+            <CustomHits HitComponent={Hit} userWatchList={userWatchList} setUserWatchList={setUserWatchList} />
           </div>
         </div>
       </InstantSearch>

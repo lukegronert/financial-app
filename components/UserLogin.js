@@ -69,7 +69,7 @@ const UserLogin = () => {
         .confirm(OTP)
         .then(async (result) => {
           const user = result.user;
-          console.log(user);
+          console.log(user.phoneNumber);
           // get user collection data
           const querySnapshot = await getDocs(collection(db, "users"));
           // check user collection for document with the same phoneNumber

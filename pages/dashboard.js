@@ -2,16 +2,39 @@ import React, { useState } from "react";
 import Search from "../components/Search";
 import GainersAndLosers from '../components/GainersAndLosers';
 import BottomNav from '../components/BottomNav';
+import { auth, db } from "../firebase/clientApp";
+import { getDocs, collection } from "firebase/firestore";
 
 import { FiSearch } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
 
-import gainersData from '../mockData/gainers';
-import losersData from '../mockData/losers';
 import WatchList from "../components/WatchList";
 
 const Dashboard = () => {
   const [openSearch, setOpenSearch] = useState(false);
+  const [userWatchList, setUserWatchList] = useState([])
+
+  if(!auth.currentUser) {
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center">
+        <p>Please sign in and try again.</p>
+        <a href="/" className="underline">Go to sign in page</a>
+      </div>
+    )
+  }
+
+  const getData = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"))
+    const userDoc = querySnapshot.docs.find((doc) => doc.data().phoneNumber === user.phoneNumber)
+    const userWatchListArray = (userDoc.data().watchList)
+    setUserWatchList(userWatchListArray)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  console.log('CURRENT USER',auth.currentUser)
 
   return (
     <div className="bg-explore-gray h-screen">
@@ -37,13 +60,13 @@ const Dashboard = () => {
             <p className="font-bold text-gray-400 px-3 mb-3">
               Choose your interests to follow and trade on your terms.
             </p>
-            <Search />
+            <Search userWatchList={userWatchList} setUserWatchList={setUserWatchList} />
           </div>
         ) : null}
         {!openSearch && (
           <>
-            <GainersAndLosers gainersData={gainersData} losersData={losersData} colLimit={1} seeAll={true} backButton={false} />
-            <WatchList limit={3} seeAll={true} />
+            <GainersAndLosers colLimit={1} seeAll={true} backButton={false} />
+            <WatchList userWatchList={userWatchList}limit={3} seeAll={true} />
             <BottomNav activePage='dashboard' />
           </>
         )}

@@ -60,7 +60,12 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
   }
 
   if (data.Note) {
-    return <div>No more API calls.</div>;
+    return (
+    <div>
+      <BackButton />
+      <p>No more API calls.</p>
+    </div>
+    )
   }
 
   const user = auth.currentUser;

@@ -13,6 +13,7 @@ import { auth, db } from "../firebase/clientApp";
 import Chart from "./Chart";
 import NewsList from "./NewsList";
 import BackButton from "./BackButton";
+import ShareButtons from './ShareButtons';
 import { TailSpin } from "react-loader-spinner";
 
 import { getTimeData } from "../utils/apiQueries";
@@ -26,6 +27,7 @@ import { FiShare } from "react-icons/fi";
 
 const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
   const [selectedTimeButton, setSelectedTimeButton] = useState("1d");
+  const [showShareButtons, setShowShareButtons] = useState(false)
   const router = useRouter();
   const { instrumentName, instrumentSymbol } = router.query;
 
@@ -132,13 +134,20 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
     changeValue / chartData[chartData.length - 1][1]["4. close"];
 
   return (
-    <div className="bg-gradient-to-t from-explore-gray w-max h-screen">
+    <div className="bg-gradient-to-t from-explore-gray w-max h-screen relative">
+      {showShareButtons ? (
+        <div className="relative h-0 w-full">
+          <ShareButtons />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="w-full px-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
           <BackButton />
           <div className="flex flex-row gap-2">
             <AiFillStar size="1.25rem" className="text-orange-500" onClick={addDataToUserWatchList} />
-            <FiShare size="1.25rem" className="text-gray-800" />
+            <FiShare size="1.25rem" className="text-gray-800" onClick={() => setShowShareButtons(!showShareButtons)} />
           </div>
         </div>
         <div>

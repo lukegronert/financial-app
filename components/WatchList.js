@@ -33,7 +33,7 @@ const WatchList = ({ limit, seeAll, backButton, userWatchList }) => {
           {seeAll && <SeeAll path="/watchList/userId" />}
         </div>
         <div className="flex flex-col gap-3 mb-32">
-          {userWatchList.map((item, i) => {
+          {userWatchList?.map((item, i) => {
             if (i < limit) {
               return (
                 <WatchListItem instrumentSymbol={item} key={i}/>

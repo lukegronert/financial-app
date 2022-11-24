@@ -159,7 +159,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
           <></>
         ) : (
           <div>
-            <h1 className="text-2xl font-extrabold text-explore-blue py-1 break-words">
+            <h1 className="text-2xl font-extrabold text-explore-blue py-1 w-screen">
               {instrumentName}
             </h1>
           </div>

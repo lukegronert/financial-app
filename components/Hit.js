@@ -31,17 +31,6 @@ const Hit = ({ hit, userWatchList }) => {
     return <div>Error</div>
   }
 
-  if (!auth.currentUser) {
-    return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <p>Please sign in and try again.</p>
-        <Link href="/" className="underline">
-          Go to sign in page
-        </Link>
-      </div>
-    );
-  }
-
   return (
     <div
       className="flex flex-col w-full h-full justify-between gap-3 cursor-pointer rounded-lg bg-white p-2"

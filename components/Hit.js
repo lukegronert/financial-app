@@ -19,9 +19,17 @@ const Hit = ({ hit, userWatchList }) => {
   } = useMutation({
     mutationFn: ({method, symbol}) => updateUserWatchList(method, symbol), 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userWatchList"] });
+      queryClient.invalidateQueries({ queryKey: ['userWatchList'] })
     },
   });
+
+  if(mutationIsLoading) {
+    return <div>Loading</div>
+  }
+
+  if(mutationIsError) {
+    return <div>Error</div>
+  }
 
   if (!auth.currentUser) {
     return (
@@ -53,8 +61,8 @@ const Hit = ({ hit, userWatchList }) => {
         <button
           className="bg-white text-explore-blue font-bold border border-explore-blue self-center w-10/12 p-2 rounded-lg h-content"
           onClick={(e) => {
-            e.stopPropagation();
             mutate({method: "remove", symbol: symbol});
+            e.stopPropagation();
           }}
         >
           Followed
@@ -63,8 +71,8 @@ const Hit = ({ hit, userWatchList }) => {
         <button
           className="bg-explore-blue text-white font-bold self-center w-10/12 p-2 rounded-lg h-content"
           onClick={(e) => {
-            e.stopPropagation();
             mutate({method: "add", symbol: symbol});
+            e.stopPropagation();
           }}
         >
           Follow

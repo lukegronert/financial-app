@@ -13,15 +13,6 @@ import WatchList from "../components/WatchList";
 const Dashboard = () => {
   const [openSearch, setOpenSearch] = useState(false);
 
-  if(!auth.currentUser) {
-    return (
-      <div className="w-screen h-screen flex flex-col justify-center items-center">
-        <p>Please sign in and try again.</p>
-        <Link href="/" className="underline">Go to sign in page</Link>
-      </div>
-    )
-  }
-
   return (
     <div className="bg-explore-gray h-screen">
       <div className="bg-white">

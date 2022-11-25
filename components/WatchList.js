@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserWatchList } from "../utils/firestoreClient";
+import { auth } from "../firebase/clientApp";
 
 import { TailSpin } from "react-loader-spinner";
 import BackButton from "./BackButton";
@@ -13,6 +14,11 @@ const WatchList = ({ limit, seeAll, backButton }) => {
     queryKey: [`userWatchList`],
     queryFn: () => getUserWatchList(),
   });
+
+  const user = auth.currentUser;
+  if(!user) {
+    return <></>
+  }
 
   if (isLoading) {
     return (

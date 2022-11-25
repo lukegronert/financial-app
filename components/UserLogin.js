@@ -2,6 +2,7 @@ import { useState } from "react";
 import { auth, db } from "../firebase/clientApp";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { setDoc, collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { setPersistence, browserSessionPersistence } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { TailSpin } from "react-loader-spinner";
 
@@ -52,22 +53,30 @@ const UserLogin = () => {
     console.log(phoneNumber);
     generateRecaptcha();
     let appVerifier = window.recaptchaVerifier;
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        console.log("confirm");
-        window.confirmationResult = confirmationResult;
-        setSendingOTP(false);
-        setOTPSent(true);
-      })
-      .catch((error) => {
-        setInvalidPhoneNumber(true);
-      });
-  };
+    setPersistence(auth, browserSessionPersistence)
+    .then(() => {
+      // Existing and future Auth states are now persisted in the current
+      // session only. Closing the window would clear any existing state even
+      // if a user forgets to sign out.
+      // ...
+      // New sign-in will be persisted with session persistence.
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          console.log("confirm");
+          window.confirmationResult = confirmationResult;
+          setSendingOTP(false);
+          setOTPSent(true);
+        })
+        .catch((error) => {
+          setInvalidPhoneNumber(true);
+        });
+    });
+  }
 
   // When user enters 6 digits, they are compared to the
   // correct OTP which then sends a confirmation result
   // containing the user's information
-  const verifyOTP = () => {
+  const verifyOTP = async () => {
     if (OTP.length === 6) {
       setVerifyingOTP(true);
       let confirmationResult = window.confirmationResult;
@@ -81,13 +90,15 @@ const UserLogin = () => {
           const querySnapshot = await getDocs(collection(db, "users"));
           // check user collection for document with the same phoneNumber
           // if found, console.log that user is already signed up
-          if (await getDoc(doc(db, "users", `${phoneNumber}`))) {
+          const docSnap = await getDoc(doc(db, "users", `${phoneNumber}`))
+          if (docSnap.exists()) {
             console.log("Already signed up");
             setVerifyingOTP(false);
             router.push("/explore");
           } else {
             // try to add a document with the users phoneNumber and empty watchList
             try {
+              console.log('making user')
               const docRef = await setDoc(doc(db, "users", `${phoneNumber}`), {
                 watchList: [],
               });

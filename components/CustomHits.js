@@ -27,10 +27,6 @@ const Hits = ({ hits, HitComponent }) => {
     );
   }
 
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
   return (
   <ol className="grid grid-cols-2 auto-rows-fr gap-3 w-full">
     {hits.map(hit => (

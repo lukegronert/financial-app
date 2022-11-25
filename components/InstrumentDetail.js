@@ -8,7 +8,10 @@ import ShareButtons from "./ShareButtons";
 import { TailSpin } from "react-loader-spinner";
 
 import { getTimeData } from "../utils/apiQueries";
-import { getUserWatchList,updateUserWatchList } from "../utils/firestoreClient";
+import {
+  getUserWatchList,
+  updateUserWatchList,
+} from "../utils/firestoreClient";
 import {
   formatLocalPercentage,
   formatLocalUSD,
@@ -30,22 +33,31 @@ const InstrumentDetail = () => {
     queryFn: () => getTimeData(instrumentSymbol, selectedTimeButton),
   });
 
-  const { isLoading: watchListIsLoading, isError: watchListIsError, data: userWatchList, error: watchListError } = useQuery({
+  const {
+    isLoading: watchListIsLoading,
+    isError: watchListIsError,
+    data: userWatchList,
+    error: watchListError,
+  } = useQuery({
     queryKey: [`userWatchList`],
     queryFn: () => getUserWatchList(),
   });
 
-  const {mutate, isLoading: mutationIsLoading, isError: mutationIsError, isSuccess: mutationIsSuccess} = useMutation({
-    mutationFn: ({method, symbol}) => updateUserWatchList(method, symbol),
+  const {
+    mutate,
+    isLoading: mutationIsLoading,
+    isError: mutationIsError,
+    isSuccess: mutationIsSuccess,
+  } = useMutation({
+    mutationFn: ({ method, symbol }) => updateUserWatchList(method, symbol),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userWatchList'] })
+      queryClient.invalidateQueries({ queryKey: ["userWatchList"] });
     },
-  })
+  });
 
   const timeButtonList = ["1d", "5d", "30d", "90d", "6m", "1y", "All"];
 
   if (isLoading) {
-
     return (
       <div className="w-screen h-screen flex justify-center items-center">
         <TailSpin
@@ -117,9 +129,13 @@ const InstrumentDetail = () => {
               size="1.25rem"
               className="text-orange-500 cursor-pointer"
               onClick={
-                userWatchList.includes(instrumentSymbol)
-                  ? () => mutate({method: "remove", symbol: instrumentSymbol})
-                  : () => mutate({method:"add", symbol: instrumentSymbol})
+                !userWatchList ? (
+                  <></>
+                ) : userWatchList.includes(instrumentSymbol) ? (
+                  () => mutate({ method: "remove", symbol: instrumentSymbol })
+                ) : (
+                  () => mutate({ method: "add", symbol: instrumentSymbol })
+                )
               }
             />
             <FiShare
@@ -188,17 +204,23 @@ const InstrumentDetail = () => {
           />
         </div>
         <div className="flex justify-center mt-3">
-          {userWatchList.includes(instrumentSymbol) ? (
+          {!userWatchList ? (
+            <></>
+          ) : userWatchList.includes(instrumentSymbol) ? (
             <button
               className="p-3 mb-5 text-lg font-bold bg-white border border-blue-600 text-blue-600 w-full rounded-lg cursor-pointer"
-              onClick={() => mutate({method: "remove", symbol: instrumentSymbol})}
+              onClick={() =>
+                mutate({ method: "remove", symbol: instrumentSymbol })
+              }
             >
               Followed
             </button>
           ) : (
             <button
               className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg cursor-pointer"
-              onClick={() => mutate({method: "add", symbol: instrumentSymbol})}
+              onClick={() =>
+                mutate({ method: "add", symbol: instrumentSymbol })
+              }
             >
               Follow
             </button>

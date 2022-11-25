@@ -4,7 +4,7 @@ import WatchList from '../../components/WatchList';
 
 const UserId = () => {
   return (
-    <WatchList limit={userWatchList.length-1} seeAll={false} backButton={true}  />
+    <WatchList limit={50} seeAll={false} backButton={true}  />
   )
 }
 

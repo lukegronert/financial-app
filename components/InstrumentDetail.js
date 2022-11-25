@@ -38,7 +38,7 @@ const InstrumentDetail = () => {
   const {mutate, isLoading: mutationIsLoading, isError: mutationIsError, isSuccess: mutationIsSuccess} = useMutation({
     mutationFn: ({method, symbol}) => updateUserWatchList(method, symbol),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['watchList'] })
+      queryClient.invalidateQueries({ queryKey: ['userWatchList'] })
     },
   })
 

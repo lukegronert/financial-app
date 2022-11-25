@@ -151,8 +151,8 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
         <div className="flex flex-row w-full justify-between items-center py-3">
           <BackButton />
           <div className="flex flex-row gap-2">
-            <AiFillStar size="1.25rem" className="text-orange-500" onClick={userWatchList.includes(instrumentSymbol) ? removeDataFromUserWatchList :  addDataToUserWatchList} />
-            <FiShare size="1.25rem" className="text-gray-800" onClick={() => setShowShareButtons(!showShareButtons)} />
+            <AiFillStar size="1.25rem" className="text-orange-500 cursor-pointer" onClick={userWatchList.includes(instrumentSymbol) ? removeDataFromUserWatchList :  addDataToUserWatchList} />
+            <FiShare size="1.25rem" className="text-gray-800 cursor-pointer" onClick={() => setShowShareButtons(!showShareButtons)} />
           </div>
         </div>
         <div>
@@ -216,14 +216,14 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
         <div className="flex justify-center mt-3">
           {userWatchList.includes(instrumentSymbol) ? (
             <button
-              className="p-3 mb-5 text-lg font-bold bg-white border border-blue-600 text-blue-600 w-full rounded-lg"
+              className="p-3 mb-5 text-lg font-bold bg-white border border-blue-600 text-blue-600 w-full rounded-lg cursor-pointer"
               onClick={removeDataFromUserWatchList}
             >
               Followed
             </button>
           ) : (
             <button
-              className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg"
+              className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg cursor-pointer"
               onClick={addDataToUserWatchList}
             >
               Follow

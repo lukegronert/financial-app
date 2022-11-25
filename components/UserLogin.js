@@ -140,8 +140,8 @@ const UserLogin = () => {
       <div className="w-screen h-2/5 items-center text-center text-white bg-login-red">
         <IconContext.Provider value={{ color: "white", size: "1.5em" }}>
           <div className="w-screen flex justify-between p-5">
-            <HiOutlineMenuAlt3 />
-            <AiOutlineBell />
+            <HiOutlineMenuAlt3 className="cursor-pointer" />
+            <AiOutlineBell className="cursor-pointer" />
           </div>
         </IconContext.Provider>
         <h1 className="font-bold text-3xl p-5 pt-10">
@@ -180,14 +180,14 @@ const UserLogin = () => {
           </p>
           {OTPSent ? (
             <a
-              className="underline font-semibold text-stone-500"
+              className="underline font-semibold text-stone-500 cursor-pointer"
               onClick={resendOTP}
             >
               Resend OTP
             </a>
           ) : (
             <a
-              className="underline font-semibold text-stone-500"
+              className="underline font-semibold text-stone-500 cursor-pointer"
               onClick={() =>
                 loginStatus === "SignUp"
                   ? setLoginStatus("SignIn")

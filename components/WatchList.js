@@ -9,7 +9,7 @@ const WatchList = ({ limit, seeAll, backButton, userWatchList }) => {
 
   return (
     <>
-      <div className="flex flex-col px-3 bg-explore-gray h-screen">
+      <div className={!seeAll ? `flex flex-col px-3 bg-explore-gray h-screen` : `flex flex-col px-3 bg-explore-gray`}>
         {backButton && <BackButton />}
         <div className="flex flex-row justify-between items-center py-2">
           <h2 className="text-xl font-extrabold text-explore-blue">

@@ -19,7 +19,7 @@ const UserId = () => {
     getData()
   }, [])
   return (
-    <WatchList limit={10} seeAll={false} backButton={true} userWatchList={userWatchList}  />
+    <WatchList limit={userWatchList.length-1} seeAll={false} backButton={true} userWatchList={userWatchList}  />
   )
 }
 

@@ -156,7 +156,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
           </div>
         </div>
         <div>
-          <p className="text-gray-400 font-bold text-sm py-1">
+          <p className="text-gray-400 font-bold text-sm py-1 w-screen">
             {instrumentSymbol}
           </p>
         </div>

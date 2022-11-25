@@ -12,11 +12,11 @@ import {
   LinkedinIcon,
 } from "next-share";
 
-const ShareButtons = ({ instrumentSymbol }) => {
+const ShareButtons = ({ instrumentSymbol, instrumentName }) => {
   return (
     <div className="flex flex-col absolute top-14 right-1.5">
       <FacebookShareButton
-        url={"https://financial-app-etsh.vercel.app/"}
+        url={`https://financial-app-etsh.vercel.app/instruments/${instrumentName}/${instrumentSymbol}`}
         quote={
           `Check out how ${instrumentSymbol} is doing on Financial-App!`
         }
@@ -24,7 +24,7 @@ const ShareButtons = ({ instrumentSymbol }) => {
         <FacebookIcon size={32} round />
       </FacebookShareButton>
       <LineShareButton
-        url={"https://financial-app-etsh.vercel.app/"}
+        url={`https://financial-app-etsh.vercel.app/instruments/${instrumentName}/${instrumentSymbol}`}
         title={
           `Check out how ${instrumentSymbol} is doing on Financial-App!`
         }
@@ -32,7 +32,7 @@ const ShareButtons = ({ instrumentSymbol }) => {
         <LineIcon size={32} round />
       </LineShareButton>
       <RedditShareButton
-        url={"https://financial-app-etsh.vercel.app/"}
+        url={`https://financial-app-etsh.vercel.app/instruments/${instrumentName}/${instrumentSymbol}`}
         title={
           `Check out how ${instrumentSymbol} is doing on Financial-App!`
         }
@@ -40,14 +40,14 @@ const ShareButtons = ({ instrumentSymbol }) => {
         <RedditIcon size={32} round />
       </RedditShareButton>
       <WhatsappShareButton
-        url={"https://financial-app-etsh.vercel.app/"}
+        url={`https://financial-app-etsh.vercel.app/instruments/${instrumentName}/${instrumentSymbol}`}
         title={
           `Check out how ${instrumentSymbol} is doing on Financial-App!`
         }
       >
         <WhatsappIcon size={32} round />
       </WhatsappShareButton>
-      <LinkedinShareButton url={"https://financial-app-etsh.vercel.app/"}>
+      <LinkedinShareButton url={`https://financial-app-etsh.vercel.app/instruments/${instrumentName}/${instrumentSymbol}`}>
         <LinkedinIcon size={32} round />
       </LinkedinShareButton>
     </div>

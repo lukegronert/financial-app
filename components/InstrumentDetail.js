@@ -120,7 +120,7 @@ const InstrumentDetail = () => {
 
   return (
     <div className="bg-gradient-to-t from-explore-gray w-full h-screen">
-      {showShareButtons && <ShareButtons instrumentSymbol={instrumentSymbol} />}
+      {showShareButtons && <ShareButtons instrumentSymbol={instrumentSymbol} instrumentName={instrumentName} />}
       <div className="w-full p-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
           <BackButton />

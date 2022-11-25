@@ -10,14 +10,14 @@ const NewsTab = ({ data }) => {
 
   return (
     <Link href={data.url}>
-    <div className="w-screen h-max flex flex-row items-centers h-1/5 border rounded-lg p-2">
+    <div className="w-full flex flex-row items-centers border rounded-lg p-2">
         <div className="flex justify-center items-center self-center rounded-full border h-16 w-16 p-3">
             <div className="h-10 w-10 flex justify-center items-center text-center">
                 <img src={data.banner_image} height={50} className="max-h-10 w-10" />
             </div>
         </div>
         <div>
-            <p className="text-explore-blue font-bold break-words">{data.title.length > 70 ? `${data.title.slice(0,70)}...` : data.title}</p>
+            <p className="text-explore-blue font-bold">{data.title.length > 70 ? `${data.title.slice(0,70)}...` : data.title}</p>
             <div className="flex flex-row items-center text-gray-400 font-semibold text-sm grow">
                 <span>{data.source}</span>
                 <BsDot size='1.5rem' />

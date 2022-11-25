@@ -33,7 +33,6 @@ const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
     return <span>Error: {error.message}</span>;
   }
 
-  console.log(data)
   const newsData = data['feed']
 
   return (

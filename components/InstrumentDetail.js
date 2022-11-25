@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Chart from "./Chart";
 import NewsList from "./NewsList";
 import BackButton from "./BackButton";
@@ -8,7 +8,7 @@ import ShareButtons from "./ShareButtons";
 import { TailSpin } from "react-loader-spinner";
 
 import { getTimeData } from "../utils/apiQueries";
-import { updateUserWatchList } from "../utils/firestoreClient";
+import { getUserWatchList,updateUserWatchList } from "../utils/firestoreClient";
 import {
   formatLocalPercentage,
   formatLocalUSD,
@@ -17,22 +17,29 @@ import {
 import { AiFillStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 
-const InstrumentDetail = ({ userWatchList }) => {
+const InstrumentDetail = () => {
   const [selectedTimeButton, setSelectedTimeButton] = useState("1d");
   const [showShareButtons, setShowShareButtons] = useState(false);
   const router = useRouter();
   const { instrumentName, instrumentSymbol } = router.query;
+
+  const queryClient = useQueryClient();
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [`${instrumentSymbol}${selectedTimeButton}`],
     queryFn: () => getTimeData(instrumentSymbol, selectedTimeButton),
   });
 
+  const { isLoading: watchListIsLoading, isError: watchListIsError, data: userWatchList, error: watchListError } = useQuery({
+    queryKey: [`userWatchList`],
+    queryFn: () => getUserWatchList(),
+  });
+
   const {mutate, isLoading: mutationIsLoading, isError: mutationIsError, isSuccess: mutationIsSuccess} = useMutation({
-    mutationFn: updateUserWatchList,
+    mutationFn: ({method, symbol}) => updateUserWatchList(method, symbol),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['watchList'] })
-    }
+    },
   })
 
   const timeButtonList = ["1d", "5d", "30d", "90d", "6m", "1y", "All"];
@@ -89,7 +96,6 @@ const InstrumentDetail = ({ userWatchList }) => {
       ? Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
       : Object.entries(data[dataKeys[1]]);
 
-  console.log(chartData);
   const currentValue = Number(chartData[0][1]["4. close"]);
 
   const changeValue = Number(
@@ -111,9 +117,9 @@ const InstrumentDetail = ({ userWatchList }) => {
               size="1.25rem"
               className="text-orange-500 cursor-pointer"
               onClick={
-                data.includes(instrumentSymbol)
-                  ? () => mutate("remove", instrumentSymbol)
-                  : mutate("add", instrumentSymbol)
+                userWatchList.includes(instrumentSymbol)
+                  ? () => mutate({method: "remove", symbol: instrumentSymbol})
+                  : () => mutate({method:"add", symbol: instrumentSymbol})
               }
             />
             <FiShare
@@ -185,14 +191,14 @@ const InstrumentDetail = ({ userWatchList }) => {
           {userWatchList.includes(instrumentSymbol) ? (
             <button
               className="p-3 mb-5 text-lg font-bold bg-white border border-blue-600 text-blue-600 w-full rounded-lg cursor-pointer"
-              onClick={removeDataFromUserWatchList}
+              onClick={() => mutate({method: "remove", symbol: instrumentSymbol})}
             >
               Followed
             </button>
           ) : (
             <button
               className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg cursor-pointer"
-              onClick={addDataToUserWatchList}
+              onClick={() => mutate({method: "add", symbol: instrumentSymbol})}
             >
               Follow
             </button>

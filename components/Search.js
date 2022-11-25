@@ -12,7 +12,7 @@ const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_API_KEY
 );
 
-const Search = ({ userWatchList, setUserWatchList }) => {
+const Search = () => {
   return (
     <div className="bg-white rounded-t-xl">
       <InstantSearch
@@ -22,7 +22,7 @@ const Search = ({ userWatchList, setUserWatchList }) => {
         <SearchBox className="mb-3 px-3" />
         <div className="bg-explore-gray grow w-screen">
           <div className="h-full text-center p-3">
-            <CustomHits HitComponent={Hit} userWatchList={userWatchList} setUserWatchList={setUserWatchList} />
+            <CustomHits HitComponent={Hit} />
           </div>
         </div>
       </InstantSearch>

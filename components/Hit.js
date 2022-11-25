@@ -2,32 +2,42 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../firebase/clientApp";
 import { updateUserWatchList } from "../utils/firestoreClient";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
 const Hit = ({ hit, userWatchList }) => {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
-  const {mutate, isLoading: mutationIsLoading, isError: mutationIsError, isSuccess: mutationIsSuccess} = useMutation({
-    mutationFn: updateUserWatchList,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userWatchList'] })
-    }
-  })
+  const {name, symbol} = hit;
 
-  if(!auth.currentUser) {
+  const {
+    mutate,
+    isLoading: mutationIsLoading,
+    isError: mutationIsError,
+    isSuccess: mutationIsSuccess,
+  } = useMutation({
+    mutationFn: ({method, symbol}) => updateUserWatchList(method, symbol), 
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userWatchList"] });
+    },
+  });
+
+  if (!auth.currentUser) {
     return (
       <div className="w-screen h-screen flex flex-col justify-center items-center">
         <p>Please sign in and try again.</p>
-        <Link href="/" className="underline">Go to sign in page</Link>
+        <Link href="/" className="underline">
+          Go to sign in page
+        </Link>
       </div>
-    )
+    );
   }
 
   return (
     <div
       className="flex flex-col w-full h-full justify-between gap-3 cursor-pointer rounded-lg bg-white p-2"
-      onClick={() => router.push(`/instruments/${hit.name}/${hit.symbol}`)}
+      onClick={() => router.push(`/instruments/${name}/${symbol}`)}
     >
       {/* Adds logo centered in circle border as shown in challenge pictures */}
       {/* <div className="flex justify-center items-center self-center rounded-full border h-16 w-16 p-3 mb-2">
@@ -36,15 +46,15 @@ const Hit = ({ hit, userWatchList }) => {
           </div>
       </div> */}
       <p className="font-extrabold text-lg text-explore-blue flex-1">
-        {hit.name.length > 25 ? `${hit.name.slice(0, 25)}...` : hit.name}
+        {name.length > 25 ? `${name.slice(0, 25)}...` : name}
       </p>
-      <p className="font-bold text-explore-blue">{hit.symbol}</p>
-      {userWatchList.includes(hit.symbol) ? (
+      <p className="font-bold text-explore-blue">{symbol}</p>
+      {userWatchList.includes(symbol) ? (
         <button
           className="bg-white text-explore-blue font-bold border border-explore-blue self-center w-10/12 p-2 rounded-lg h-content"
-          onClick={(e) =>  {
+          onClick={(e) => {
             e.stopPropagation();
-            mutate("remove", hit.symbol)
+            mutate({method: "remove", symbol: symbol});
           }}
         >
           Followed
@@ -54,7 +64,7 @@ const Hit = ({ hit, userWatchList }) => {
           className="bg-explore-blue text-white font-bold self-center w-10/12 p-2 rounded-lg h-content"
           onClick={(e) => {
             e.stopPropagation();
-            mutate("add", hit.symbol)
+            mutate({method: "add", symbol: symbol});
           }}
         >
           Follow

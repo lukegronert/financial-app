@@ -14,7 +14,6 @@ const getTimeData = async (instrumentSymbol, timeRange) => {
   const response = await fetch(
     `https://www.alphavantage.co/query?function=${timeSeries}&symbol=${instrumentSymbol}${interval}&apikey=${process.env.NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY}`
   );
-  console.log(response);
   return response.json();
 };
 
@@ -22,7 +21,6 @@ const getNewsData = async (instrumentSymbol) => {
   const response = await fetch(
     `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${instrumentSymbol}&apikey=${process.env.NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY}`
   );
-  console.log(response);
   return response.json();
 };
 
@@ -30,7 +28,6 @@ const getGainersData = async () => {
   const response = await fetch(
     `https://financialmodelingprep.com/api/v3/stock_market/gainers?apikey=${process.env.NEXT_PUBLIC_FINANCIAL_MODELING_PREP_API_KEY}`
   );
-  console.log(response);
   return response.json();
 };
 
@@ -38,7 +35,6 @@ const getLosersData = async () => {
   const response = await fetch(
     `https://financialmodelingprep.com/api/v3/stock_market/losers?apikey=${process.env.NEXT_PUBLIC_FINANCIAL_MODELING_PREP_API_KEY}`
   );
-  console.log(response);
   return response.json();
 };
 

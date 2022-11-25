@@ -3,6 +3,7 @@ import { auth, db } from "../firebase/clientApp";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import { TailSpin } from "react-loader-spinner";
 
 import { IconContext } from "react-icons";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
@@ -13,6 +14,8 @@ const UserLogin = () => {
   const [OTP, setOTP] = useState("");
   const [loginStatus, setLoginStatus] = useState("SignUp");
   const [OTPSent, setOTPSent] = useState(false);
+  const [sendingOTP, setSendingOTP] = useState(false);
+  const [verifyingOTP, setVerifyingOTP] = useState(false);
 
   const router = useRouter();
 
@@ -43,14 +46,16 @@ const UserLogin = () => {
   // Generates recaptcha, signs in with phone number
   // which then sends a OTP to user's phone number
   const requestOTP = (e) => {
-    console.log(phoneNumber);
     e.preventDefault();
+    setSendingOTP(true);
+    console.log(phoneNumber);
     generateRecaptcha();
     let appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((confirmationResult) => {
         console.log("confirm");
         window.confirmationResult = confirmationResult;
+        setSendingOTP(false);
         setOTPSent(true);
       })
       .catch((error) => {
@@ -63,6 +68,7 @@ const UserLogin = () => {
   // containing the user's information
   const verifyOTP = () => {
     if (OTP.length === 6) {
+      setVerifyingOTP(true);
       let confirmationResult = window.confirmationResult;
       // check if it is correct
       confirmationResult
@@ -79,6 +85,7 @@ const UserLogin = () => {
           // if found, console.log that user is already signed up
           if (foundUser) {
             console.log("Already signed up");
+            setVerifyingOTP(false);
             router.push("/explore");
           } else {
             // try to add a document with the users phoneNumber and empty watchList
@@ -88,6 +95,7 @@ const UserLogin = () => {
                 watchList: [],
               });
               console.log("Document written with ID: ", docRef.id);
+              setVerifyingOTP(false);
               router.push("/explore");
             } catch (error) {
               console.error("Error adding document: ", error);
@@ -186,7 +194,22 @@ const UserLogin = () => {
             onClick={OTPSent ? verifyOTP : requestOTP}
             className="self-center items-center bg-login-red rounded-3xl text-white text-lg p-3 w-3/4"
           >
-            {loginStatus === "SignUp" ? "Submit" : "Register"}
+            {verifyingOTP || sendingOTP ? (
+              <div className="w-full flex justify-center items-center">
+                <TailSpin
+                  height="30"
+                  width="30"
+                  color="#FFFFFF"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                />
+              </div>
+            ) : (
+              <>{loginStatus === "SignUp" ? "Submit" : "Register"}</>
+            )}
           </button>
         </div>
       </div>

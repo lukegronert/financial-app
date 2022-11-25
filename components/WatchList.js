@@ -1,6 +1,8 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserWatchList } from "../utils/firestoreClient";
+
+import { TailSpin } from "react-loader-spinner";
 import BackButton from "./BackButton";
 import SeeAll from "./SeeAll";
 import WatchListItem from "./WatchListItem";

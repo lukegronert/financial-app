@@ -10,6 +10,7 @@ import {
   deleteField,
 } from "firebase/firestore";
 import { auth, db } from "../firebase/clientApp";
+import Link from "next/link";
 import Chart from "./Chart";
 import NewsList from "./NewsList";
 import BackButton from "./BackButton";
@@ -65,6 +66,14 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
       <BackButton />
       <p>No more API calls.</p>
     </div>
+    )
+  }
+
+  if(!user.phoneNumber) {
+    return (
+      <Link href="/" className="cursor-pointer">
+        <p>Please login and try again.</p>
+      </Link>
     )
   }
 

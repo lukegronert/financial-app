@@ -46,7 +46,9 @@ const Hit = ({ hit, userWatchList }) => {
         {name.length > 25 ? `${name.slice(0, 25)}...` : name}
       </p>
       <p className="font-bold text-explore-blue">{symbol}</p>
-      {userWatchList?.includes(symbol) ? (
+      {!userWatchList ? 
+        <></>
+        : userWatchList?.includes(symbol) ? (
         <button
           className="bg-white text-explore-blue font-bold border border-explore-blue self-center w-10/12 p-2 rounded-lg h-content"
           onClick={(e) => {

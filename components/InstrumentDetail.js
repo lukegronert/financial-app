@@ -1,22 +1,14 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
-import {
-  getDocs,
-  collection,
-  setDoc,
-  doc,
-  updateDoc,
-  deleteField,
-} from "firebase/firestore";
-import { auth, db } from "../firebase/clientApp";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import Chart from "./Chart";
 import NewsList from "./NewsList";
 import BackButton from "./BackButton";
-import ShareButtons from './ShareButtons';
+import ShareButtons from "./ShareButtons";
 import { TailSpin } from "react-loader-spinner";
 
 import { getTimeData } from "../utils/apiQueries";
+import { updateUserWatchList } from "../utils/firestoreClient";
 import {
   formatLocalPercentage,
   formatLocalUSD,
@@ -25,9 +17,9 @@ import {
 import { AiFillStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 
-const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
+const InstrumentDetail = ({ userWatchList }) => {
   const [selectedTimeButton, setSelectedTimeButton] = useState("1d");
-  const [showShareButtons, setShowShareButtons] = useState(false)
+  const [showShareButtons, setShowShareButtons] = useState(false);
   const router = useRouter();
   const { instrumentName, instrumentSymbol } = router.query;
 
@@ -36,9 +28,17 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
     queryFn: () => getTimeData(instrumentSymbol, selectedTimeButton),
   });
 
+  const {mutate, isLoading: mutationIsLoading, isError: mutationIsError, isSuccess: mutationIsSuccess} = useMutation({
+    mutationFn: updateUserWatchList,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['watchList'] })
+    }
+  })
+
   const timeButtonList = ["1d", "5d", "30d", "90d", "6m", "1y", "All"];
 
   if (isLoading) {
+
     return (
       <div className="w-screen h-screen flex justify-center items-center">
         <TailSpin
@@ -61,50 +61,12 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
 
   if (data.Note) {
     return (
-    <div>
-      <BackButton />
-      <p>No more API calls.</p>
-    </div>
-    )
+      <div>
+        <BackButton />
+        <p>No more API calls.</p>
+      </div>
+    );
   }
-
-  const user = auth.currentUser;
-
-  const addDataToUserWatchList = async () => {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    const userDoc = querySnapshot.docs.find(
-      (doc) => doc.data().phoneNumber === user.phoneNumber
-    );
-    console.log(userDoc);
-    // doc(database, collection, id of user document)
-    await setDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
-      phoneNumber: userDoc.data().phoneNumber,
-      watchList: [...userDoc.data().watchList, instrumentSymbol],
-    });
-    setUserWatchList([...userDoc.data().watchList, instrumentSymbol]);
-  };
-
-  const removeDataFromUserWatchList = async () => {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    const userDoc = querySnapshot.docs.find(
-      (doc) => doc.data().phoneNumber === user.phoneNumber
-    );
-    console.log(userDoc);
-    const currentWatchList = userDoc.data().watchList;
-    currentWatchList.splice(
-      userDoc.data().watchList.indexOf(instrumentSymbol),
-      1
-    );
-    // doc(database, collection, id of user document)
-    await updateDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
-      watchList: deleteField(),
-    });
-    await setDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
-      phoneNumber: userDoc.data().phoneNumber,
-      watchList: [...currentWatchList],
-    });
-    setUserWatchList(...currentWatchList);
-  };
 
   const dataKeys = Object.keys(data);
 
@@ -140,15 +102,25 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
 
   return (
     <div className="bg-gradient-to-t from-explore-gray w-full h-screen">
-      {showShareButtons &&
-        <ShareButtons instrumentSymbol={instrumentSymbol} />
-      }
+      {showShareButtons && <ShareButtons instrumentSymbol={instrumentSymbol} />}
       <div className="w-full p-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
           <BackButton />
           <div className="flex flex-row gap-2">
-            <AiFillStar size="1.25rem" className="text-orange-500 cursor-pointer" onClick={userWatchList.includes(instrumentSymbol) ? removeDataFromUserWatchList :  addDataToUserWatchList} />
-            <FiShare size="1.25rem" className="text-gray-800 cursor-pointer" onClick={() => setShowShareButtons(!showShareButtons)} />
+            <AiFillStar
+              size="1.25rem"
+              className="text-orange-500 cursor-pointer"
+              onClick={
+                data.includes(instrumentSymbol)
+                  ? () => mutate("remove", instrumentSymbol)
+                  : mutate("add", instrumentSymbol)
+              }
+            />
+            <FiShare
+              size="1.25rem"
+              className="text-gray-800 cursor-pointer"
+              onClick={() => setShowShareButtons(!showShareButtons)}
+            />
           </div>
         </div>
         <div>

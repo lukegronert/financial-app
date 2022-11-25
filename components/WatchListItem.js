@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import Chart from "./Chart";
 import Link from "next/link";
 
@@ -8,16 +8,26 @@ import {
   formatLocalPercentage,
   formatLocalUSD,
 } from "../utils/formatDataFunctions";
+import {
+  updateUserWatchList
+} from "../utils/firestoreClient";
 
 import { TailSpin } from "react-loader-spinner";
 import { AiFillStar } from "react-icons/ai";
 import { SlOptionsVertical } from "react-icons/sl";
 
-const WatchListItem = ({ instrumentSymbol }) => {
+const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [`${instrumentSymbol}1d`],
     queryFn: () => getTimeData(instrumentSymbol, "1d"),
   });
+
+  const {mutate, isLoading: mutationIsLoading, isError: mutationIsError, isSuccess: mutationIsSuccess} = useMutation({
+    mutationFn: updateUserWatchList,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['watchList'] })
+    }
+  })
 
   if (isLoading) {
     return (
@@ -48,7 +58,7 @@ const WatchListItem = ({ instrumentSymbol }) => {
         <p>{instrumentSymbol}</p>
         <p>No more API calls.</p>
       </div>
-    )
+    );
   }
 
   const dataKeys = Object.keys(data);
@@ -72,7 +82,15 @@ const WatchListItem = ({ instrumentSymbol }) => {
     <Link href={`instruments/noName/${instrumentSymbol}`}>
       <div className="flex flex-row w-full gap-3 justify-between bg-white rounded-lg p-2">
         <div className="flex flex-row place-self-start gap-3">
-          <AiFillStar size="1.25rem" className="text-orange-500 self-center" />
+          <AiFillStar
+            size="1.25rem"
+            className="text-orange-500 self-center cursor-pointer"
+            onClick={
+              userWatchList.includes(instrumentSymbol)
+                ? mutate("add", instrumentSymbol)
+                : mutate("remove", instrumentSymbol)
+            }
+          />
           <div className="flex flex-col">
             <p className="font-bold text-explore-blue">{instrumentSymbol}</p>
             <span>{formatLocalPercentage(changePercentage)}</span>

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Search from "../components/Search";
 import GainersAndLosers from '../components/GainersAndLosers';
 import BottomNav from '../components/BottomNav';
-import { auth, db } from "../firebase/clientApp";
-import { getDocs, collection } from "firebase/firestore";
+import { auth } from "../firebase/clientApp";
 
 import { FiSearch } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
@@ -13,19 +12,6 @@ import WatchList from "../components/WatchList";
 
 const Dashboard = () => {
   const [openSearch, setOpenSearch] = useState(false);
-  const [userWatchList, setUserWatchList] = useState([])
-  const user = auth.currentUser;
-
-  const getData = async () => {
-    const querySnapshot = await getDocs(collection(db, "users"))
-    const userDoc = querySnapshot.docs.find((doc) => doc.data().phoneNumber === user.phoneNumber)
-    const userWatchListArray = (userDoc.data().watchList)
-    setUserWatchList(userWatchListArray)
-  }
-
-  useEffect(() => {
-    getData()
-  }, [])
 
   if(!auth.currentUser) {
     return (
@@ -60,13 +46,13 @@ const Dashboard = () => {
             <p className="font-bold text-gray-400 px-3 mb-3">
               Choose your interests to follow and trade on your terms.
             </p>
-            <Search userWatchList={userWatchList} setUserWatchList={setUserWatchList} />
+            <Search />
           </div>
         ) : null}
         {!openSearch && (
           <>
             <GainersAndLosers colLimit={1} seeAll={true} backButton={false} />
-            <WatchList userWatchList={userWatchList}limit={3} seeAll={true} />
+            <WatchList limit={3} seeAll={true} />
             <BottomNav activePage='dashboard' />
           </>
         )}

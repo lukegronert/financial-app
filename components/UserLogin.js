@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { auth, db } from "../firebase/clientApp";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { setDoc, collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { TailSpin } from "react-loader-spinner";
 
@@ -80,22 +80,17 @@ const UserLogin = () => {
           // get user collection data
           const querySnapshot = await getDocs(collection(db, "users"));
           // check user collection for document with the same phoneNumber
-          const foundUser = querySnapshot.docs.find(
-            (doc) => doc.data().phoneNumber === phoneNumber
-          );
           // if found, console.log that user is already signed up
-          if (foundUser) {
+          if (await getDoc(doc(db, "users", `${phoneNumber}`))) {
             console.log("Already signed up");
             setVerifyingOTP(false);
             router.push("/explore");
           } else {
             // try to add a document with the users phoneNumber and empty watchList
             try {
-              const docRef = await addDoc(collection(db, "users"), {
-                phoneNumber,
+              const docRef = await setDoc(doc(db, "users", `${phoneNumber}`), {
                 watchList: [],
               });
-              console.log("Document written with ID: ", docRef.id);
               setVerifyingOTP(false);
               router.push("/explore");
             } catch (error) {

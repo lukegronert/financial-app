@@ -1,11 +1,37 @@
-import React, { useState } from "react";
-import { auth } from "../firebase/clientApp";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getUserWatchList } from "../utils/firestoreClient";
 import BackButton from "./BackButton";
 import SeeAll from "./SeeAll";
 import WatchListItem from "./WatchListItem";
 import BottomNav from "./BottomNav";
 
-const WatchList = ({ limit, seeAll, backButton, userWatchList }) => {
+const WatchList = ({ limit, seeAll, backButton }) => {
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: [`userWatchList`],
+    queryFn: () => getUserWatchList(),
+  });
+
+  if (isLoading) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <TailSpin
+          height="80"
+          width="80"
+          color="#09183d"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
     <>
@@ -18,10 +44,10 @@ const WatchList = ({ limit, seeAll, backButton, userWatchList }) => {
           {seeAll && <SeeAll path="watchList/userId" />}
         </div>
         <div className="flex flex-col gap-3 mb-32">
-          {userWatchList.map((item, i) => {
+          {data.map((item, i) => {
             if (i < limit) {
               return (
-                <WatchListItem instrumentSymbol={item} key={i}/>
+                <WatchListItem instrumentSymbol={item} key={i} userWatchList={data} />
               );
             }
           })}

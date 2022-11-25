@@ -1,20 +1,19 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { auth, db } from "../firebase/clientApp";
-import {
-  getDocs,
-  collection,
-  setDoc,
-  doc,
-  updateDoc,
-  deleteField,
-} from "firebase/firestore";
+import { auth } from "../firebase/clientApp";
+import { updateUserWatchList } from "../utils/firestoreClient";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 
-const Hit = ({ hit, userWatchList, setUserWatchList }) => {
+const Hit = ({ hit, userWatchList }) => {
   const router = useRouter();
 
-  const user = auth.currentUser;
+  const {mutate, isLoading: mutationIsLoading, isError: mutationIsError, isSuccess: mutationIsSuccess} = useMutation({
+    mutationFn: updateUserWatchList,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userWatchList'] })
+    }
+  })
 
   if(!auth.currentUser) {
     return (
@@ -24,44 +23,6 @@ const Hit = ({ hit, userWatchList, setUserWatchList }) => {
       </div>
     )
   }
-
-  const addDataToUserWatchList = async (e) => {
-    e.stopPropagation();
-    const querySnapshot = await getDocs(collection(db, "users"));
-    const userDoc = querySnapshot.docs.find(
-      (doc) => doc.data().phoneNumber === user.phoneNumber
-    );
-    console.log(userDoc);
-    // doc(database, collection, id of user document)
-    await setDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
-      phoneNumber: userDoc.data().phoneNumber,
-      watchList: [...userDoc.data().watchList, hit.symbol],
-    });
-    setUserWatchList([...userDoc.data().watchList, hit.symbol]);
-  };
-
-  const removeDataFromUserWatchList = async (e) => {
-    e.stopPropagation();
-    const querySnapshot = await getDocs(collection(db, "users"));
-    const userDoc = querySnapshot.docs.find(
-      (doc) => doc.data().phoneNumber === user.phoneNumber
-    );
-    console.log(userDoc);
-    const currentWatchList = userDoc.data().watchList;
-    currentWatchList.splice(
-      userDoc.data().watchList.indexOf(hit.symbol),
-      1
-    );
-    // doc(database, collection, id of user document)
-    await updateDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
-      watchList: deleteField(),
-    });
-    await setDoc(doc(db, "users", userDoc._document.key.path.segments[6]), {
-      phoneNumber: userDoc.data().phoneNumber,
-      watchList: [...currentWatchList],
-    });
-    setUserWatchList(...currentWatchList);
-  };
 
   return (
     <div
@@ -81,14 +42,20 @@ const Hit = ({ hit, userWatchList, setUserWatchList }) => {
       {userWatchList.includes(hit.symbol) ? (
         <button
           className="bg-white text-explore-blue font-bold border border-explore-blue self-center w-10/12 p-2 rounded-lg h-content"
-          onClick={removeDataFromUserWatchList}
+          onClick={(e) =>  {
+            e.stopPropagation();
+            mutate("remove", hit.symbol)
+          }}
         >
           Followed
         </button>
       ) : (
         <button
           className="bg-explore-blue text-white font-bold self-center w-10/12 p-2 rounded-lg h-content"
-          onClick={addDataToUserWatchList}
+          onClick={(e) => {
+            e.stopPropagation();
+            mutate("add", hit.symbol)
+          }}
         >
           Follow
         </button>

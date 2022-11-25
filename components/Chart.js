@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AreaChart, Area, CartesianGrid, YAxis } from "recharts";
+import { AreaChart, Area, CartesianGrid, YAxis, ResponsiveContainer } from "recharts";
 
 function Chart({ chartData, changePercentage, height, width, size }) {
   const [chartDisplayData, setChartDisplayData] = useState({
@@ -35,42 +35,44 @@ function Chart({ chartData, changePercentage, height, width, size }) {
   }, [chartData]);
 
   return (
-    <AreaChart
-      width={width}
-      height={height}
-      data={chartDisplayData.chartDataValueArray}
-      margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-    >
-      <defs>
-        {size === 'small' ? (
-          <></>
-        )  : (
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor={color} stopOpacity={0.8} />
-            <stop offset="95%" stopColor={color} stopOpacity={0} />
-          </linearGradient>
+    <ResponsiveContainer height={height} width="100%">
+      <AreaChart
+        width={width}
+        height={height}
+        data={chartDisplayData.chartDataValueArray}
+        margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+      >
+        <defs>
+          {size === 'small' ? (
+            <></>
+          )  : (
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor={color} stopOpacity={0.8} />
+              <stop offset="95%" stopColor={color} stopOpacity={0} />
+            </linearGradient>
 
+          )}
+        </defs>
+        {size === "small" ? (
+          <></>
+        ) : (
+          <>
+            <YAxis
+              dataKey="4. close"
+              domain={[chartDisplayData.yAxisLow, chartDisplayData.yAxisHigh]}
+            />
+            <CartesianGrid strokeDasharray="3 3" />
+          </>
         )}
-      </defs>
-      {size === "small" ? (
-        <></>
-      ) : (
-        <>
-          <YAxis
-            dataKey="4. close"
-            domain={[chartDisplayData.yAxisLow, chartDisplayData.yAxisHigh]}
-          />
-          <CartesianGrid strokeDasharray="3 3" />
-        </>
-      )}
-      <Area
-        type="linear"
-        dataKey="4. close"
-        stroke={color}
-        fillOpacity={1}
-        fill="url(#colorUv)"
-      />
-    </AreaChart>
+        <Area
+          type="linear"
+          dataKey="4. close"
+          stroke={color}
+          fillOpacity={1}
+          fill="url(#colorUv)"
+        />
+      </AreaChart>
+    </ResponsiveContainer>
   );
 }
 

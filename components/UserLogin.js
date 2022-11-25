@@ -16,6 +16,7 @@ const UserLogin = () => {
   const [OTPSent, setOTPSent] = useState(false);
   const [sendingOTP, setSendingOTP] = useState(false);
   const [verifyingOTP, setVerifyingOTP] = useState(false);
+  const [invalidPhoneNumber, setInvalidPhoneNumber] = useState(false)
 
   const router = useRouter();
 
@@ -59,7 +60,7 @@ const UserLogin = () => {
         setOTPSent(true);
       })
       .catch((error) => {
-        console.log(error);
+        setInvalidPhoneNumber(true);
       });
   };
 
@@ -125,6 +126,14 @@ const UserLogin = () => {
         );
       });
   };
+
+  if(invalidPhoneNumber) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        Invalid phone number. Please refresh and try again.
+      </div>
+    )
+  }
 
   return (
     <div className="w-screen h-screen">

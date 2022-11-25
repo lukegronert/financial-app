@@ -14,7 +14,7 @@ import {
 
 const ShareButtons = ({ instrumentSymbol }) => {
   return (
-    <div className="flex flex-col absolute top-12 right-1.5">
+    <div className="flex flex-col absolute top-14 right-1.5">
       <FacebookShareButton
         url={"https://financial-app-etsh.vercel.app/"}
         quote={

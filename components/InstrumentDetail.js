@@ -139,11 +139,11 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
     changeValue / chartData[chartData.length - 1][1]["4. close"];
 
   return (
-    <div className="bg-gradient-to-t from-explore-gray w-max h-screen relative">
+    <div className="bg-gradient-to-t from-explore-gray w-full h-screen">
       {showShareButtons &&
         <ShareButtons instrumentSymbol={instrumentSymbol} />
       }
-      <div className="w-full px-3">
+      <div className="w-full p-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
           <BackButton />
           <div className="flex flex-row gap-2">
@@ -152,7 +152,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
           </div>
         </div>
         <div>
-          <p className="text-gray-400 font-bold text-sm py-1 w-screen">
+          <p className="text-gray-400 font-bold text-sm py-1">
             {instrumentSymbol}
           </p>
         </div>
@@ -160,7 +160,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
           <></>
         ) : (
           <div>
-            <h1 className="text-2xl font-extrabold text-explore-blue py-1 w-screen">
+            <h1 className="text-2xl font-extrabold text-explore-blue py-1">
               {instrumentName}
             </h1>
           </div>

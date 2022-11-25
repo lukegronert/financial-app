@@ -35,10 +35,8 @@ function Chart({ chartData, changePercentage, height, width, size }) {
   }, [chartData]);
 
   return (
-    <ResponsiveContainer height={height} width="100%">
+    <ResponsiveContainer height={height} width={width}>
       <AreaChart
-        width={width}
-        height={height}
         data={chartDisplayData.chartDataValueArray}
         margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
       >

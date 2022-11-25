@@ -78,7 +78,7 @@ const WatchListItem = ({ instrumentSymbol }) => {
             chartData={chartData}
             changePercentage={changePercentage}
             height={50}
-            width={100}
+            width="50%"
             size="small"
           />
         </div>

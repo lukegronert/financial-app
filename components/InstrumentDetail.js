@@ -210,7 +210,7 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
             chartData={chartData}
             changePercentage={changePercentage}
             height={screen.height / 3}
-            width={screen.width}
+            width="95%"
           />
         </div>
         <div className="flex justify-center mt-3">

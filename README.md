@@ -7,7 +7,7 @@ getting current and historical data for them.
 At the moment, this application was made to be viewed in mobile
 view. It is not meant to be viewed on a desktop screen.
 
-It was created with Next.js and bootsrapped with create-next-app.
+It was created with Next.js and bootstrapped with create-next-app.
 
 ## Demo
 

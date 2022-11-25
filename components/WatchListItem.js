@@ -43,7 +43,12 @@ const WatchListItem = ({ instrumentSymbol }) => {
   console.log("DATA", data);
 
   if (data.Note) {
-    return <div>No more API calls.</div>;
+    return (
+      <div>
+        <p>{instrumentSymbol}</p>
+        <p>No more API calls.</p>
+      </div>
+    )
   }
 
   const dataKeys = Object.keys(data);

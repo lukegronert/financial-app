@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Chart from "./Chart";
 import Link from "next/link";
 
@@ -17,17 +17,25 @@ import { AiFillStar } from "react-icons/ai";
 import { SlOptionsVertical } from "react-icons/sl";
 
 const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
+
+  const queryClient = useQueryClient();
+
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [`${instrumentSymbol}1d`],
     queryFn: () => getTimeData(instrumentSymbol, "1d"),
   });
 
-  const {mutate, isLoading: mutationIsLoading, isError: mutationIsError, isSuccess: mutationIsSuccess} = useMutation({
-    mutationFn: updateUserWatchList,
+  const {
+    mutate,
+    isLoading: mutationIsLoading,
+    isError: mutationIsError,
+    isSuccess: mutationIsSuccess,
+  } = useMutation({
+    mutationFn: ({method, symbol}) => updateUserWatchList(method, symbol), 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['watchList'] })
-    }
-  })
+      queryClient.invalidateQueries({ queryKey: ["userWatchList"] });
+    },
+  });
 
   if (isLoading) {
     return (
@@ -85,10 +93,10 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
           <AiFillStar
             size="1.25rem"
             className="text-orange-500 self-center cursor-pointer"
-            onClick={
+            onClick={() =>
               userWatchList.includes(instrumentSymbol)
-                ? mutate("add", instrumentSymbol)
-                : mutate("remove", instrumentSymbol)
+                ? mutate({method: "add", symbol: instrumentSymbol})
+                : mutate({method: "remove", symbol: instrumentSymbol})
             }
           />
           <div className="flex flex-col">

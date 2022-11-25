@@ -1,18 +1,19 @@
-
 # Financial App
 
 Financial App is an application that allows users to
-search and follow financial instruments, while also 
-getting current and historical data for them. 
+search and follow financial instruments, while also
+getting current and historical data for them.
 
-At the moment, this application was made to be viewed in mobile 
+At the moment, this application was made to be viewed in mobile
 view. It is not meant to be viewed on a desktop screen.
 
+It was created with Next.js and boostrapped with create-next-app.
 
 ## Demo
 
-https://financial-app-etsh.vercel.app/
+This project is hosted on Vercel.
 
+https://financial-app-etsh.vercel.app/
 
 ## Run Locally
 
@@ -40,7 +41,6 @@ Start the dev server
   npx next dev
 ```
 
-
 ## Tech Stack
 
 This project was created with React, Nextjs, Firebase, and TailwindCSS.
@@ -48,6 +48,7 @@ This project was created with React, Nextjs, Firebase, and TailwindCSS.
 It uses Firebase for user authentication and the firestore database, Algolia Search for an instant search experience, the AlphaVantage API for current and historical financial data, the Financial Modeling Prep API for the current biggest gainers and losers on the market.
 
 ## Dependencies
+
     "@tanstack/react-query": "^4.16.1",
     "algoliasearch": "^4.14.2",
     "eslint": "8.27.0",
@@ -75,7 +76,7 @@ It uses Firebase for user authentication and the firestore database, Algolia Sea
 ## Optimizations
 
 Given more time, I would implement the following optimizations:
- - Optimize the UI for desktop view
- - Find an API to fetch company logos
- - Create a way to share specific financial instrument details through social media, rather than just sharing the application
- 
+
+- Optimize the UI for desktop view
+- Find an API to fetch company logos
+- Create a way to share specific financial instrument details through social media, rather than just sharing the application

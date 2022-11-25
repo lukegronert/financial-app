@@ -140,13 +140,9 @@ const InstrumentDetail = ({ userWatchList, setUserWatchList }) => {
 
   return (
     <div className="bg-gradient-to-t from-explore-gray w-max h-screen relative">
-      {showShareButtons ? (
-        <div className="relative h-0 w-screen">
-          <ShareButtons instrumentSymbol={instrumentSymbol} />
-        </div>
-      ) : (
-        <></>
-      )}
+      {showShareButtons &&
+        <ShareButtons instrumentSymbol={instrumentSymbol} />
+      }
       <div className="w-full px-3">
         <div className="flex flex-row w-full justify-between items-center py-3">
           <BackButton />

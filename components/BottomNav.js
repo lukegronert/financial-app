@@ -9,6 +9,10 @@ const BottomNav = ({ activePage }) => {
   const router = useRouter();
   const user = auth.currentUser;
 
+  if (!user) {
+    return <></>;
+  }
+
   return (
     <div className="flex flex-row justify-evenly items-center gap-16 fixed bottom-0 bg-white w-screen text-gray-400 pb-6 pt-3">
       <button
@@ -22,9 +26,7 @@ const BottomNav = ({ activePage }) => {
         <ImArrowUp size="1.25rem" />
         <span className="text-sm font-bold">Dashboard</span>
       </button>
-      {!user ? (
-        <></>
-      ) : (
+      {user && (
         <button
           className={
             activePage === "portfolio"

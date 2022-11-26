@@ -52,6 +52,12 @@ const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
     return <span>Error: {losersError.message}</span>;
   }
 
+  if (gainersData["Error Message"]) {
+    console.log(gainersData["Error Message"]);
+  } else if (losersData["Error Message"]) {
+    console.log(losersData["Error Message"]);
+  }
+
   return (
     <div className="px-3 w-full flex flex-col bg-explore-gray">
       {backButton && <BackButton />}
@@ -63,26 +69,20 @@ const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
       </div>
       <div className="grid grid-cols-2 gap-2 bg-explore-gray justify-evenly">
         <div className="gap-2 grid auto-rows-fr">
-          {gainersData.map((gainer, i) => {
-            if (i < colLimit) {
-              return (
-                <GainerLoserItem
-                  status="gainer"
-                  data={gainer}
-                  key={gainer.name}
-                />
-              );
-            }
-          })}
+          {gainersData.map !== undefined &&
+            gainersData.map((gainer, i) => {
+              if (i < colLimit) {
+                return <GainerLoserItem data={gainer} key={gainer.name} />;
+              }
+            })}
         </div>
         <div className="gap-2 grid auto-rows-fr">
-          {losersData.map((loser, i) => {
-            if (i < colLimit) {
-              return (
-                <GainerLoserItem status="loser" data={loser} key={loser.name} />
-              );
-            }
-          })}
+          {losersData.map !== undefined &&
+            losersData.map((loser, i) => {
+              if (i < colLimit) {
+                return <GainerLoserItem data={loser} key={loser.name} />;
+              }
+            })}
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import {
   formatLocalUSD,
 } from "../utils/formatDataFunctions";
 
-const GainerLoserItem = ({ data, status }) => {
+const GainerLoserItem = ({ data }) => {
   const router = useRouter();
 
   return (
@@ -16,9 +16,9 @@ const GainerLoserItem = ({ data, status }) => {
       <h2 className="flex-1 text-explore-blue font-extrabold w-full h-full">
         {data.name}
       </h2>
-      <span className="text-explore-blue font-bold">{`$${data.price.toFixed(
-        2
-      )}`}</span>
+      <span className="text-explore-blue font-bold">
+        {`$${data.price.toFixed(2)}`}
+      </span>
       <div className="flex flex-row gap-2 items-center">
         <span
           className={`${

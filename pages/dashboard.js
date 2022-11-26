@@ -6,7 +6,6 @@ import { auth } from "../firebase/clientApp";
 
 import { FiSearch } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
-import Link from "next/link";
 
 import WatchList from "../components/WatchList";
 

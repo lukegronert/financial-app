@@ -34,6 +34,14 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
     },
   });
 
+  const handleFollowClick = () => {
+    if (userWatchList.includes(instrumentSymbol)) {
+      mutate({ method: "remove", symbol: instrumentSymbol });
+    } else {
+      mutate({ method: "add", symbol: instrumentSymbol });
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="w-screen flex justify-center items-center">
@@ -54,8 +62,6 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
-
-  console.log("DATA", data);
 
   if (data.Note) {
     return (
@@ -87,18 +93,22 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
     <Link href={`instruments/noName/${instrumentSymbol}`}>
       <div className="flex flex-row w-full gap-3 justify-between bg-white rounded-lg p-2">
         <div className="flex flex-row place-self-start gap-3">
-          <AiFillStar
-            size="1.25rem"
-            className="text-orange-500 self-center cursor-pointer"
-            onClick={() =>
-              userWatchList.includes(instrumentSymbol)
-                ? mutate({ method: "add", symbol: instrumentSymbol })
-                : mutate({ method: "remove", symbol: instrumentSymbol })
-            }
-          />
+          {userWatchList && (
+            <AiFillStar
+              size="1.25rem"
+              className="text-orange-500 cursor-pointer self-center"
+              onClick={handleFollowClick}
+            />
+          )}
           <div className="flex flex-col">
             <p className="font-bold text-explore-blue">{instrumentSymbol}</p>
-            <span>{formatLocalPercentage(changePercentage)}</span>
+            <span
+              className={`${
+                changePercentage > 0 ? "text-green-400" : "text-red-400"
+              } text-sm font-bold`}
+            >
+              {formatLocalPercentage(changePercentage)}
+            </span>
           </div>
         </div>
         <div className="flex-1 self-center flex justify-center items-center">

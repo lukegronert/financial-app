@@ -1,28 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
+import {
+  formatLocalPercentage,
+  formatLocalUSD,
+} from "../utils/formatDataFunctions";
 
 const GainerLoserItem = ({ data, status }) => {
-  const [change, setChange] = useState(null);
-  const [changePercentage, setChangePercentage] = useState(null);
-
   const router = useRouter();
-
-  useEffect(() => {
-    let changePercentageWithMinus = Number(data.changesPercentage).toFixed(2);
-    let changePercentageWithoutMinus = changePercentageWithMinus
-      .toString()
-      .replace("-", "");
-    setChangePercentage(changePercentageWithoutMinus);
-    if (data.change) {
-      let changeToTwoDecimals = Number(data.change).toFixed(2);
-      setChange(changeToTwoDecimals);
-    } else {
-      let changeWithMinus = data.changes.toFixed(2);
-      let changeWithoutMinus = changeWithMinus.toString().replace("-", "");
-      setChange(changeWithoutMinus);
-    }
-    console.log("change", change);
-  }, []);
 
   return (
     <div
@@ -36,17 +20,18 @@ const GainerLoserItem = ({ data, status }) => {
         2
       )}`}</span>
       <div className="flex flex-row gap-2 items-center">
-        {status === "gainer" ? (
-          <>
-            <span className="text-green-400 bg-green-100 font-bold text-sm px-1 py-0.5 rounded-md">{`+ ${changePercentage}`}</span>
-            <span className="text-gray-400 font-bold text-sm">{`$${change}`}</span>
-          </>
-        ) : (
-          <>
-            <span className="text-red-400 bg-red-100 font-bold text-sm px-1 py-0.5 rounded-md">{`- ${changePercentage}`}</span>
-            <span className="text-gray-400 font-bold text-sm">{`- $${change}`}</span>
-          </>
-        )}
+        <span
+          className={`${
+            data.change > 0
+              ? "text-green-400 bg-green-100"
+              : "text-red-400 bg-red-100"
+          } px-1 py-0.5 rounded-md text-sm font-bold`}
+        >
+          {formatLocalPercentage(data.changesPercentage / 100)}
+        </span>
+        <span className="text-gray-400 font-bold text-sm">
+          {formatLocalUSD(data.change)}
+        </span>
       </div>
     </div>
   );

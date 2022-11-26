@@ -24,6 +24,7 @@ const Dashboard = () => {
               size="1.5em"
               onClick={() => setOpenSearch(false)}
               className="cursor-pointer"
+              data-cy="close-search"
             />
           ) : (
             <FiSearch
@@ -32,6 +33,7 @@ const Dashboard = () => {
                 setOpenSearch(true);
               }}
               className="cursor-pointer"
+              data-cy="open-search"
             />
           )}
         </div>

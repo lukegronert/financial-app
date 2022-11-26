@@ -20,7 +20,7 @@ const Explore = () => {
           <RiCloseLine
             size="2em"
             onClick={() => router.push("/dashboard")}
-            className="cursor-pointer"
+            data-cy="close-explore"
           />
         </div>
         <p className="font-bold text-gray-400 px-3 mb-3">

@@ -19,7 +19,7 @@ const Search = () => {
         searchClient={searchClient}
         indexName="financial-instruments"
       >
-        <SearchBox className="mb-3 px-3" />
+        <SearchBox className="mb-3 px-3" data-cy="search" />
         <div className="bg-explore-gray grow w-screen">
           <div className="h-full text-center p-3">
             <CustomHits HitComponent={Hit} />

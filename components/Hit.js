@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "../firebase/clientApp";
 import { updateUserWatchList } from "../utils/firestoreClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
@@ -9,7 +8,7 @@ const Hit = ({ hit, userWatchList }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const {name, symbol} = hit;
+  const { name, symbol } = hit;
 
   const {
     mutate,
@@ -17,42 +16,47 @@ const Hit = ({ hit, userWatchList }) => {
     isError: mutationIsError,
     isSuccess: mutationIsSuccess,
   } = useMutation({
-    mutationFn: ({method, symbol}) => updateUserWatchList(method, symbol), 
+    mutationFn: ({ method, symbol }) => updateUserWatchList(method, symbol),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userWatchList'] })
+      queryClient.invalidateQueries({ queryKey: ["userWatchList"] });
     },
   });
 
-  if(mutationIsLoading) {
-    return <div>Loading</div>
+  if (mutationIsLoading) {
+    return <div>Loading</div>;
   }
 
-  if(mutationIsError) {
-    return <div>Error</div>
+  if (mutationIsError) {
+    return <div>Error</div>;
   }
 
   return (
     <div
-      className="flex flex-col w-full h-full justify-between gap-3 cursor-pointer rounded-lg bg-white p-2"
+      className="flex flex-col w-full h-full justify-between rounded-lg bg-white p-2"
       onClick={() => router.push(`/instruments/${name}/${symbol}`)}
     >
       {/* Adds logo centered in circle border as shown in challenge pictures */}
       {/* <div className="flex justify-center items-center self-center rounded-full border h-16 w-16 p-3 mb-2">
             <div className="h-10 w-10 flex justify-center items-center">
-                <img src={logo.src} alt={`${name} logo`} className="max-h-10 w-10" />
-          </div>
-      </div> */}
-      <p className="font-extrabold text-lg text-explore-blue flex-1">
-        {name.length > 25 ? `${name.slice(0, 25)}...` : name}
-      </p>
-      <p className="font-bold text-explore-blue">{symbol}</p>
-      {!userWatchList ? 
+            <img src={logo.src} alt={`${name} logo`} className="max-h-10 w-10" />
+            </div>
+          </div> */}
+      <Link
+        href={`instruments/${name}/${symbol}`}
+        className="flex flex-col w-full h-full justofy-between cursor-pointer"
+      >
+        <p className="font-extrabold text-lg text-explore-blue flex-1">
+          {name.length > 25 ? `${name.slice(0, 25)}...` : name}
+        </p>
+        <p className="font-bold text-explore-blue">{symbol}</p>
+      </Link>
+      {!userWatchList ? (
         <></>
-        : userWatchList?.includes(symbol) ? (
+      ) : userWatchList?.includes(symbol) ? (
         <button
           className="bg-white text-explore-blue font-bold border border-explore-blue self-center w-10/12 p-2 rounded-lg h-content"
           onClick={(e) => {
-            mutate({method: "remove", symbol: symbol});
+            mutate({ method: "remove", symbol: symbol });
             e.stopPropagation();
           }}
         >
@@ -62,7 +66,7 @@ const Hit = ({ hit, userWatchList }) => {
         <button
           className="bg-explore-blue text-white font-bold self-center w-10/12 p-2 rounded-lg h-content"
           onClick={(e) => {
-            mutate({method: "add", symbol: symbol});
+            mutate({ method: "add", symbol: symbol });
             e.stopPropagation();
           }}
         >

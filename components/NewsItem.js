@@ -17,13 +17,10 @@ const NewsTab = ({ data }) => {
   const timeDifference = Math.floor(
     (timeNow - timePublishedDate) / 1000 / 60 / 60
   );
-  // const timePublished = data.time_published.slice(9,15)
-  // const timeNow = new Date().toJSON().slice(11, 19).replace(':','').replace(':','')
-  // const timeSinceHours = timeNow.slice(0,2) - timePublished.slice(0,2);
 
   return (
     <Link href={data.url}>
-      <div className="w-full flex flex-row items-centers border rounded-lg p-2">
+      <div className="w-full flex flex-row items-centers border rounded-lg p-2 gap-2">
         <div className="flex justify-center items-center self-center rounded-full border h-16 w-16 p-3">
           <div className="h-10 w-10 flex justify-center items-center text-center">
             <img
@@ -33,7 +30,7 @@ const NewsTab = ({ data }) => {
             />
           </div>
         </div>
-        <div>
+        <div className="flex flex-col justify-between">
           <p className="text-explore-blue font-bold">
             {data.title.length > 70
               ? `${data.title.slice(0, 70)}...`

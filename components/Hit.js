@@ -30,17 +30,12 @@ const Hit = ({ hit, userWatchList }) => {
     return <div>Error</div>;
   }
 
+  if (mutationIsSuccess) {
+    console.log(userWatchList);
+  }
+
   return (
-    <div
-      className="flex flex-col w-full h-full justify-between rounded-lg bg-white p-2"
-      onClick={() => router.push(`/instruments/${name}/${symbol}`)}
-    >
-      {/* Adds logo centered in circle border as shown in challenge pictures */}
-      {/* <div className="flex justify-center items-center self-center rounded-full border h-16 w-16 p-3 mb-2">
-            <div className="h-10 w-10 flex justify-center items-center">
-            <img src={logo.src} alt={`${name} logo`} className="max-h-10 w-10" />
-            </div>
-          </div> */}
+    <div className="flex flex-col w-full h-full justify-between rounded-lg bg-white p-2">
       <Link
         href={`instruments/${name}/${symbol}`}
         className="flex flex-col w-full h-full justofy-between cursor-pointer"
@@ -50,28 +45,28 @@ const Hit = ({ hit, userWatchList }) => {
         </p>
         <p className="font-bold text-explore-blue">{symbol}</p>
       </Link>
-      {!userWatchList ? (
-        <></>
-      ) : userWatchList?.includes(symbol) ? (
-        <button
-          className="bg-white text-explore-blue font-bold border border-explore-blue self-center w-10/12 p-2 rounded-lg h-content"
-          onClick={(e) => {
-            mutate({ method: "remove", symbol: symbol });
-            e.stopPropagation();
-          }}
-        >
-          Followed
-        </button>
-      ) : (
-        <button
-          className="bg-explore-blue text-white font-bold self-center w-10/12 p-2 rounded-lg h-content"
-          onClick={(e) => {
-            mutate({ method: "add", symbol: symbol });
-            e.stopPropagation();
-          }}
-        >
-          Follow
-        </button>
+      {userWatchList && (
+        <>
+          {userWatchList.includes(symbol) ? (
+            <button
+              className="bg-white text-explore-blue font-bold border border-explore-blue self-center w-10/12 p-2 rounded-lg h-content"
+              onClick={() => {
+                mutate({ method: "remove", symbol: symbol });
+              }}
+            >
+              Followed
+            </button>
+          ) : (
+            <button
+              className="bg-explore-blue text-white font-bold self-center w-10/12 p-2 rounded-lg h-content"
+              onClick={() => {
+                mutate({ method: "add", symbol: symbol });
+              }}
+            >
+              Follow
+            </button>
+          )}
+        </>
       )}
     </div>
   );

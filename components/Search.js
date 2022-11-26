@@ -3,7 +3,7 @@ import CustomHits from './CustomHits';
 import Hit from "./Hit";
 
 import algoliasearch from "algoliasearch/lite";
-import { InstantSearch, SearchBox, Hits } from "react-instantsearch-dom";
+import { InstantSearch, SearchBox } from "react-instantsearch-dom";
 import "instantsearch.css/themes/reset.css";
 import "instantsearch.css/themes/satellite.css";
 

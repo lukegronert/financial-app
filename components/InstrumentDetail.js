@@ -57,6 +57,14 @@ const InstrumentDetail = () => {
 
   const timeButtonList = ["1d", "5d", "30d", "90d", "6m", "1y", "All"];
 
+  const handleFollowClick = () => {
+    if (userWatchList.includes(instrumentSymbol)) {
+      mutate({ method: "remove", symbol: instrumentSymbol });
+    } else {
+      mutate({ method: "add", symbol: instrumentSymbol });
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
@@ -130,19 +138,13 @@ const InstrumentDetail = () => {
         <div className="flex flex-row w-full justify-between items-center py-3">
           <BackButton />
           <div className="flex flex-row gap-2">
-            <AiFillStar
-              size="1.25rem"
-              className="text-orange-500 cursor-pointer"
-              onClick={
-                !userWatchList ? (
-                  <></>
-                ) : userWatchList.includes(instrumentSymbol) ? (
-                  () => mutate({ method: "remove", symbol: instrumentSymbol })
-                ) : (
-                  () => mutate({ method: "add", symbol: instrumentSymbol })
-                )
-              }
-            />
+            {userWatchList && (
+              <AiFillStar
+                size="1.25rem"
+                className="text-orange-500 cursor-pointer"
+                onClick={handleFollowClick}
+              />
+            )}
             <FiShare
               size="1.25rem"
               className="text-gray-800 cursor-pointer"
@@ -209,25 +211,16 @@ const InstrumentDetail = () => {
           />
         </div>
         <div className="flex justify-center mt-3">
-          {!userWatchList ? (
-            <></>
-          ) : userWatchList.includes(instrumentSymbol) ? (
+          {userWatchList && (
             <button
-              className="p-3 mb-5 text-lg font-bold bg-white border border-blue-600 text-blue-600 w-full rounded-lg cursor-pointer"
-              onClick={() =>
-                mutate({ method: "remove", symbol: instrumentSymbol })
-              }
+              className={`p-3 mb-5 text-lg font-bold w-full rounded-lg cursor-pointer ${
+                userWatchList.includes(instrumentSymbol)
+                  ? "bg-white border border-blue-600 text-blue-600"
+                  : "bg-blue-600 text-white"
+              }`}
+              onClick={handleFollowClick}
             >
-              Followed
-            </button>
-          ) : (
-            <button
-              className="p-3 mb-5 text-lg font-bold text-white bg-blue-600 w-full rounded-lg cursor-pointer"
-              onClick={() =>
-                mutate({ method: "add", symbol: instrumentSymbol })
-              }
-            >
-              Follow
+              {userWatchList.includes(instrumentSymbol) ? "Followed" : "Follow"}
             </button>
           )}
         </div>

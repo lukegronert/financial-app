@@ -3,7 +3,6 @@ import { auth, db } from "../firebase/clientApp";
 
 const getUserWatchList = async () => {
   const user = auth.currentUser;
-  console.log(user.phoneNumber);
   return getDoc(doc(db, "users", user.phoneNumber))
     .then(async (response) => {
       return response.data().watchList
@@ -48,7 +47,7 @@ const removeDataFromUserWatchList = async (symbol) => {
 };
 
 const updateUserWatchList = (method, symbol) => {
-  method === "add"
+  return method === "add"
     ? addDataToUserWatchList(symbol)
     : method === "remove"
     ? removeDataFromUserWatchList(symbol)

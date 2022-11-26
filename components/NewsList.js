@@ -48,7 +48,7 @@ const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
           <p className="text-xl font-extrabold text-explore-blue p-3">News</p>
           {seeAll && <SeeAll path={`news/${instrumentSymbol}`} />}
         </div>
-        <div className="grid grid-cols-1 auto-rows-fr gap-3 items-center w-full px-2 ">
+        <div className="grid grid-cols-1 auto-rows-fr gap-3 items-center w-full px-2">
           {newsData ? (
             newsData.map((data, i) => {
               while (i < limit) {

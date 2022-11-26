@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Search from "../components/Search";
-import GainersAndLosers from '../components/GainersAndLosers';
-import BottomNav from '../components/BottomNav';
+import GainersAndLosers from "../components/GainersAndLosers";
+import BottomNav from "../components/BottomNav";
 import { auth } from "../firebase/clientApp";
 
 import { FiSearch } from "react-icons/fi";
 import { RiCloseLine } from "react-icons/ri";
-import Link from 'next/link';
+import Link from "next/link";
 
 import WatchList from "../components/WatchList";
 
@@ -21,7 +21,11 @@ const Dashboard = () => {
             Dashboard
           </h1>
           {openSearch ? (
-            <RiCloseLine size="1.5em" onClick={() => setOpenSearch(false)} className="cursor-pointer" />
+            <RiCloseLine
+              size="1.5em"
+              onClick={() => setOpenSearch(false)}
+              className="cursor-pointer"
+            />
           ) : (
             <FiSearch
               size="1.5em"
@@ -44,7 +48,7 @@ const Dashboard = () => {
           <>
             <GainersAndLosers colLimit={1} seeAll={true} backButton={false} />
             <WatchList limit={3} seeAll={true} />
-            <BottomNav activePage='dashboard' />
+            <BottomNav activePage="dashboard" />
           </>
         )}
       </div>

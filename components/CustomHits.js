@@ -1,8 +1,8 @@
-import { connectHits } from 'react-instantsearch-dom';
-import { useQuery } from '@tanstack/react-query';
-import { getUserWatchList } from '../utils/firestoreClient';
+import { connectHits } from "react-instantsearch-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getUserWatchList } from "../utils/firestoreClient";
 
-import { TailSpin } from 'react-loader-spinner';
+import { TailSpin } from "react-loader-spinner";
 
 const Hits = ({ hits, HitComponent }) => {
   const { isLoading, isError, data, error } = useQuery({
@@ -28,13 +28,13 @@ const Hits = ({ hits, HitComponent }) => {
   }
 
   return (
-  <ol className="grid grid-cols-2 auto-rows-fr gap-3 w-full">
-    {hits.map(hit => (
-      <HitComponent key={hit.objectID} hit={hit} userWatchList={data} />
-    ))}
-  </ol>
-);
-}
+    <ol className="grid grid-cols-2 auto-rows-fr gap-3 w-full">
+      {hits.map((hit) => (
+        <HitComponent key={hit.objectID} hit={hit} userWatchList={data} />
+      ))}
+    </ol>
+  );
+};
 
 const CustomHits = connectHits(Hits);
 

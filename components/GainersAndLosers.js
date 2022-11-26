@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query"; 
+import { useQuery } from "@tanstack/react-query";
 import { getGainersData, getLosersData } from "../utils/apiQueries";
 
 import SeeAll from "./SeeAll";
@@ -9,13 +9,22 @@ import BackButton from "./BackButton";
 import { TailSpin } from "react-loader-spinner";
 
 const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
-
-  const { isLoading: gainersIsLoading, isError: gainersIsError, data: gainersData, error: gainersError } = useQuery({
+  const {
+    isLoading: gainersIsLoading,
+    isError: gainersIsError,
+    data: gainersData,
+    error: gainersError,
+  } = useQuery({
     queryKey: [`gainers`],
     queryFn: () => getGainersData(),
   });
 
-  const { isLoading: losersIsLoading, isError: losersIsError, data: losersData, error: losersError } = useQuery({
+  const {
+    isLoading: losersIsLoading,
+    isError: losersIsError,
+    data: losersData,
+    error: losersError,
+  } = useQuery({
     queryKey: [`losers`],
     queryFn: () => getLosersData(),
   });
@@ -45,25 +54,33 @@ const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
 
   return (
     <div className="px-3 w-full flex flex-col bg-explore-gray">
-      {backButton && (
-        <BackButton />
-      )}
+      {backButton && <BackButton />}
       <div className="flex flex-row justify-between items-center py-2">
-        <p className="text-xl font-extrabold text-explore-blue">Gainers and Losers</p>
+        <p className="text-xl font-extrabold text-explore-blue">
+          Gainers and Losers
+        </p>
         {seeAll && <SeeAll path="/gainersAndLosers" />}
       </div>
       <div className="grid grid-cols-2 gap-2 bg-explore-gray justify-evenly">
         <div className="gap-2 grid auto-rows-fr">
           {gainersData.map((gainer, i) => {
             if (i < colLimit) {
-              return <GainerLoserItem status="gainer" data={gainer} key={gainer.name} />;
+              return (
+                <GainerLoserItem
+                  status="gainer"
+                  data={gainer}
+                  key={gainer.name}
+                />
+              );
             }
           })}
         </div>
         <div className="gap-2 grid auto-rows-fr">
           {losersData.map((loser, i) => {
             if (i < colLimit) {
-              return <GainerLoserItem status="loser" data={loser} key={loser.name} />;
+              return (
+                <GainerLoserItem status="loser" data={loser} key={loser.name} />
+              );
             }
           })}
         </div>

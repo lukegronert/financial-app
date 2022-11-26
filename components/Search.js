@@ -1,5 +1,5 @@
 import React from "react";
-import CustomHits from './CustomHits';
+import CustomHits from "./CustomHits";
 import Hit from "./Hit";
 
 import algoliasearch from "algoliasearch/lite";

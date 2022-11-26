@@ -1,11 +1,8 @@
-import React from 'react';
-import WatchList from '../../components/WatchList';
-
+import React from "react";
+import WatchList from "../../components/WatchList";
 
 const UserId = () => {
-  return (
-    <WatchList limit={50} seeAll={false} backButton={true}  />
-  )
-}
+  return <WatchList limit={50} seeAll={false} backButton={true} />;
+};
 
 export default UserId;

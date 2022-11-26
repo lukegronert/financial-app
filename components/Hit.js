@@ -22,16 +22,8 @@ const Hit = ({ hit, userWatchList }) => {
     },
   });
 
-  if (mutationIsLoading) {
-    return <div>Loading</div>;
-  }
-
   if (mutationIsError) {
     return <div>Error</div>;
-  }
-
-  if (mutationIsSuccess) {
-    console.log(userWatchList);
   }
 
   return (

@@ -16,8 +16,8 @@ const WatchList = ({ limit, seeAll, backButton }) => {
   });
 
   const user = auth.currentUser;
-  if(!user) {
-    return <></>
+  if (!user) {
+    return <></>;
   }
 
   if (isLoading) {
@@ -43,7 +43,13 @@ const WatchList = ({ limit, seeAll, backButton }) => {
 
   return (
     <>
-      <div className={!seeAll ? `flex flex-col px-3 bg-explore-gray h-screen` : `flex flex-col px-3 bg-explore-gray`}>
+      <div
+        className={
+          !seeAll
+            ? `flex flex-col px-3 bg-explore-gray h-screen`
+            : `flex flex-col px-3 bg-explore-gray`
+        }
+      >
         {backButton && <BackButton />}
         <div className="flex flex-row justify-between items-center py-2">
           <h2 className="text-xl font-extrabold text-explore-blue">
@@ -55,7 +61,11 @@ const WatchList = ({ limit, seeAll, backButton }) => {
           {data.map((item, i) => {
             if (i < limit) {
               return (
-                <WatchListItem instrumentSymbol={item} key={i} userWatchList={data} />
+                <WatchListItem
+                  instrumentSymbol={item}
+                  key={i}
+                  userWatchList={data}
+                />
               );
             }
           })}

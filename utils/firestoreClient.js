@@ -5,11 +5,11 @@ const getUserWatchList = async () => {
   const user = auth.currentUser;
   return getDoc(doc(db, "users", user.phoneNumber))
     .then(async (response) => {
-      return response.data().watchList
+      return response.data().watchList;
     })
     .catch((error) => {
       return Promise.reject("response was empty");
-    })
+    });
 };
 
 const addDataToUserWatchList = async (symbol) => {
@@ -36,10 +36,7 @@ const removeDataFromUserWatchList = async (symbol) => {
     return;
   }
   const currentWatchList = userWatchList;
-  currentWatchList.splice(
-    docSnap.data().watchList.indexOf(symbol),
-    1
-  );
+  currentWatchList.splice(docSnap.data().watchList.indexOf(symbol), 1);
   // doc(database, collection, id of user document)
   await setDoc(doc(db, "users", user.phoneNumber), {
     watchList: [...currentWatchList],

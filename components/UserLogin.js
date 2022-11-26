@@ -17,7 +17,7 @@ const UserLogin = () => {
   const [OTPSent, setOTPSent] = useState(false);
   const [sendingOTP, setSendingOTP] = useState(false);
   const [verifyingOTP, setVerifyingOTP] = useState(false);
-  const [invalidPhoneNumber, setInvalidPhoneNumber] = useState(false)
+  const [invalidPhoneNumber, setInvalidPhoneNumber] = useState(false);
 
   const router = useRouter();
 
@@ -53,8 +53,7 @@ const UserLogin = () => {
     console.log(phoneNumber);
     generateRecaptcha();
     let appVerifier = window.recaptchaVerifier;
-    setPersistence(auth, browserSessionPersistence)
-    .then(() => {
+    setPersistence(auth, browserSessionPersistence).then(() => {
       // Existing and future Auth states are now persisted in the current
       // session only. Closing the window would clear any existing state even
       // if a user forgets to sign out.
@@ -71,7 +70,7 @@ const UserLogin = () => {
           setInvalidPhoneNumber(true);
         });
     });
-  }
+  };
 
   // When user enters 6 digits, they are compared to the
   // correct OTP which then sends a confirmation result
@@ -90,7 +89,7 @@ const UserLogin = () => {
           const querySnapshot = await getDocs(collection(db, "users"));
           // check user collection for document with the same phoneNumber
           // if found, console.log that user is already signed up
-          const docSnap = await getDoc(doc(db, "users", `${phoneNumber}`))
+          const docSnap = await getDoc(doc(db, "users", `${phoneNumber}`));
           if (docSnap.exists()) {
             console.log("Already signed up");
             setVerifyingOTP(false);
@@ -98,7 +97,7 @@ const UserLogin = () => {
           } else {
             // try to add a document with the users phoneNumber and empty watchList
             try {
-              console.log('making user')
+              console.log("making user");
               const docRef = await setDoc(doc(db, "users", `${phoneNumber}`), {
                 watchList: [],
               });
@@ -133,12 +132,12 @@ const UserLogin = () => {
       });
   };
 
-  if(invalidPhoneNumber) {
+  if (invalidPhoneNumber) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
         Invalid phone number. Please refresh and try again.
       </div>
-    )
+    );
   }
 
   return (

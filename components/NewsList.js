@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 import { getNewsData } from "../utils/apiQueries";
 import { TailSpin } from "react-loader-spinner";
 import NewsItem from "./NewsItem";
@@ -9,8 +9,8 @@ import BackButton from "./BackButton";
 const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: [`${instrumentSymbol}news`],
-    queryFn: () => getNewsData(instrumentSymbol)
-  })
+    queryFn: () => getNewsData(instrumentSymbol),
+  });
 
   if (isLoading) {
     return (
@@ -33,13 +33,11 @@ const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
     return <span>Error: {error.message}</span>;
   }
 
-  const newsData = data['feed']
+  const newsData = data["feed"];
 
   return (
     <div>
-      {backButton && (
-        <BackButton />
-      )}
+      {backButton && <BackButton />}
       <div className="bg-white flex flex-col justify-start">
         {seeAll && (
           <p className="w-1/6 border-b border-4 self-center rounded-xl"></p>

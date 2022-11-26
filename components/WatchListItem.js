@@ -8,16 +8,13 @@ import {
   formatLocalPercentage,
   formatLocalUSD,
 } from "../utils/formatDataFunctions";
-import {
-  updateUserWatchList
-} from "../utils/firestoreClient";
+import { updateUserWatchList } from "../utils/firestoreClient";
 
 import { TailSpin } from "react-loader-spinner";
 import { AiFillStar } from "react-icons/ai";
 import { SlOptionsVertical } from "react-icons/sl";
 
 const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
-
   const queryClient = useQueryClient();
 
   const { isLoading, isError, data, error } = useQuery({
@@ -31,7 +28,7 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
     isError: mutationIsError,
     isSuccess: mutationIsSuccess,
   } = useMutation({
-    mutationFn: ({method, symbol}) => updateUserWatchList(method, symbol), 
+    mutationFn: ({ method, symbol }) => updateUserWatchList(method, symbol),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userWatchList"] });
     },
@@ -95,8 +92,8 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
             className="text-orange-500 self-center cursor-pointer"
             onClick={() =>
               userWatchList.includes(instrumentSymbol)
-                ? mutate({method: "add", symbol: instrumentSymbol})
-                : mutate({method: "remove", symbol: instrumentSymbol})
+                ? mutate({ method: "add", symbol: instrumentSymbol })
+                : mutate({ method: "remove", symbol: instrumentSymbol })
             }
           />
           <div className="flex flex-col">

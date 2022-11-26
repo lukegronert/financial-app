@@ -7,7 +7,7 @@ import InstrumentDetail from "../../../components/InstrumentDetail";
 
 const InstrumentId = () => {
   const user = auth.currentUser;
-  
+
   return (
     <div>
       <InstrumentDetail />

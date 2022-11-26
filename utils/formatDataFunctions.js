@@ -16,7 +16,4 @@ const formatLocalPercentage = (value) => {
   });
 };
 
-export {
-    formatLocalUSD,
-    formatLocalPercentage
-}
+export { formatLocalUSD, formatLocalPercentage };

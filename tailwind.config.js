@@ -7,11 +7,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'login-red': "#fb344d",
-        'explore-gray': '#e8f0f8',
-        'explore-blue': '#09183d'
+        "login-red": "#fb344d",
+        "explore-gray": "#e8f0f8",
+        "explore-blue": "#09183d",
       },
     },
   },
   plugins: [],
-}
+};

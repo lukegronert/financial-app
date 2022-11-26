@@ -5,17 +5,21 @@ import Link from "next/link";
 const NewsTab = ({ data }) => {
   const timeNow = new Date();
   const timePublished = data.time_published;
-  const timePublishedYear = timePublished.slice(0,4)
-  const timePublishedMonth = timePublished.slice(4,6)
-  const timePublishedDay = timePublished.slice(6,8)
-  const timePublishedHour = timePublished.slice(9,11)
-  const timePublishedMinute = timePublished.slice(11, 13)
-  const timePublishedSeconds = timePublished.slice(13, 15)
-  // year, monthIndex (january = 0), day, hour, minute, second
-  const timePublishedDate = new Date(timePublishedYear,timePublishedMonth-1,timePublishedDay,timePublishedHour,timePublishedMinute,timePublishedSeconds);
+  const timePublishedYear = timePublished.slice(0, 4);
+  const timePublishedMonth = timePublished.slice(4, 6);
+  const timePublishedDay = timePublished.slice(6, 8);
+  const timePublishedHour = timePublished.slice(9, 11);
+  const timePublishedMinute = timePublished.slice(11, 13);
+  const timePublishedSeconds = timePublished.slice(13, 15);
+  const timePublishedDate = new Date(
+    `${timePublishedYear}-${timePublishedMonth}-${timePublishedDay}T${timePublishedHour}:${timePublishedMinute}:${timePublishedSeconds}Z`
+  );
   const timeDifference = Math.floor(
     (timeNow - timePublishedDate) / 1000 / 60 / 60
   );
+  // const timePublished = data.time_published.slice(9,15)
+  // const timeNow = new Date().toJSON().slice(11, 19).replace(':','').replace(':','')
+  // const timeSinceHours = timeNow.slice(0,2) - timePublished.slice(0,2);
 
   return (
     <Link href={data.url}>

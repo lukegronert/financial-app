@@ -65,7 +65,7 @@ const GainersAndLosers = ({ colLimit, seeAll, backButton }) => {
         <p className="text-xl font-extrabold text-explore-blue">
           Gainers and Losers
         </p>
-        {seeAll && <SeeAll path="/gainersAndLosers" />}
+        {seeAll && <SeeAll path="gainersAndLosers" />}
       </div>
       <div className="grid grid-cols-2 gap-2 bg-explore-gray justify-evenly">
         <div className="gap-2 grid auto-rows-fr">

@@ -5,7 +5,7 @@ import { auth } from "../firebase/clientApp";
 import { ImArrowUp } from "react-icons/im";
 import { FaRegUserCircle } from "react-icons/fa";
 
-const BottomNav = ({ activePage }) => {
+const BottomNav = () => {
   const router = useRouter();
   const user = auth.currentUser;
 
@@ -17,7 +17,7 @@ const BottomNav = ({ activePage }) => {
     <div className="flex flex-row justify-evenly items-center gap-16 fixed bottom-0 bg-white w-screen text-gray-400 pb-6 pt-3">
       <button
         className={
-          activePage === "dashboard"
+          router.pathname === "/dashboard"
             ? "flex flex-col items-center cursor-pointer text-blue-600"
             : "flex flex-col items-center cursor-pointer"
         }
@@ -29,7 +29,7 @@ const BottomNav = ({ activePage }) => {
       {user && (
         <button
           className={
-            activePage === "portfolio"
+            router.pathname === "/portfolio"
               ? "flex flex-col items-center cursor-pointer text-blue-600"
               : "flex flex-col items-center cursor-pointer"
           }

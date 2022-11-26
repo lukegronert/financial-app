@@ -47,7 +47,7 @@ const Dashboard = () => {
           <>
             <GainersAndLosers colLimit={1} seeAll={true} backButton={false} />
             <WatchList limit={3} seeAll={true} />
-            <BottomNav activePage="dashboard" />
+            <BottomNav />
           </>
         )}
       </div>

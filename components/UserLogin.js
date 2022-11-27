@@ -6,7 +6,6 @@ import { setPersistence, browserSessionPersistence } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { TailSpin } from "react-loader-spinner";
 
-import { IconContext } from "react-icons";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { AiOutlineBell } from "react-icons/ai";
 
@@ -34,6 +33,7 @@ const UserLogin = () => {
     );
   };
 
+  // Create new recaptchaVerifier for resent OTP
   const generateResendRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
       "recaptcha-resend-container",
@@ -57,7 +57,6 @@ const UserLogin = () => {
       // Existing and future Auth states are now persisted in the current
       // session only. Closing the window would clear any existing state even
       // if a user forgets to sign out.
-      // ...
       // New sign-in will be persisted with session persistence.
       signInWithPhoneNumber(auth, phoneNumber, appVerifier)
         .then((confirmationResult) => {
@@ -85,10 +84,8 @@ const UserLogin = () => {
         .then(async (result) => {
           const user = result.user;
           console.log(user.phoneNumber);
-          // get user collection data
-          const querySnapshot = await getDocs(collection(db, "users"));
-          // check user collection for document with the same phoneNumber
-          // if found, console.log that user is already signed up
+          // check for document with the same phoneNumber
+          // if found, console.log that user is already signed up and route to explore page
           const docSnap = await getDoc(doc(db, "users", `${phoneNumber}`));
           if (docSnap.exists()) {
             console.log("Already signed up");
@@ -143,12 +140,13 @@ const UserLogin = () => {
   return (
     <div className="w-screen h-screen">
       <div className="w-screen h-2/5 items-center text-center text-white bg-login-red">
-        <IconContext.Provider value={{ color: "white", size: "1.5em" }}>
-          <div className="w-screen flex justify-between p-5">
-            <HiOutlineMenuAlt3 className="cursor-pointer" />
-            <AiOutlineBell className="cursor-pointer" />
-          </div>
-        </IconContext.Provider>
+        <div className="w-screen flex justify-between p-5">
+          <HiOutlineMenuAlt3
+            size="1.5em"
+            className="text-white cursor-pointer"
+          />
+          <AiOutlineBell size="1.5em" className="text-white cursor-pointer" />
+        </div>
         <h1 className="font-bold text-3xl p-5 pt-10">
           {loginStatus === "SignUp" ? "Sign Up !" : "Sign In !"}
         </h1>

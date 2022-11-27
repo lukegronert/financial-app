@@ -11,9 +11,11 @@ const NewsTab = ({ data }) => {
   const timePublishedHour = timePublished.slice(9, 11);
   const timePublishedMinute = timePublished.slice(11, 13);
   const timePublishedSeconds = timePublished.slice(13, 15);
+  // Format timePublished to local timezone
   const timePublishedDate = new Date(
     `${timePublishedYear}-${timePublishedMonth}-${timePublishedDay}T${timePublishedHour}:${timePublishedMinute}:${timePublishedSeconds}Z`
   );
+  // Subtract today's time from the timePublished time and convert it to hours and round down to the closest integer
   const timeDifference = Math.floor(
     (timeNow - timePublishedDate) / 1000 / 60 / 60
   );

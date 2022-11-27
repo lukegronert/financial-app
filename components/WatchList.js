@@ -16,6 +16,8 @@ const WatchList = ({ limit, seeAll, backButton }) => {
   });
 
   const user = auth.currentUser;
+
+  // Check for user, if user does not exist, return empty component
   if (!user) {
     return <></>;
   }

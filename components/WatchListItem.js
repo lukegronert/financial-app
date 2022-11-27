@@ -74,6 +74,7 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
 
   const dataKeys = Object.keys(data);
 
+  // Get array of today's data
   const chartData = Object.entries(data[dataKeys[1]]).filter(
     (item) =>
       item[0].slice(0, 10) ===
@@ -82,6 +83,7 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
 
   const currentValue = Number(chartData[0][1]["4. close"]);
 
+  // Subtract today's value from the last value
   const changeValue = Number(
     ((currentValue - chartData[chartData.length - 1][1]["4. close"]) * 100) /
       100

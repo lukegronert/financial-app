@@ -9,6 +9,7 @@ const BottomNav = () => {
   const router = useRouter();
   const user = auth.currentUser;
 
+  // If no user, or user has not loaded yet, show an empty
   if (!user) {
     return <></>;
   }

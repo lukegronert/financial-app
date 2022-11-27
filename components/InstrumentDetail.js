@@ -99,22 +99,28 @@ const InstrumentDetail = () => {
 
   const chartData =
     selectedTimeButton === "1d"
-      ? Object.entries(data[dataKeys[1]]).filter(
+      ? // Return only array with today's data
+        Object.entries(data[dataKeys[1]]).filter(
           (item) =>
             item[0].slice(0, 10) ===
             Object.entries(data[dataKeys[1]])[0][0].slice(0, 10)
         )
       : selectedTimeButton === "5d"
-      ? Object.entries(data[dataKeys[1]])
+      ? // Return array with last 5 days' data
+        Object.entries(data[dataKeys[1]])
       : selectedTimeButton === "30d"
-      ? Object.entries(data[dataKeys[1]]).filter(
+      ? // Return array with  the last 4 weeks' data
+        Object.entries(data[dataKeys[1]]).filter(
           (item, i) => i < 28 && i % 7 === 0
         )
       : selectedTimeButton === "90d"
-      ? Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
+      ? // Return array with the last 12 weeks' data
+        Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
       : selectedTimeButton === "1y"
-      ? Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
-      : Object.entries(data[dataKeys[1]]);
+      ? // Return array with last 12 months' data
+        Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
+      : // Return array with all of the last months' data
+        Object.entries(data[dataKeys[1]]);
 
   const currentValue = Number(chartData[0][1]["4. close"]);
 
@@ -157,9 +163,7 @@ const InstrumentDetail = () => {
             {instrumentSymbol}
           </p>
         </div>
-        {instrumentName === "noName" ? (
-          <></>
-        ) : (
+        {instrumentName !== "noName" && (
           <div>
             <h1 className="text-2xl font-extrabold text-explore-blue py-1">
               {instrumentName}
@@ -170,17 +174,15 @@ const InstrumentDetail = () => {
           <span className="text-gray-700 text-lg font-semibold">
             {formatLocalUSD(currentValue)}
           </span>
-
-          {changePercentage > 0 ? (
-            <span className="text-xs font-bold text-green-400 bg-green-100 p-1 rounded-md">
-              {formatLocalPercentage(changePercentage)}
-            </span>
-          ) : (
-            <span className="text-xs font-bold text-red-400 bg-red-100 p-1 rounded-md">
-              {formatLocalPercentage(changePercentage)}
-            </span>
-          )}
-
+          <span
+            className={`${
+              changePercentage > 0
+                ? "text-green-400 bg-green-100"
+                : "text-red-400 bg-red-100"
+            } text-xs font-bold  p-1 rounded-md`}
+          >
+            {formatLocalPercentage(changePercentage)}
+          </span>
           <span className="text-xs text-gray-400 font-bold">
             {formatLocalUSD(changeValue)}
           </span>

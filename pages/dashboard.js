@@ -37,14 +37,14 @@ const Dashboard = () => {
             />
           )}
         </div>
-        {openSearch ? (
+        {openSearch && (
           <div>
             <p className="font-bold text-gray-400 px-3 mb-3">
               Choose your interests to follow and trade on your terms.
             </p>
             <Search />
           </div>
-        ) : null}
+        )}
         {!openSearch && (
           <>
             <GainersAndLosers colLimit={1} seeAll={true} backButton={false} />

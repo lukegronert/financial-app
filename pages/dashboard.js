@@ -30,7 +30,7 @@ const Dashboard = () => {
                 setOpenSearch(true);
               }}
             >
-              <span>Open search</span>
+              <span className="sr-only">Open search</span>
               <FiSearch size="1.5em" />
             </button>
           )}

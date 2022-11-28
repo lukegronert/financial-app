@@ -55,9 +55,7 @@ const WatchList = ({ limit, seeAll, backButton }) => {
           <h2 className="text-xl font-extrabold text-explore-blue">
             Your Watchlist
           </h2>
-          {seeAll && (
-            <SeeAll path="watchList/userId" dataCy="see-all-watch-list" />
-          )}
+          {seeAll && <SeeAll path="/watchList" />}
         </div>
         <div className="flex flex-col gap-3 mb-32">
           {data.map((item, i) => {

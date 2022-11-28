@@ -20,6 +20,10 @@ const UserLogin = () => {
 
   const router = useRouter();
 
+  if (process.env.NODE_ENV === "development") {
+    auth.settings.appVerificationDisabledForTesting = true;
+  }
+
   // Generates invisible recaptcha to verify user is
   // sending a request from a verified domain
   const generateRecaptcha = () => {
@@ -159,6 +163,7 @@ const UserLogin = () => {
           <input
             type="number"
             value={OTP}
+            aria-label="one time password"
             onChange={(e) => setOTP(e.target.value)}
             className="border-b-2 text-center text-gray-600 font-bold outline-none text-lg tracking-wider"
           />
@@ -171,6 +176,7 @@ const UserLogin = () => {
           <input
             type="tel"
             value={phoneNumber}
+            aria-label="telephone"
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="border-b-2 text-center text-gray-600 font-bold outline-none text-lg tracking-wider"
           />
@@ -220,7 +226,7 @@ const UserLogin = () => {
                 />
               </div>
             ) : (
-              <>{loginStatus === "SignUp" ? "Submit" : "Register"}</>
+              "Submit"
             )}
           </button>
         </div>

@@ -44,7 +44,7 @@ const News = ({ limit, seeAll, backButton, instrumentSymbol }) => {
         )}
         <div className="flex flex-row justify-between items-center py-2 px-2">
           <p className="text-xl font-extrabold text-explore-blue p-3">News</p>
-          {seeAll && <SeeAll path={`news/${instrumentSymbol}`} />}
+          {seeAll && <SeeAll path={`/news/${instrumentSymbol}`} />}
         </div>
         <div className="grid grid-cols-1 auto-rows-fr gap-3 items-center w-full px-2">
           {newsData ? (

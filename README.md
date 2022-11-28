@@ -144,3 +144,4 @@ Given more time, I would implement the following optimizations:
 - Optimize the UI for desktop view
 - Find an API to fetch company logos
 - Add options for notification bell and hamburger menu on Sign Up/Sign In screen
+- Additional testing

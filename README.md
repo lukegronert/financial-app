@@ -47,31 +47,11 @@ This project was created with React, Nextjs, Firebase, and TailwindCSS.
 
 It uses Firebase for user authentication and the firestore database, Algolia Search for an instant search experience, the AlphaVantage API for current and historical financial data, the Financial Modeling Prep API for the current biggest gainers and losers on the market.
 
-## Dependencies
+### Next.js
 
-    "@tanstack/react-query": "^4.16.1",
-    "algoliasearch": "^4.14.2",
-    "eslint": "8.27.0",
-    "eslint-config-next": "13.0.3",
-    "firebase": "^9.14.0",
-    "instantsearch.css": "^7.4.5",
-    "next": "13.0.3",
-    "next-share": "^0.19.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-icons": "^4.6.0",
-    "react-instantsearch-dom": "^6.38.1",
-    "react-loader-spinner": "^5.3.4",
-    "recharts": "^2.1.16"
+### TailwindCSS
 
-## Dev Dependencies
-
-    "@svgr/webpack": "^6.5.1",
-    "autoprefixer": "^10.4.13",
-    "css-loader": "^6.7.2",
-    "postcss": "^8.4.19",
-    "style-loader": "^3.3.1",
-    "tailwindcss": "^3.2.4"
+### @tankstack/react-query
 
 ## Optimizations
 

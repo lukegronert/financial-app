@@ -42,7 +42,7 @@ describe("empty spec", () => {
 
     cy.findByRole("link", { name: /AAPL/i, exact: false }).click();
 
-    cy.findByRole("button", { name: /Followed/i }).click();
+    cy.findByRole("button", { name: /Follow/i, exact: false }).click();
 
     cy.findByRole("button", { name: /Back/i }).click();
 

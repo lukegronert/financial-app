@@ -17,11 +17,10 @@ const Explore = () => {
           <h1 className="text-explore-blue font-extrabold text-3xl">
             Welcome!
           </h1>
-          <RiCloseLine
-            size="2em"
-            onClick={() => router.push("/dashboard")}
-            data-cy="close-explore"
-          />
+          <button onClick={() => router.push("/dashboard")}>
+            <span className="sr-only">Close search</span>
+            <RiCloseLine size="2em" onClick={() => router.push("/dashboard")} />
+          </button>
         </div>
         <p className="font-bold text-gray-400 px-3 mb-3">
           Choose your interests to follow and trade on your terms.

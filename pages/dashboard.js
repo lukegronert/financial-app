@@ -20,21 +20,19 @@ const Dashboard = () => {
             Dashboard
           </h1>
           {openSearch ? (
-            <RiCloseLine
-              size="1.5em"
-              onClick={() => setOpenSearch(false)}
-              className="cursor-pointer"
-              data-cy="close-search"
-            />
+            <button onClick={() => setOpenSearch(false)}>
+              <span className="sr-only">Close search</span>
+              <RiCloseLine size="1.5em" />
+            </button>
           ) : (
-            <FiSearch
-              size="1.5em"
+            <button
               onClick={() => {
                 setOpenSearch(true);
               }}
-              className="cursor-pointer"
-              data-cy="open-search"
-            />
+            >
+              <span>Open search</span>
+              <FiSearch size="1.5em" />
+            </button>
           )}
         </div>
         {openSearch && (

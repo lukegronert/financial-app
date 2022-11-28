@@ -145,17 +145,21 @@ const InstrumentDetail = () => {
           <BackButton />
           <div className="flex flex-row gap-2">
             {userWatchList && (
-              <AiFillStar
-                size="1.25rem"
-                className="text-orange-500 cursor-pointer"
-                onClick={handleFollowClick}
-              />
+              <button onClick={handleFollowClick}>
+                <span className="sr-only">Favorite</span>
+                <AiFillStar
+                  size="1.25rem"
+                  className="text-orange-500 cursor-pointer"
+                />
+              </button>
             )}
-            <FiShare
-              size="1.25rem"
-              className="text-gray-800 cursor-pointer"
-              onClick={() => setShowShareButtons(!showShareButtons)}
-            />
+            <button onClick={() => setShowShareButtons(!showShareButtons)}>
+              <span className="sr-only">Share</span>
+              <FiShare
+                size="1.25rem"
+                className="text-gray-800 cursor-pointer"
+              />
+            </button>
           </div>
         </div>
         <div>

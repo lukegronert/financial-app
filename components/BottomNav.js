@@ -34,7 +34,7 @@ const BottomNav = () => {
               ? "flex flex-col items-center cursor-pointer text-blue-600"
               : "flex flex-col items-center cursor-pointer"
           }
-          onClick={(e) => router.push("/watchList/userId")}
+          onClick={(e) => router.push("/watchList")}
         >
           <FaRegUserCircle size="1.25rem" />
           <span className="text-sm font-bold">Portfolio</span>

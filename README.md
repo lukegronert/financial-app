@@ -22,7 +22,7 @@ https://financial-app-etsh.vercel.app/
 Clone the project
 
 ```bash
-  git clone https://github.com/lukegronert/taiwan-access-labs-exercise.git
+  git clone https://github.com/lukegronert/financial-app.git
 ```
 
 Go to the project directory

@@ -91,6 +91,28 @@ TailwindCSS is a CSS framework that provides classes that can be applied directl
 
 Tankstack React-Query allows for an easy way to manage server and client state, as well as an easy caching system. Since the AlphaVantage API is used heavily in this project and has an API call limit of 5 calls/minute and 500 calls/day, caching with Tanstack React-Query is a great way to limit the use of API calls.
 
+## Testing
+
+### Cypress
+
+To run Cypress tests:
+
+```bash
+  npm run cy:open
+```
+
+Select E2E Testing and open in your preferred browser.
+
+Run the e2e test (spec.cy.js)
+
+### Jest
+
+To run Jest tests
+
+```bash
+  npm run test
+```
+
 ## Optimizations
 
 Given more time, I would implement the following optimizations:

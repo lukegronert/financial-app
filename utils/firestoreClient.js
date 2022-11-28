@@ -1,4 +1,10 @@
-import { getDoc, setDoc, doc } from "firebase/firestore";
+import {
+  getDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
 import { auth, db } from "../firebase/clientApp";
 
 const getUserWatchList = async () => {
@@ -14,32 +20,17 @@ const getUserWatchList = async () => {
 
 const addDataToUserWatchList = async (symbol) => {
   const user = auth.currentUser;
-  console.log("user", user);
   const docRef = doc(db, "users", user.phoneNumber);
-  const docSnap = await getDoc(docRef);
-  const userWatchList = docSnap.data().watchList;
-  if (userWatchList.includes(symbol)) {
-    return;
-  }
-  // doc(database, collection, id of user document)
-  await setDoc(doc(db, "users", user.phoneNumber), {
-    watchList: [...userWatchList, symbol],
+  await updateDoc(docRef, {
+    watchList: arrayUnion(symbol),
   });
 };
 
 const removeDataFromUserWatchList = async (symbol) => {
   const user = auth.currentUser;
   const docRef = doc(db, "users", user.phoneNumber);
-  const docSnap = await getDoc(docRef);
-  const userWatchList = docSnap.data().watchList;
-  if (!userWatchList.includes(symbol)) {
-    return;
-  }
-  const currentWatchList = userWatchList;
-  currentWatchList.splice(docSnap.data().watchList.indexOf(symbol), 1);
-  // doc(database, collection, id of user document)
-  await setDoc(doc(db, "users", user.phoneNumber), {
-    watchList: [...currentWatchList],
+  await updateDoc(docRef, {
+    watchList: arrayRemove(symbol),
   });
 };
 

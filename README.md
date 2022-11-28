@@ -119,7 +119,13 @@ Navigate to your project. Open the menu and click IAM & Admin, then click Servic
 
 Now you are ready to run Cypress tests without having to worry about the reCaptcha.
 
-Use this command to run the test:
+Start the dev server:
+
+```bash
+  npm run dev
+```
+
+Use this command to open Cypress:
 
 ```bash
   npm run cy:open

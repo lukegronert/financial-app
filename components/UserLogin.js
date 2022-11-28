@@ -8,6 +8,7 @@ import { TailSpin } from "react-loader-spinner";
 
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { AiOutlineBell } from "react-icons/ai";
+import { Model } from "firebase-admin/lib/machine-learning/machine-learning";
 
 const UserLogin = () => {
   const [phoneNumber, setPhoneNumber] = useState("+886");
@@ -20,6 +21,7 @@ const UserLogin = () => {
 
   const router = useRouter();
 
+  // If in development environment, disable reCaptcha verifier
   if (process.env.NODE_ENV === "development") {
     auth.settings.appVerificationDisabledForTesting = true;
   }

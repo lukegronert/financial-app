@@ -113,7 +113,13 @@ Tankstack React-Query allows for an easy way to manage server and client state, 
 
 ### Cypress
 
-To run Cypress tests:
+In order to get around the Google reCaptcha verifier for the tests, go to www.cloud.google.com
+
+Navigate to your project. Open the menu and click IAM & Admin, then click Service Accounts. Click the menu under actions on your service account and click Manage Keys. Click Add Key. Download your service account key and place it in a "secrets" directory in the root of the project. Make sure you add /secrets to your .gitignore to protect your information.
+
+Now you are ready to run Cypress tests without having to worry about the reCaptcha.
+
+Use this command to run the test:
 
 ```bash
   npm run cy:open

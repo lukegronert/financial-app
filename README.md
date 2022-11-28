@@ -8,6 +8,10 @@ getting current and historical data for them.
 
 It was created with Next.js and bootstrapped with create-next-app.
 
+The document for planning, thinking, and development proces can be found here:
+
+https://docs.google.com/document/d/1rt8ATxut-AwjLcS_r02fPHhxFZlao9UcpwF_vh_obGs/edit?usp=sharing
+
 ## Demo
 
 This project is hosted on Vercel.
@@ -63,6 +67,23 @@ Sign Up and go to API keys in your project overview.
 https://site.financialmodelingprep.com/developer
 
 Put your these keys, along with your firebaseConfig keys in your .env file. Make sure to add .env to your .gitignore file.
+
+My .env file is set up as follow:
+
+```bash
+NEXT_PUBLIC_FIREBASE_API_KEY= Your Firebase API Key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN= Your Firebase Auth Domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID= Your Firebase Project ID
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET= Your Firebase Storage Bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID= Your Firebase Messaging Sender ID
+NEXT_PUBLIC_FIREBASE_APP_ID= Your Firebase App ID
+
+NEXT_PUBLIC_ALGOLIA_APP_ID= Your Algolia App ID
+NEXT_PUBLIC_ALGOLIA_API_KEY= Your Algolia API Key
+
+NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY= Your Alpha Vantage API Key
+NEXT_PUBLIC_FINANCIAL_MODELING_PREP_API_KEY= Your Financial Modeling Prep API Key
+```
 
 Start the dev server
 

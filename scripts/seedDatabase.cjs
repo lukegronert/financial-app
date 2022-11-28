@@ -12,4 +12,4 @@ const resetTestUser = async () => {
   const res = await db.collection("users").doc("+12345678901").delete();
 };
 
-module.exports = resetTestUser;
+resetTestUser();

@@ -8,7 +8,7 @@ getting current and historical data for them.
 
 It was created with Next.js and bootstrapped with create-next-app.
 
-The document for planning, thinking, and development proces can be found here:
+The document for planning, thinking, and development process can be found here:
 
 https://docs.google.com/document/d/1rt8ATxut-AwjLcS_r02fPHhxFZlao9UcpwF_vh_obGs/edit?usp=sharing
 

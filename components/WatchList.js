@@ -47,7 +47,7 @@ const WatchList = ({ limit, seeAll, backButton }) => {
     <>
       <div
         className={`${
-          !seeAll ? `h-screen` : ``
+          !seeAll ? `h-screen overflow-auto pb-28` : ``
         } bg-explore-gray flex flex-col px-3 `}
       >
         {backButton && <BackButton />}
@@ -57,7 +57,7 @@ const WatchList = ({ limit, seeAll, backButton }) => {
           </h2>
           {seeAll && <SeeAll path="/watchList" />}
         </div>
-        <div className="flex flex-col gap-3 mb-32">
+        <div className="flex flex-col gap-3">
           {data.map((item, i) => {
             if (i < limit) {
               return (

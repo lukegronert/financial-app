@@ -114,8 +114,11 @@ const InstrumentDetail = () => {
           (item, i) => i < 28 && i % 7 === 0
         )
       : selectedTimeButton === "90d"
-      ? // Return array with the last 12 weeks' data
-        Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)
+      ? // Return array with the last 3 months' data
+        Object.entries(data[dataKeys[1]]).filter((item, i) => i < 4)
+      : selectedTimeButton === "6m"
+      ? // Return array wuth the last 6 months' data
+        Object.entries(data[dataKeys[1]]).filter((item, i) => i < 6)
       : selectedTimeButton === "1y"
       ? // Return array with last 12 months' data
         Object.entries(data[dataKeys[1]]).filter((item, i) => i < 12)

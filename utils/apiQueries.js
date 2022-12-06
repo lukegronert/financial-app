@@ -4,7 +4,12 @@ const getTimeData = async (instrumentSymbol, timeRange) => {
     timeSeries = "TIME_SERIES_INTRADAY";
   } else if (timeRange === "30d") {
     timeSeries = "TIME_SERIES_WEEKLY";
-  } else if (timeRange === "90d" || timeRange === "1y" || timeRange === "All") {
+  } else if (
+    timeRange === "90d" ||
+    timeRange === "6m" ||
+    timeRange === "1y" ||
+    timeRange === "All"
+  ) {
     timeSeries = "TIME_SERIES_MONTHLY";
   }
   let interval = "";

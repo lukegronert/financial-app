@@ -30,7 +30,7 @@ const BottomNav = () => {
       {user && (
         <button
           className={
-            router.pathname === "/portfolio"
+            router.pathname === "/watchList"
               ? "flex flex-col items-center cursor-pointer text-blue-600"
               : "flex flex-col items-center cursor-pointer"
           }

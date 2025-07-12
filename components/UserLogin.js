@@ -71,6 +71,7 @@ const UserLogin = () => {
           setOTPSent(true);
         })
         .catch((error) => {
+          console.log(error.code);
           setInvalidPhoneNumber(true);
         });
     });
@@ -111,7 +112,7 @@ const UserLogin = () => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error.code);
         });
     }
   };
@@ -144,6 +145,14 @@ const UserLogin = () => {
 
   return (
     <div className="w-screen h-screen">
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white shadow-md rounded-md px-4 py-2 text-xs font-bold z-50">
+        <p>
+          Please use test account as Phone Auth with SMS from Firebase is no
+          longer included in my current plan.
+        </p>
+        <p>Number: +12345678901</p>
+        <p>Verification Code: 123456</p>
+      </div>
       <div className="w-screen h-2/5 items-center text-center text-white bg-login-red">
         <div className="w-screen flex justify-between p-5">
           <HiOutlineMenuAlt3

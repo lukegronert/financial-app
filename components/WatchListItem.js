@@ -142,7 +142,7 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
           </div>
         </div>
       ) : (
-        "API out of calls"
+        "API out of calls for the day"
       )}
     </Link>
   );

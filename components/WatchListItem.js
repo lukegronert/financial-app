@@ -73,62 +73,77 @@ const WatchListItem = ({ instrumentSymbol, userWatchList }) => {
   }
 
   const dataKeys = Object.keys(data);
+  console.log(dataKeys);
+  console.log(dataKeys.length);
 
   // Get array of today's data
-  const chartData = Object.entries(data[dataKeys[1]]).filter(
-    (item) =>
-      item[0].slice(0, 10) ===
-      Object.entries(data[dataKeys[1]])[0][0].slice(0, 10)
-  );
+  const chartData =
+    dataKeys.length > 1
+      ? Object.entries(data[dataKeys[1]]).filter(
+          (item) =>
+            item[0].slice(0, 10) ===
+            Object.entries(data[dataKeys[1]])[0][0].slice(0, 10)
+        )
+      : null;
 
-  const currentValue = Number(chartData[0][1]["4. close"]);
+  const currentValue =
+    dataKeys.length > 1 ? Number(chartData[0][1]["4. close"]) : null;
 
   // Subtract today's value from the last value
-  const changeValue = Number(
-    ((currentValue - chartData[chartData.length - 1][1]["4. close"]) * 100) /
-      100
-  );
+  const changeValue =
+    dataKeys.length > 1
+      ? Number(
+          ((currentValue - chartData[chartData.length - 1][1]["4. close"]) *
+            100) /
+            100
+        )
+      : null;
 
-  const changePercentage = changeValue / currentValue;
+  const changePercentage =
+    dataKeys.length > 1 ? changeValue / currentValue : null;
 
   return (
     <Link href={`instruments/noName/${instrumentSymbol}`}>
-      <div className="flex flex-row w-full gap-3 justify-between bg-white rounded-lg p-2">
-        <div className="flex flex-row place-self-start gap-3">
-          {userWatchList && (
-            <AiFillStar
-              size="1.25rem"
-              className="text-orange-500 cursor-pointer self-center"
-              onClick={handleFollowClick}
+      {dataKeys.length > 1 ? (
+        <div className="flex flex-row w-full gap-3 justify-between bg-white rounded-lg p-2">
+          <div className="flex flex-row place-self-start gap-3">
+            {userWatchList && (
+              <AiFillStar
+                size="1.25rem"
+                className="text-orange-500 cursor-pointer self-center"
+                onClick={handleFollowClick}
+              />
+            )}
+            <div className="flex flex-col">
+              <p className="font-bold text-explore-blue">{instrumentSymbol}</p>
+              <span
+                className={`${
+                  changePercentage > 0 ? "text-green-400" : "text-red-400"
+                } text-sm font-bold`}
+              >
+                {formatLocalPercentage(changePercentage)}
+              </span>
+            </div>
+          </div>
+          <div className="flex-1 self-center flex justify-center items-center">
+            <Chart
+              chartData={chartData}
+              changePercentage={changePercentage}
+              height={50}
+              width="50%"
+              size="small"
             />
-          )}
-          <div className="flex flex-col">
-            <p className="font-bold text-explore-blue">{instrumentSymbol}</p>
-            <span
-              className={`${
-                changePercentage > 0 ? "text-green-400" : "text-red-400"
-              } text-sm font-bold`}
-            >
-              {formatLocalPercentage(changePercentage)}
-            </span>
+          </div>
+          <div className="place-self-end flex flex-row self-center items-center gap-3">
+            <p className="font-bold text-explore-blue">
+              {formatLocalUSD(currentValue)}
+            </p>
+            <SlOptionsVertical className="text-gray-400" />
           </div>
         </div>
-        <div className="flex-1 self-center flex justify-center items-center">
-          <Chart
-            chartData={chartData}
-            changePercentage={changePercentage}
-            height={50}
-            width="50%"
-            size="small"
-          />
-        </div>
-        <div className="place-self-end flex flex-row self-center items-center gap-3">
-          <p className="font-bold text-explore-blue">
-            {formatLocalUSD(currentValue)}
-          </p>
-          <SlOptionsVertical className="text-gray-400" />
-        </div>
-      </div>
+      ) : (
+        "API out of calls"
+      )}
     </Link>
   );
 };

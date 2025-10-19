@@ -146,6 +146,8 @@ const UserLogin = () => {
   return (
     <div className="w-screen h-screen">
       <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white shadow-md rounded-md px-4 py-2 text-xs font-bold z-50">
+        <p>-- Optimized for Mobile View --</p>
+        <p>-- Open Developer Tools and Change to Mobile View --</p>
         <p>
           Please use test account as Phone Auth with SMS from Firebase is no
           longer included in my current plan.
